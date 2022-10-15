@@ -20,12 +20,19 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.light,
       title: 'Flutter Demo',
-      theme: ThemeData(useMaterial3: true,  colorScheme: lightColorScheme, textTheme: GoogleFonts.interTextTheme()),
-      darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme, textTheme: GoogleFonts.interTextTheme()),
+      theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: lightColorScheme,
+          textTheme: GoogleFonts.interTextTheme()),
+      darkTheme: ThemeData(
+          useMaterial3: true,
+          colorScheme: darkColorScheme,
+          textTheme: GoogleFonts.interTextTheme(
+              const TextTheme(bodyMedium: TextStyle(color: Colors.white)))),
       //home: const LoginPage(),
       home: const LoginPage(),
       routes: <String, WidgetBuilder>{
-        '/MainPage': (BuildContext context) =>  const MainPage(),
+        '/MainPage': (BuildContext context) => const MainPage(),
         '/LoginPage': (BuildContext context) => const LoginPage(),
       },
       //home: const MyHomePage(title: 'Flutter Demo Home Page'),
