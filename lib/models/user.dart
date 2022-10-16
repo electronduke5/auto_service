@@ -1,19 +1,19 @@
 class UserModel {
-  final int id;
-  final String surname;
-  final String name;
-  final String? patronymic;
-  final int salary;
-  final String login;
-  final String password;
-  final String role;
-  final List? orders;
+  int? id;
+  String? surname;
+  String? name;
+  String? patronymic;
+  int? salary;
+  String? login;
+  String? password;
+  String? role;
+  List? orders;
+  String? error;
 
   UserModel(this.id, this.surname, this.name, this.patronymic, this.salary,
       this.login, this.password, this.role, this.orders);
 
-
-  getFullName(){
+  getFullName() {
     return "$surname $name";
   }
 

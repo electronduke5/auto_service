@@ -1,6 +1,7 @@
 class LoginModel{
-  final String login;
-  final String password;
+  String? login;
+  String? password;
+  String? error;
 
   LoginModel(this.login, this.password);
 
