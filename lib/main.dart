@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.dark,
       title: 'Flutter Demo',
       theme: ThemeData(
           useMaterial3: true,
@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData(
           useMaterial3: true,
           colorScheme: darkColorScheme,
+          scaffoldBackgroundColor: const Color.fromRGBO(0, 26, 51, 1),
           textTheme: GoogleFonts.interTextTheme(
               const TextTheme(bodyMedium: TextStyle(color: Colors.white)))),
       //home: const LoginPage(),

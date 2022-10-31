@@ -35,7 +35,9 @@ const lightColorScheme = ColorScheme(
 
 const darkColorScheme = ColorScheme(
   brightness: Brightness.dark,
-  primary: Color(0xFFB4C5FF),
+  //primary: Color(0xFFB4C5FF),
+  primary: Color.fromRGBO(255,255,255, 1),
+  //onPrimary: Color(0xFF002A78),
   onPrimary: Color(0xFF002A78),
   primaryContainer: Color(0xFF003EA8),
   onPrimaryContainer: Color(0xFFDBE1FF),
@@ -51,9 +53,9 @@ const darkColorScheme = ColorScheme(
   errorContainer: Color(0xFF93000A),
   onError: Color(0xFF690005),
   onErrorContainer: Color(0xFFFFDAD6),
-  background: Color(0xFF1B1B1F),
+  background: Color(0xFF001a33),
   onBackground: Color(0xFFE4E2E6),
-  surface: Color(0xFF1B1B1F),
+  surface: Color.fromRGBO(16,42,67, 1),
   onSurface: Color(0xFFE4E2E6),
   surfaceVariant: Color(0xFF45464F),
   onSurfaceVariant: Color(0xFFC5C6D0),

@@ -68,23 +68,35 @@ class MainPage extends StatelessWidget {
       child: Row(
         children: [
           //Столбец с действиями
-          Column(
-            children: [
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  "Мой профиль",
+          Padding(
+            padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
+            child: Column(
+              children: [
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.person_outline),
+                  onPressed: () {},
+                  label: const Text(
+                    "Мой профиль",
+                  ),
                 ),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: const Text("Добавление"),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: const Text("Изменить сотрудника"),
-              ),
-            ],
+                const SizedBox(height: 10,),
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.person_add_alt),
+                  onPressed: () {},
+                  label: const Text(
+                    "Добавить сотрудника",
+                  ),
+                ),
+                const SizedBox(height: 10,),
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.settings_outlined),
+                  onPressed: () {},
+                  label: const Text(
+                    "Настройки",
+                  ),
+                ),
+              ],
+            ),
           ),
           //Столбец с Dashboard
           Expanded(
