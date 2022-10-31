@@ -1,6 +1,6 @@
 import 'package:auto_service/login_page.dart';
 import 'package:auto_service/main_page.dart';
-import 'package:auto_service/models/user.dart';
+import 'package:auto_service/services/get_employees.dart';
 import 'package:auto_service/services/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +12,7 @@ import 'ColorSchemes/color_schemes.g.dart';
 void main() {
   runApp(const MyApp());
 }
+//TODO: почитать про MultyProviders
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -38,8 +39,11 @@ class MyApp extends StatelessWidget {
         child: LoginPage(),
       ),
       routes: <String, WidgetBuilder>{
-        '/MainPage': (BuildContext context) => const MainPage(),
-        '/LoginPage': (BuildContext context) =>  LoginPage(),
+        '/MainPage': (context) => RepositoryProvider(
+              create: (context) => GetEmployeesService(),
+              child: MainPage(),
+            ),
+        '/LoginPage': (BuildContext context) => LoginPage(),
       },
       //home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );

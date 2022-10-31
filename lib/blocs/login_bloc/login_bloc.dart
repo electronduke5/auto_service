@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import '../../models/user.dart';
+
+import '../../data/dto/employee_dto.dart';
+import '../../domain/models/employee.dart';
 import '../../services/login.dart';
 import '../form_submission_status.dart';
 
@@ -22,9 +24,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   void _onLoginSubmitted(LoginSubmitted event, Emitter<LoginState> emit) async {
     emit(state.copyWith(formStatus: FormSubmitting()));
     try {
-      UserModel? user = await loginService.login(event.login, event.password);
+      EmployeeDto employee = await loginService.login(event.login, event.password);
       emit(state.copyWith(formStatus: SubmissionSuccess()));
-
     } catch (error) {
       emit(state.copyWith(formStatus: SubmissionFailed(error.toString())));
       emit(state.copyWith(formStatus: const InitialFormStatus()));

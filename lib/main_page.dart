@@ -1,16 +1,15 @@
-import 'package:auto_service/ColorSchemes/color_schemes.g.dart';
-import 'package:auto_service/models/user.dart';
+import 'package:auto_service/blocs/get_employees_bloc/get_employees_bloc.dart';
+import 'package:auto_service/data/dto/employee_dto.dart';
+import 'package:auto_service/services/get_employees.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class MainPage extends StatelessWidget {
-  const MainPage({
-    Key? key,
-  }) : super(key: key);
+import 'blocs/get_models_status.dart';
 
+class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //final user = ModalRoute.of(context)!.settings.arguments as UserModel;
     var size = MediaQuery.of(context).size;
 
     final double itemHeight = size.height / 2;
@@ -41,7 +40,29 @@ class MainPage extends StatelessWidget {
           ),
         ],
       ),
-      body: Row(
+      body: (BlocProvider<GetEmployeesBloc>(
+        create: (context) =>
+            GetEmployeesBloc(getEmployeesService: GetEmployeesService())
+              ..add(GetListEmployeesEvent()),
+        child: _buildEmployeesList(context, itemWidth, itemHeight),
+      )
+          //create: (context) => GetEmployeesBloc(getEmployeesService: GetEmployeesService()),
+          //create: (_) => context.read<GetEmployeesBloc>(),
+          ),
+    );
+  }
+
+  Widget _buildEmployeesList(
+      BuildContext context, double itemWidth, double itemHeight) {
+    return BlocListener<GetEmployeesBloc, GetEmployeesState>(
+      listener: (context, state) {
+        if (state.modelsStatus is SubmissionFailed) {
+          _showShackBar(context, state.modelsStatus.error.toString());
+        } else {
+          //context.read<GetEmployeesBloc>().add(NoneEvent());
+        }
+      },
+      child: Row(
         children: [
           //Столбец с действиями
           Column(
@@ -72,16 +93,97 @@ class MainPage extends StatelessWidget {
                   ],
                 ),
                 Expanded(
-                  child: GridView.count(
-                      //               width / height children
-                      childAspectRatio: itemWidth / itemHeight,
-                      padding: const EdgeInsets.all(10),
-                      physics: const BouncingScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      crossAxisCount: 4,
-                      children: List.generate(25, (int index) {
-                        return buildEmployeeCard();
-                      })),
+                  child: BlocBuilder<GetEmployeesBloc, GetEmployeesState>(
+                    builder: (context, state) {
+                      if (state.modelsStatus is Submitting) {
+                        print("Submitting");
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (state.modelsStatus is SubmissionSuccess) {
+                        print("SubmissionSuccess");
+                        return GridView.count(
+                          crossAxisCount: 4,
+                          childAspectRatio: itemWidth / itemHeight,
+                          padding: const EdgeInsets.all(10),
+                          physics: const BouncingScrollPhysics(),
+                          scrollDirection: Axis.vertical,
+                          children: [
+                            ListView.builder(
+                              itemCount: (state.modelsStatus.entities
+                                      as List<EmployeeDto>)
+                                  .length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return buildEmployeeCard(
+                                    employee: (state.modelsStatus.entities
+                                        as List<EmployeeDto>)[index]);
+                              },
+                            ),
+                          ],
+                        );
+
+                        // return FutureBuilder(
+                        //   builder: (context, snapshot) {
+                        //     if (!snapshot.hasData) {
+                        //       return const Center(
+                        //         child: CircularProgressIndicator(),
+                        //       );
+                        //     } else {
+                        //       return GridView.count(
+                        //         crossAxisCount: 4,
+                        //         childAspectRatio: itemWidth / itemHeight,
+                        //         padding: const EdgeInsets.all(10),
+                        //         physics: const BouncingScrollPhysics(),
+                        //         scrollDirection: Axis.vertical,
+                        //         children: [
+                        //           ListView.builder(
+                        //             itemCount:
+                        //             (snapshot.data as List<EmployeeDto>)
+                        //                 .length,
+                        //             itemBuilder:
+                        //                 (BuildContext context, int index) {
+                        //               return buildEmployeeCard();
+                        //             },
+                        //           ),
+                        //         ],
+                        //       );
+                        //     }
+                        //   },
+                        // );
+                      } else if (state.modelsStatus is SubmissionFailed) {
+                        print("Error");
+                        return Center(
+                          child: Text(state.modelsStatus.error!),
+                        );
+                      } else {
+                        print("Status: ${state.modelsStatus.runtimeType}");
+                        print("Status1: ${state.modelsStatus}");
+                        print("Status2: ${state}");
+                        print("Status3: ${state.copyWith()}");
+                        return const Center(
+                          child: Text("Непредвиденная ошибка!"),
+                        );
+                      }
+
+                      // return state.modelsStatus is Submitting
+                      //     ? const  CircularProgressIndicator()
+                      //     : FutureBuilder<List<EmployeeDto>>(
+                      //     future:,
+                      //     builder: builder
+                      // ),
+                    },
+                  ),
+
+                  // child: GridView.count(
+                  //     //               width / height children
+                  //     childAspectRatio: itemWidth / itemHeight,
+                  //     padding: const EdgeInsets.all(10),
+                  //     physics: const BouncingScrollPhysics(),
+                  //     scrollDirection: Axis.vertical,
+                  //     crossAxisCount: 4,
+                  //     children: List.generate(25, (int index) {
+                  //       return buildEmployeeCard();
+                  //     })),
                 ),
               ],
             ),
@@ -91,7 +193,7 @@ class MainPage extends StatelessWidget {
     );
   }
 
-  Padding buildEmployeeCard() {
+  Padding buildEmployeeCard({required EmployeeDto employee}) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
@@ -101,16 +203,16 @@ class MainPage extends StatelessWidget {
             padding: const EdgeInsets.all(10.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
-                  "Иванов Иван Иванович",
-                  style: TextStyle(
+                  employee.getFullName(),
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 17,
                   ),
                 ),
-                Text("Должность: HR Менеджер"),
-                Text("ЗП: 100000 руб."),
+                Text("Должность: ${employee.role}"),
+                Text("ЗП: ${employee.salary} руб."),
               ],
             ),
           ),
@@ -126,6 +228,7 @@ class DropdownButtonExample extends StatefulWidget {
   @override
   State<DropdownButtonExample> createState() => _DropdownButtonExampleState();
 }
+
 const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
 
 class _DropdownButtonExampleState extends State<DropdownButtonExample> {
@@ -164,4 +267,12 @@ class _DropdownButtonExampleState extends State<DropdownButtonExample> {
       ),
     );
   }
+}
+
+void _showShackBar(BuildContext context, String message) {
+  final snackBar = SnackBar(
+    content: Text(message),
+    backgroundColor: Theme.of(context).errorColor,
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
