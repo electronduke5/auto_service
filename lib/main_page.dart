@@ -58,8 +58,6 @@ class MainPage extends StatelessWidget {
       listener: (context, state) {
         if (state.modelsStatus is SubmissionFailed) {
           _showShackBar(context, state.modelsStatus.error.toString());
-        } else {
-          //context.read<GetEmployeesBloc>().add(NoneEvent());
         }
       },
       child: Row(
@@ -96,94 +94,38 @@ class MainPage extends StatelessWidget {
                   child: BlocBuilder<GetEmployeesBloc, GetEmployeesState>(
                     builder: (context, state) {
                       if (state.modelsStatus is Submitting) {
-                        print("Submitting");
                         return const Center(
                           child: CircularProgressIndicator(),
                         );
                       } else if (state.modelsStatus is SubmissionSuccess) {
-                        print("SubmissionSuccess");
-                        return GridView.count(
-                          crossAxisCount: 4,
-                          childAspectRatio: itemWidth / itemHeight,
+                        return GridView.builder(
                           padding: const EdgeInsets.all(10),
                           physics: const BouncingScrollPhysics(),
                           scrollDirection: Axis.vertical,
-                          children: [
-                            ListView.builder(
-                              itemCount: (state.modelsStatus.entities
-                                      as List<EmployeeDto>)
+                          itemBuilder: (BuildContext context, int index) {
+                            return buildEmployeeCard(
+                                employee: (state.modelsStatus.entities
+                                    as List<EmployeeDto>)[index]);
+                          },
+                          itemCount:
+                              (state.modelsStatus.entities as List<EmployeeDto>)
                                   .length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return buildEmployeeCard(
-                                    employee: (state.modelsStatus.entities
-                                        as List<EmployeeDto>)[index]);
-                              },
-                            ),
-                          ],
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4,
+                          ),
                         );
-
-                        // return FutureBuilder(
-                        //   builder: (context, snapshot) {
-                        //     if (!snapshot.hasData) {
-                        //       return const Center(
-                        //         child: CircularProgressIndicator(),
-                        //       );
-                        //     } else {
-                        //       return GridView.count(
-                        //         crossAxisCount: 4,
-                        //         childAspectRatio: itemWidth / itemHeight,
-                        //         padding: const EdgeInsets.all(10),
-                        //         physics: const BouncingScrollPhysics(),
-                        //         scrollDirection: Axis.vertical,
-                        //         children: [
-                        //           ListView.builder(
-                        //             itemCount:
-                        //             (snapshot.data as List<EmployeeDto>)
-                        //                 .length,
-                        //             itemBuilder:
-                        //                 (BuildContext context, int index) {
-                        //               return buildEmployeeCard();
-                        //             },
-                        //           ),
-                        //         ],
-                        //       );
-                        //     }
-                        //   },
-                        // );
                       } else if (state.modelsStatus is SubmissionFailed) {
-                        print("Error");
                         return Center(
                           child: Text(state.modelsStatus.error!),
                         );
                       } else {
-                        print("Status: ${state.modelsStatus.runtimeType}");
-                        print("Status1: ${state.modelsStatus}");
-                        print("Status2: ${state}");
-                        print("Status3: ${state.copyWith()}");
                         return const Center(
                           child: Text("Непредвиденная ошибка!"),
                         );
                       }
-
-                      // return state.modelsStatus is Submitting
-                      //     ? const  CircularProgressIndicator()
-                      //     : FutureBuilder<List<EmployeeDto>>(
-                      //     future:,
-                      //     builder: builder
-                      // ),
                     },
                   ),
-
-                  // child: GridView.count(
-                  //     //               width / height children
-                  //     childAspectRatio: itemWidth / itemHeight,
-                  //     padding: const EdgeInsets.all(10),
-                  //     physics: const BouncingScrollPhysics(),
-                  //     scrollDirection: Axis.vertical,
-                  //     crossAxisCount: 4,
-                  //     children: List.generate(25, (int index) {
-                  //       return buildEmployeeCard();
-                  //     })),
                 ),
               ],
             ),
@@ -262,7 +204,7 @@ class _DropdownButtonExampleState extends State<DropdownButtonExample> {
     return SizedBox(
       width: 350,
       child: ListTile(
-        title: Text('Сортировка:'),
+        title: const Text('Сортировка:'),
         trailing: dropdown,
       ),
     );

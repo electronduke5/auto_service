@@ -6,6 +6,7 @@ abstract class GetEmployeesEvent {
 }
 
 class GetListEmployeesEvent extends GetEmployeesEvent {}
+
 class NoneEvent extends GetEmployeesEvent {}
 
 //class GetList extends GetEmployeesEvent {}

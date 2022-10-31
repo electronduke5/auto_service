@@ -1,4 +1,4 @@
-class LoginModel{
+class LoginModel {
   String? login;
   String? password;
   String? error;
@@ -10,7 +10,7 @@ class LoginModel{
         password = json['password'];
 
   Map<String, dynamic> toJson() => {
-    'login': login,
-    'password': password,
-  };
+        'login': login,
+        'password': password,
+      };
 }

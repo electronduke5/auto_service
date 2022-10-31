@@ -1,5 +1,6 @@
 abstract class GetModelsStatus<T> {
   const GetModelsStatus({this.entities, this.error});
+
   final List<T>? entities;
   final String? error;
 }
@@ -12,7 +13,9 @@ class Submitting extends GetModelsStatus {}
 
 class SubmissionSuccess<T> extends GetModelsStatus {
   final List<T> listEntities;
-  SubmissionSuccess({ required this.listEntities}) : super(entities: listEntities );
+
+  SubmissionSuccess({required this.listEntities})
+      : super(entities: listEntities);
 }
 
 class SubmissionFailed extends GetModelsStatus {

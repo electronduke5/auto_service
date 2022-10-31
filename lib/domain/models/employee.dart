@@ -8,6 +8,7 @@ class Employee {
   String? password;
   String? role;
   List<dynamic>? orders;
+
   //String? error;
 
   Employee(this.id, this.surname, this.name, this.patronymic, this.salary,
@@ -17,27 +18,27 @@ class Employee {
     return "$surname $name";
   }
 
-  // Employee.fromJson(Map<String, dynamic> json)
-  //     : id = json['id'],
-  //       surname = json['surname'],
-  //       name = json['name'],
-  //       patronymic = json['patronymic'],
-  //       salary = json['salary'],
-  //       login = json['login'],
-  //       password = json['password'],
-  //       role = json['role'],
-  // //TODO: Сделать преобразование в лсит fromJson
-  //       orders = json['orders'] as List<dynamic>;
-  //
-  // Map<String, dynamic> toJson() => {
-  //       'id': id,
-  //       'surname': surname,
-  //       'name': name,
-  //       'patronymic': patronymic,
-  //       'salary': salary,
-  //       'login': login,
-  //       'password': password,
-  //       'role': role,
-  //       'orders': orders,
-  //     };
+// Employee.fromJson(Map<String, dynamic> json)
+//     : id = json['id'],
+//       surname = json['surname'],
+//       name = json['name'],
+//       patronymic = json['patronymic'],
+//       salary = json['salary'],
+//       login = json['login'],
+//       password = json['password'],
+//       role = json['role'],
+// //TODO: Сделать преобразование в лсит fromJson
+//       orders = json['orders'] as List<dynamic>;
+//
+// Map<String, dynamic> toJson() => {
+//       'id': id,
+//       'surname': surname,
+//       'name': name,
+//       'patronymic': patronymic,
+//       'salary': salary,
+//       'login': login,
+//       'password': password,
+//       'role': role,
+//       'orders': orders,
+//     };
 }
