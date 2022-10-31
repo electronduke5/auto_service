@@ -26,7 +26,8 @@ class LoginPage extends StatelessWidget {
         if (formStatus is SubmissionFailed) {
           _showShackBar(context, formStatus.exception.toString());
         } else if (formStatus is SubmissionSuccess) {
-          Navigator.of(context).pushReplacementNamed('/MainPage');
+          //Navigator.push(context, '/MainPage', MaterialPageRoute(builder: (context) => ))
+          Navigator.of(context).pushReplacementNamed('/MainPage', arguments: formStatus.entity);
         }
       },
       child: Form(

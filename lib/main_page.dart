@@ -14,6 +14,7 @@ class MainPage extends StatelessWidget {
 
     final double itemHeight = size.height / 2;
     final double itemWidth = size.height * 0.8;
+    final loggedEmployee = ModalRoute.of(context)!.settings.arguments as EmployeeDto;
 
     return Scaffold(
       appBar: AppBar(
@@ -26,15 +27,19 @@ class MainPage extends StatelessWidget {
         actions: [
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: const [
+            children: [
               Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 //child: Center(child: Text(user.getFullName())),
-                child: Center(child: Text("Иванов Иван")),
+                child: Center(child: Text("${loggedEmployee.surname} ${loggedEmployee.name}")),
               ),
               Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Icon(Icons.logout),
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                    onPressed: (){
+                      Navigator.of(context).pushReplacementNamed('/LoginPage');
+                    },
+                    icon: const Icon(Icons.logout)),
               ),
             ],
           ),

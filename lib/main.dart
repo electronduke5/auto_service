@@ -42,7 +42,10 @@ class MyApp extends StatelessWidget {
               create: (context) => GetEmployeesService(),
               child: MainPage(),
             ),
-        '/LoginPage': (BuildContext context) => LoginPage(),
+        '/LoginPage': (context) => RepositoryProvider(
+              create: (context) => LoginService(),
+              child: LoginPage(),
+            ),
       },
       //home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
