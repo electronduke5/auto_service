@@ -1,20 +1,18 @@
 import 'package:auto_service/blocs/get_employees_bloc/get_employees_bloc.dart';
+import 'package:auto_service/blocs/get_models_status.dart';
 import 'package:auto_service/data/dto/employee_dto.dart';
-import 'package:auto_service/services/get_employees.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'blocs/get_models_status.dart';
-
 class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
 
-    final double itemHeight = size.height / 2;
-    final double itemWidth = size.height * 0.8;
-    final loggedEmployee = ModalRoute.of(context)!.settings.arguments as EmployeeDto;
+    double cardWidth = MediaQuery.of(context).size.width / 3.3;
+    double cardHeight = MediaQuery.of(context).size.height / 2.5;
+    final loggedEmployee =
+        ModalRoute.of(context)!.settings.arguments as EmployeeDto;
 
     return Scaffold(
       appBar: AppBar(
@@ -31,12 +29,14 @@ class MainPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 //child: Center(child: Text(user.getFullName())),
-                child: Center(child: Text("${loggedEmployee.surname} ${loggedEmployee.name}")),
+                child: Center(
+                    child: Text(
+                        "${loggedEmployee.surname} ${loggedEmployee.name}")),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: IconButton(
-                    onPressed: (){
+                    onPressed: () {
                       Navigator.of(context).pushReplacementNamed('/LoginPage');
                     },
                     icon: const Icon(Icons.logout)),
@@ -45,21 +45,13 @@ class MainPage extends StatelessWidget {
           ),
         ],
       ),
-      body: (BlocProvider<GetEmployeesBloc>(
-        create: (context) =>
-            GetEmployeesBloc(getEmployeesService: GetEmployeesService())
-              ..add(GetListEmployeesEvent()),
-        child: _buildEmployeesList(context, itemWidth, itemHeight),
-      )
-          //create: (context) => GetEmployeesBloc(getEmployeesService: GetEmployeesService()),
-          //create: (_) => context.read<GetEmployeesBloc>(),
-          ),
+      body:  _buildEmployeesList(context, cardHeight, cardWidth),
     );
   }
 
   Widget _buildEmployeesList(
-      BuildContext context, double itemWidth, double itemHeight) {
-    return BlocListener<GetEmployeesBloc, GetEmployeesState>(
+      BuildContext context, double height, double width) {
+    return (BlocListener<GetEmployeesBloc, GetEmployeesState>(
       listener: (context, state) {
         if (state.modelsStatus is SubmissionFailed) {
           _showShackBar(context, state.modelsStatus.error.toString());
@@ -79,7 +71,9 @@ class MainPage extends StatelessWidget {
                     "Мой профиль",
                   ),
                 ),
-                const SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
                 ElevatedButton.icon(
                   icon: const Icon(Icons.person_add_alt),
                   onPressed: () {},
@@ -87,7 +81,9 @@ class MainPage extends StatelessWidget {
                     "Добавить сотрудника",
                   ),
                 ),
-                const SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
                 ElevatedButton.icon(
                   icon: const Icon(Icons.settings_outlined),
                   onPressed: () {},
@@ -122,14 +118,19 @@ class MainPage extends StatelessWidget {
                           itemBuilder: (BuildContext context, int index) {
                             return buildEmployeeCard(
                                 employee: (state.modelsStatus.entities
-                                    as List<EmployeeDto>)[index]);
+                                    as List<EmployeeDto>)[index],
+                                context: context);
                           },
-                          itemCount:
-                              (state.modelsStatus.entities as List<EmployeeDto>)
-                                  .length,
+                          itemCount: (state.modelsStatus.entities
+                                  as List<EmployeeDto>)
+                              .length,
                           gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 4,
+                              SliverGridDelegateWithMaxCrossAxisExtent(
+                            crossAxisSpacing: 10,
+                            //mainAxisExtent: 160,
+                            childAspectRatio: width / height,
+                            maxCrossAxisExtent:
+                                MediaQuery.of(context).size.width * 0.2,
                           ),
                         );
                       } else if (state.modelsStatus is SubmissionFailed) {
@@ -149,30 +150,40 @@ class MainPage extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ));
   }
 
-  Padding buildEmployeeCard({required EmployeeDto employee}) {
+  Widget buildEmployeeCard(
+      {required EmployeeDto employee, required BuildContext context}) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(10.0),
       child: SizedBox(
         child: Card(
           elevation: 5,
           child: Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  employee.getFullName(),
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 17,
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    employee.getFullName(),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-                Text("Должность: ${employee.role}"),
-                Text("ЗП: ${employee.salary} руб."),
-              ],
+                  Text(
+                    "Должность: ${employee.role}",
+                    style: TextStyle(color: Theme.of(context).hintColor),
+                  ),
+                  Text(
+                    "ЗП: ${employee.salary} руб.",
+                    style: TextStyle(color: Theme.of(context).hintColor),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
