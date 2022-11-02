@@ -8,7 +8,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     double cardWidth = MediaQuery.of(context).size.width / 3.3;
     double cardHeight = MediaQuery.of(context).size.height / 2.5;
     final loggedEmployee =
@@ -45,7 +44,7 @@ class MainPage extends StatelessWidget {
           ),
         ],
       ),
-      body:  _buildEmployeesList(context, cardHeight, cardWidth),
+      body: _buildEmployeesList(context, cardHeight, cardWidth),
     );
   }
 
@@ -106,41 +105,26 @@ class MainPage extends StatelessWidget {
                 Expanded(
                   child: BlocBuilder<GetEmployeesBloc, GetEmployeesState>(
                     builder: (context, state) {
-                      if (state.modelsStatus is Submitting) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      } else if (state.modelsStatus is SubmissionSuccess) {
-                        return GridView.builder(
-                          padding: const EdgeInsets.all(10),
-                          physics: const BouncingScrollPhysics(),
-                          scrollDirection: Axis.vertical,
-                          itemBuilder: (BuildContext context, int index) {
-                            return buildEmployeeCard(
-                                employee: (state.modelsStatus.entities
-                                    as List<EmployeeDto>)[index],
-                                context: context);
-                          },
-                          itemCount: (state.modelsStatus.entities
-                                  as List<EmployeeDto>)
-                              .length,
-                          gridDelegate:
-                              SliverGridDelegateWithMaxCrossAxisExtent(
-                            crossAxisSpacing: 10,
-                            //mainAxisExtent: 160,
-                            childAspectRatio: width / height,
-                            maxCrossAxisExtent:
-                                MediaQuery.of(context).size.width * 0.2,
-                          ),
-                        );
-                      } else if (state.modelsStatus is SubmissionFailed) {
-                        return Center(
-                          child: Text(state.modelsStatus.error!),
-                        );
-                      } else {
-                        return const Center(
-                          child: Text("Непредвиденная ошибка!"),
-                        );
+                      switch (state.modelsStatus.runtimeType) {
+                        case Submitting:
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+
+                        case SubmissionSuccess:
+                          return _employeeGridView(
+                              state, width, height, context);
+
+                        case SubmissionFailed:
+                          {
+                            return Center(
+                              child: Text(state.modelsStatus.error!),
+                            );
+                          }
+                        default:
+                          return const Center(
+                            child: Text("Непредвиденная ошибка"),
+                          );
                       }
                     },
                   ),
@@ -151,6 +135,27 @@ class MainPage extends StatelessWidget {
         ],
       ),
     ));
+  }
+
+  GridView _employeeGridView(GetEmployeesState state, double width,
+      double height, BuildContext context) {
+    return GridView.builder(
+      padding: const EdgeInsets.all(10),
+      physics: const BouncingScrollPhysics(),
+      scrollDirection: Axis.vertical,
+      itemBuilder: (BuildContext context, int index) {
+        return buildEmployeeCard(
+            employee: (state.modelsStatus.entities as List<EmployeeDto>)[index],
+            context: context);
+      },
+      itemCount: (state.modelsStatus.entities as List<EmployeeDto>).length,
+      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        crossAxisSpacing: 10,
+        //mainAxisExtent: 160,
+        childAspectRatio: width / height,
+        maxCrossAxisExtent: MediaQuery.of(context).size.width * 0.2,
+      ),
+    );
   }
 
   Widget buildEmployeeCard(
