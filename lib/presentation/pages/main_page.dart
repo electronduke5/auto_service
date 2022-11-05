@@ -1,5 +1,6 @@
 import 'package:auto_service/blocs/get_employees_bloc/get_employees_bloc.dart';
 import 'package:auto_service/blocs/get_models_status.dart';
+import 'package:auto_service/blocs/hr_navigation_bloc/hr_navigation_bloc.dart';
 import 'package:auto_service/data/dto/employee_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,12 +45,12 @@ class MainPage extends StatelessWidget {
           ),
         ],
       ),
-      body: _buildEmployeesList(context, cardHeight, cardWidth),
+      body:_buildMainPage(context, cardHeight, cardWidth, loggedEmployee)
     );
   }
 
-  Widget _buildEmployeesList(
-      BuildContext context, double height, double width) {
+  Widget _buildMainPage(
+      BuildContext context, double height, double width, EmployeeDto loggedEmployee) {
     return (BlocListener<GetEmployeesBloc, GetEmployeesState>(
       listener: (context, state) {
         if (state.modelsStatus is SubmissionFailed) {
@@ -64,8 +65,22 @@ class MainPage extends StatelessWidget {
             child: Column(
               children: [
                 ElevatedButton.icon(
+                  icon: const Icon(Icons.group_outlined),
+                  onPressed: () {
+                    context.read<HrNavigationBloc>().add(ToEmployeesPage());
+                  },
+                  label: const Text(
+                    "Все сотрудники",
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                ElevatedButton.icon(
                   icon: const Icon(Icons.person_outline),
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<HrNavigationBloc>().add(ToProfilePage(loggedEmployee: loggedEmployee));
+                  },
                   label: const Text(
                     "Мой профиль",
                   ),
@@ -75,7 +90,9 @@ class MainPage extends StatelessWidget {
                 ),
                 ElevatedButton.icon(
                   icon: const Icon(Icons.person_add_alt),
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<HrNavigationBloc>().add(ToAddEmployeePage());
+                  },
                   label: const Text(
                     "Добавить сотрудника",
                   ),
@@ -103,30 +120,19 @@ class MainPage extends StatelessWidget {
                   ],
                 ),
                 Expanded(
-                  child: BlocBuilder<GetEmployeesBloc, GetEmployeesState>(
-                    builder: (context, state) {
-                      switch (state.modelsStatus.runtimeType) {
-                        case Submitting:
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-
-                        case SubmissionSuccess:
-                          return _employeeGridView(
-                              state, width, height, context);
-
-                        case SubmissionFailed:
-                          {
-                            return Center(
-                              child: Text(state.modelsStatus.error!),
-                            );
-                          }
-                        default:
-                          return const Center(
-                            child: Text("Непредвиденная ошибка"),
-                          );
+                  child: BlocBuilder<HrNavigationBloc, HrNavigationState>(
+                      builder: (context, state){
+                        switch(state.runtimeType){
+                          case HrInViewState:
+                            return _buildListEmployee(width, height);
+                          case HrInAddState:
+                            return  const Text("Страница доабвления сотрудника");
+                          case HrInProfileState:
+                            return  const Text("Страница профиля сотрудника");
+                          default:
+                            return const Text("Пиздец че");
+                        }
                       }
-                    },
                   ),
                 ),
               ],
@@ -135,6 +141,34 @@ class MainPage extends StatelessWidget {
         ],
       ),
     ));
+  }
+
+  BlocBuilder<GetEmployeesBloc, GetEmployeesState> _buildListEmployee(double width, double height) {
+    return BlocBuilder<GetEmployeesBloc, GetEmployeesState>(
+                  builder: (context, state) {
+                    switch (state.modelsStatus.runtimeType) {
+                      case Submitting:
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+
+                      case SubmissionSuccess<EmployeeDto>:
+                        return _employeeGridView(
+                            state, width, height, context);
+
+                      case SubmissionFailed:
+                        {
+                          return Center(
+                            child: Text(state.modelsStatus.error!),
+                          );
+                        }
+                      default:
+                        return const Center(
+                          child: Text("Непредвиденная ошибка"),
+                        );
+                    }
+                  },
+                );
   }
 
   GridView _employeeGridView(GetEmployeesState state, double width,

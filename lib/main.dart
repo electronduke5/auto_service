@@ -1,3 +1,4 @@
+import 'package:auto_service/blocs/hr_navigation_bloc/hr_navigation_bloc.dart';
 import 'package:auto_service/presentation/pages/login_page.dart';
 import 'package:auto_service/presentation/pages/main_page.dart';
 import 'package:auto_service/services/get_employees.dart';
@@ -43,10 +44,21 @@ class MyApp extends StatelessWidget {
         child: LoginPage(),
       ),
       routes: <String, WidgetBuilder>{
-        '/MainPage': (context) => BlocProvider<GetEmployeesBloc>(
+        '/MainPage1': (context) => BlocProvider<GetEmployeesBloc>(
               create: (context) => GetEmployeesBloc(getEmployeesService: GetEmployeesService())..add(GetListEmployeesEvent()),
               child: MainPage(),
             ),
+        '/MainPage': (context) => MultiBlocProvider(
+            providers: [
+              BlocProvider<HrNavigationBloc>(
+                  create: (context) => HrNavigationBloc(),
+              ),
+              BlocProvider<GetEmployeesBloc>(
+                  create:  (context) => GetEmployeesBloc(getEmployeesService: GetEmployeesService())..add(GetListEmployeesEvent()),
+              ),
+            ],
+            child: MainPage()
+        ),
         '/LoginPage': (context) => RepositoryProvider(
               create: (context) => LoginService(),
               child: LoginPage(),

@@ -22,8 +22,12 @@ class ApiService<T> {
       {required String apiRoute,
       required T Function(Map<String, dynamic>) entityProducer,
       required Map<String, dynamic> dataJson}) async {
-    final dio = Dio(BaseOptions(
-        followRedirects: false, validateStatus: (status) => status! < 500));
+    final dio = Dio(
+        BaseOptions(
+            followRedirects: false,
+            validateStatus: (status) => status! < 500
+        ),
+    );
 
     final response = await dio.post(apiRoute, data: dataJson);
 
@@ -31,7 +35,7 @@ class ApiService<T> {
       final data = response.data['data'];
       return entityProducer(data);
     } else {
-      throw Exception('Что-то пошло не так! (get_employees.dart 22 строка)');
+      throw Exception('Что-то пошло не так! (api_service.dart 38 строка)');
     }
   }
 }
