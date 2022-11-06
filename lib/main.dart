@@ -1,6 +1,8 @@
+import 'package:auto_service/blocs/add_employee_bloc/add_employee_bloc.dart';
 import 'package:auto_service/blocs/hr_navigation_bloc/hr_navigation_bloc.dart';
 import 'package:auto_service/presentation/pages/login_page.dart';
 import 'package:auto_service/presentation/pages/main_page.dart';
+import 'package:auto_service/services/add_employee.dart';
 import 'package:auto_service/services/get_employees.dart';
 import 'package:auto_service/services/login.dart';
 import 'package:desktop_window/desktop_window.dart';
@@ -55,6 +57,9 @@ class MyApp extends StatelessWidget {
               ),
               BlocProvider<GetEmployeesBloc>(
                   create:  (context) => GetEmployeesBloc(getEmployeesService: GetEmployeesService())..add(GetListEmployeesEvent()),
+              ),
+              BlocProvider<AddEmployeeBloc>(
+                create:  (context) => AddEmployeeBloc(addEmployeeService: AddEmployeeService()),
               ),
             ],
             child: MainPage()

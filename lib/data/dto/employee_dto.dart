@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 
 class EmployeeDto {
-  int id;
+  int? id;
   String? surname;
   String? name;
   String? patronymic;
@@ -12,7 +12,7 @@ class EmployeeDto {
   List<dynamic>? orders;
 
   EmployeeDto(
-      {required this.id,
+      {this.id,
       this.surname,
       this.name,
       this.patronymic,
@@ -39,7 +39,6 @@ class EmployeeDto {
         orders = json['orders'] as List<dynamic>;
 
   Map<String, dynamic> toJson() => {
-        'id': id,
         'surname': surname,
         'name': name,
         'patronymic': patronymic,
@@ -47,6 +46,5 @@ class EmployeeDto {
         'login': login,
         'password': password,
         'role': role,
-        'orders': orders,
       };
 }

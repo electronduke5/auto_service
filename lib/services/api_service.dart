@@ -29,9 +29,18 @@ class ApiService<T> {
         ),
     );
 
+    print(dataJson[0]);
+    print(dataJson[1]);
+    print("isNotEmpty: ${dataJson.isNotEmpty}");
+    print("length: ${dataJson.length}");
+    print("values: ${dataJson.values}");
+    print(apiRoute);
     final response = await dio.post(apiRoute, data: dataJson);
 
-    if (response.statusCode == 200) {
+    print("StatusCode: ${response.statusCode}");
+    print("data: ${response.data}");
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
       final data = response.data['data'];
       return entityProducer(data);
     } else {
