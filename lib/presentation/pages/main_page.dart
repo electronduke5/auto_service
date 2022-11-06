@@ -89,8 +89,9 @@ class MainPage extends StatelessWidget {
                           context
                               .read<HrNavigationBloc>()
                               .add(ToEmployeesPage());
-                          context.read<GetEmployeesBloc>().add(GetListEmployeesEvent());
-
+                          context
+                              .read<GetEmployeesBloc>()
+                              .add(GetListEmployeesEvent());
                         },
                         label: const Text(
                           "Все сотрудники",
@@ -487,42 +488,47 @@ class DropdownButtonExample extends StatefulWidget {
   State<DropdownButtonExample> createState() => _DropdownButtonExampleState();
 }
 
-const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
-
 class _DropdownButtonExampleState extends State<DropdownButtonExample> {
-  static const menuItems = <String>[
-    'По фамилии',
-    'По должности',
-    'По возростанию ЗП',
-    'По убыванию ЗП'
-  ];
+  static Map<String, GetEmployeesEvent> menuItemsMap = {
+    'По фамилии': SortBySurname(),
+    'По должности': SortByRole(),
+    'По возростанию ЗП': SortBySalary(),
+    'По убыванию ЗП': SortBySalaryDesc()
+  };
 
-  final List<DropdownMenuItem<String>> _menuItems = menuItems
-      .map(
-        (String value) => DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        ),
-      )
+  final List<DropdownMenuItem<GetEmployeesEvent>> _menuItemsMap = menuItemsMap
+      .map((key, value) => MapEntry(
+          key,
+          DropdownMenuItem<GetEmployeesEvent>(
+            value: value,
+            child: Text(key),
+          )))
+      .values
       .toList();
-  String? _selectedItem1;
+
+  GetEmployeesEvent? _selectedItem1;
 
   @override
   Widget build(BuildContext context) {
-    final dropdown = DropdownButton(
-      items: _menuItems,
+    final dropdown = DropdownButton<GetEmployeesEvent>(
+      items: _menuItemsMap,
       value: _selectedItem1,
       hint: const Text('Выберите...'),
       elevation: 4,
-      onChanged: (String? value) => setState(() {
-        _selectedItem1 = value ?? "";
+      onChanged: (event) => setState(() {
+        _selectedItem1 = event ?? _menuItemsMap.first.value;
+        context.read<GetEmployeesBloc>().add(_selectedItem1!);
       }),
     );
     return SizedBox(
       width: 350,
-      child: ListTile(
-        title: const Text('Сортировка:'),
-        trailing: dropdown,
+      child: BlocBuilder<GetEmployeesBloc, GetEmployeesState>(
+        builder: (context, state) {
+          return ListTile(
+            title: const Text('Сортировка:'),
+            trailing: dropdown,
+          );
+        },
       ),
     );
   }

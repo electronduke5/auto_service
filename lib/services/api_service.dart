@@ -1,14 +1,23 @@
 import 'package:dio/dio.dart';
 
 class ApiService<T> {
-  Future<List<T>> getEntities(
-    String apiRoute,
-    T Function(Map<String, dynamic>) entityProducer,
-  ) async {
+  Future<List<T>> getEntities({
+    required String apiRoute,
+    required T Function(Map<String, dynamic>) entityProducer,
+    String? function,
+    String? query,
+  }) async {
     final dio = Dio(BaseOptions(
         followRedirects: false, validateStatus: (status) => status! < 500));
 
-    final response = await dio.get(apiRoute);
+    final response;
+    if(function != null && query != null ){
+      response = await dio.get('$apiRoute?$function=$query');
+    }
+    else{
+      response = await dio.get(apiRoute);
+    }
+
 
     if (response.statusCode == 200) {
       final data = response.data['data'] as List;
