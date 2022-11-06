@@ -21,6 +21,7 @@ import '../../blocs/add_employee_bloc/add_employee_bloc.dart';
 
 class MainPage extends StatelessWidget {
   final _addEmployeeFormKey = GlobalKey<FormState>();
+  final _searchEmployeeFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +147,7 @@ class MainPage extends StatelessWidget {
                 builder: (context, state) {
               switch (state.runtimeType) {
                 case HrInViewState:
-                  return _buildListEmployee(width, height);
+                  return _buildListEmployee(width, height, context);
                 case HrInAddState:
                   return _cardAddEmployee(width, context);
                 case HrInProfileState:
@@ -383,12 +384,47 @@ class MainPage extends StatelessWidget {
     );
   }
 
-  Widget _buildListEmployee(double width, double height) {
+  Widget _buildListEmployee(double width, double height, BuildContext context) {
     return Column(
       children: [
         Row(
-          children: const [
-            DropdownButtonExample(),
+          children: [
+            const DropdownButtonExample(),
+            Form(
+              key: _searchEmployeeFormKey,
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 200,
+                    child: TextFormField(
+                      maxLines: 1,
+                      validator: (value) =>
+                          value != null ? null : "Это обязательное поле",
+                      onChanged: (value) => context
+                          .read<GetEmployeesBloc>()
+                          .add(SearchChangedEvent(value)),
+                      decoration: const InputDecoration(
+                        hintText: "Поиск",
+                      ),
+                    ),
+                  ),
+                  BlocBuilder<GetEmployeesBloc, GetEmployeesState>(
+                    builder: (context, state) {
+                      return IconButton(
+                        onPressed: () {
+                          if (_searchEmployeeFormKey.currentState!.validate()) {
+                            context
+                                .read<GetEmployeesBloc>()
+                                .add(SearchEmployeeEvent(state.searchQuery));
+                          }
+                        },
+                        icon: const Icon(Icons.search),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
         Expanded(

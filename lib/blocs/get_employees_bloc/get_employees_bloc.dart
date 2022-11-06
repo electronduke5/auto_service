@@ -26,6 +26,11 @@ class GetEmployeesBloc extends Bloc<GetEmployeesEvent, GetEmployeesState> {
     on<SortBySalaryDesc>(
         (event, emit) async => _onSortBy(event, emit, 'sortDesc', 'salary'));
 
+    on<SearchChangedEvent>(
+        (event, emit) => emit(state.copyWith(searchQuery: event.query)));
+    on<SearchEmployeeEvent>(
+        (event, emit) async => _onSortBy(event, emit, 'search', event.query));
+
     on<NoneEvent>(
         (event, emit) => emit(state.copyWith(modelsStatus: Submitting())));
   }
