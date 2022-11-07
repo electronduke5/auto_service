@@ -25,6 +25,12 @@ class SearchEmployeeEvent extends GetEmployeesEvent {
   SearchEmployeeEvent(this.query);
 }
 
+class RoleFilterEvent extends GetEmployeesEvent {
+  final String role;
+
+  RoleFilterEvent(this.role);
+}
+
 class NoneEvent extends GetEmployeesEvent {}
 
 //class GetList extends GetEmployeesEvent {}

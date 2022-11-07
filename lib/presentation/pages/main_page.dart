@@ -390,41 +390,10 @@ class MainPage extends StatelessWidget {
         Row(
           children: [
             const DropdownButtonExample(),
-            Form(
-              key: _searchEmployeeFormKey,
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 200,
-                    child: TextFormField(
-                      maxLines: 1,
-                      validator: (value) =>
-                          value != null ? null : "Это обязательное поле",
-                      onChanged: (value) => context
-                          .read<GetEmployeesBloc>()
-                          .add(SearchChangedEvent(value)),
-                      decoration: const InputDecoration(
-                        hintText: "Поиск",
-                      ),
-                    ),
-                  ),
-                  BlocBuilder<GetEmployeesBloc, GetEmployeesState>(
-                    builder: (context, state) {
-                      return IconButton(
-                        onPressed: () {
-                          if (_searchEmployeeFormKey.currentState!.validate()) {
-                            context
-                                .read<GetEmployeesBloc>()
-                                .add(SearchEmployeeEvent(state.searchQuery));
-                          }
-                        },
-                        icon: const Icon(Icons.search),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
+            const SizedBox(width: 40),
+            _searchField(context),
+            const SizedBox(width: 40),
+            const RoleDropDownFilter()
           ],
         ),
         Expanded(
@@ -454,6 +423,44 @@ class MainPage extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Form _searchField(BuildContext context) {
+    return Form(
+      key: _searchEmployeeFormKey,
+      child: Row(
+        children: [
+          SizedBox(
+            width: 200,
+            child: TextFormField(
+              maxLines: 1,
+              validator: (value) =>
+                  value != null ? null : "Это обязательное поле",
+              onChanged: (value) => context
+                  .read<GetEmployeesBloc>()
+                  .add(SearchChangedEvent(value)),
+              decoration: const InputDecoration(
+                hintText: "Поиск",
+              ),
+            ),
+          ),
+          BlocBuilder<GetEmployeesBloc, GetEmployeesState>(
+            builder: (context, state) {
+              return IconButton(
+                onPressed: () {
+                  if (_searchEmployeeFormKey.currentState!.validate()) {
+                    context
+                        .read<GetEmployeesBloc>()
+                        .add(SearchEmployeeEvent(state.searchQuery));
+                  }
+                },
+                icon: const Icon(Icons.search),
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 
@@ -566,6 +573,54 @@ class _DropdownButtonExampleState extends State<DropdownButtonExample> {
           );
         },
       ),
+    );
+  }
+}
+
+class RoleDropDownFilter extends StatefulWidget {
+  const RoleDropDownFilter({super.key});
+
+  @override
+  State<RoleDropDownFilter> createState() => _RoleDropDownFilterState();
+}
+
+class _RoleDropDownFilterState extends State<RoleDropDownFilter> {
+  static const menuItems = <String>[
+    'Грузчик',
+    'Бухгалтер',
+    'HR менеджер',
+    'Менеджер по закупкам',
+    'Менеджер по работе с клиентами'
+  ];
+
+  final List<DropdownMenuItem<String>> _menuItems = menuItems
+      .map(
+        (String value) => DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        ),
+      )
+      .toList();
+
+  String? _selectedItem1;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<GetEmployeesBloc, GetEmployeesState>(
+      builder: (context, state) {
+        return DropdownButton(
+          items: _menuItems,
+          icon: const Icon(Icons.filter_list),
+          dropdownColor: darkColorScheme.background,
+          value: _selectedItem1,
+          hint: const Text('Фильтрация'),
+          elevation: 4,
+          onChanged: (String? value) => setState(() {
+            _selectedItem1 = value ?? "";
+            context.read<GetEmployeesBloc>().add(RoleFilterEvent(value!));
+          }),
+        );
+      },
     );
   }
 }
