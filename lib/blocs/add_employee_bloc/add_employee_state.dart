@@ -14,13 +14,19 @@ class AddEmployeeState {
 
   bool get isValidName => name.isNotEmpty;
 
-  bool get isValidSalary => salary > 0;
-
   bool get isValidRole => role.isNotEmpty;
 
   bool get isValidLogin => login.isNotEmpty;
 
+  bool get isValidLoginLength => login.length > 2;
+
   bool get isValidPassword => password.isNotEmpty;
+
+  bool get isValidPasswordLength => password.length > 7;
+  final RegExp _regexPassword =
+      RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
+
+  bool get isValidPasswordRegex => _regexPassword.hasMatch(password);
 
   AddEmployeeState({
     this.surname = '',

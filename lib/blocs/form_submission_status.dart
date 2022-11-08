@@ -8,13 +8,14 @@ class InitialFormStatus extends FormSubmissionStatus {
 
 class FormSubmitting extends FormSubmissionStatus {}
 
-class SubmissionSuccess<T> extends FormSubmissionStatus {
+class FormSubmissionSuccess<T> extends FormSubmissionStatus {
   final T entity;
-  SubmissionSuccess(this.entity);
+
+  FormSubmissionSuccess(this.entity);
 }
 
-class SubmissionFailed extends FormSubmissionStatus {
+class FormSubmissionFailed extends FormSubmissionStatus {
   final Object exception;
 
-  SubmissionFailed(this.exception);
+  FormSubmissionFailed(this.exception);
 }

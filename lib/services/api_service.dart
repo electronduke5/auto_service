@@ -11,19 +11,17 @@ class ApiService<T> {
         followRedirects: false, validateStatus: (status) => status! < 500));
 
     final response;
-    if(function != null && query != null ){
+    if (function != null && query != null) {
       response = await dio.get('$apiRoute?$function=$query');
-    }
-    else{
+    } else {
       response = await dio.get(apiRoute);
     }
-
 
     if (response.statusCode == 200) {
       final data = response.data['data'] as List;
       return data.map((json) => entityProducer(json)).toList();
     } else {
-      throw Exception('Что-то пошло не так! (apiService.dart 19 строка)');
+      throw response.data['message'];
     }
   }
 
@@ -32,14 +30,12 @@ class ApiService<T> {
       required T Function(Map<String, dynamic>) entityProducer,
       required Map<String, dynamic> dataJson}) async {
     final dio = Dio(
-        BaseOptions(
-            followRedirects: false,
-            validateStatus: (status) => status! < 500
-        ),
+      BaseOptions(
+          headers: {"Accept": "application/json"},
+          followRedirects: false,
+          validateStatus: (status) => status! < 500),
     );
 
-    print(dataJson[0]);
-    print(dataJson[1]);
     print("isNotEmpty: ${dataJson.isNotEmpty}");
     print("length: ${dataJson.length}");
     print("values: ${dataJson.values}");
@@ -53,7 +49,8 @@ class ApiService<T> {
       final data = response.data['data'];
       return entityProducer(data);
     } else {
-      throw Exception('Что-то пошло не так! (api_service.dart 38 строка)');
+      print('Error Message (api_service 54): ${response.data['message']}');
+      throw response.data['message'];
     }
   }
 }

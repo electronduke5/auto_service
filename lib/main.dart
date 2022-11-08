@@ -15,15 +15,13 @@ import 'blocs/get_employees_bloc/get_employees_bloc.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  DesktopWindow.setMinWindowSize(const Size(1920/1.5,1080/1.5));
+  DesktopWindow.setMinWindowSize(const Size(1920 / 1.1, 1080 / 1.5));
   runApp(const MyApp());
 }
-//TODO: почитать про MultyProviders
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -47,23 +45,25 @@ class MyApp extends StatelessWidget {
       ),
       routes: <String, WidgetBuilder>{
         '/MainPage1': (context) => BlocProvider<GetEmployeesBloc>(
-              create: (context) => GetEmployeesBloc(getEmployeesService: GetEmployeesService())..add(GetListEmployeesEvent()),
-              child: MainPage(),
+              create: (context) =>
+                  GetEmployeesBloc(getEmployeesService: GetEmployeesService())
+                    ..add(GetListEmployeesEvent()),
+              child: const MainPage(),
             ),
-        '/MainPage': (context) => MultiBlocProvider(
-            providers: [
+        '/MainPage': (context) => MultiBlocProvider(providers: [
               BlocProvider<HrNavigationBloc>(
-                  create: (context) => HrNavigationBloc(),
+                create: (context) => HrNavigationBloc(),
               ),
               BlocProvider<GetEmployeesBloc>(
-                  create:  (context) => GetEmployeesBloc(getEmployeesService: GetEmployeesService())..add(GetListEmployeesEvent()),
+                create: (context) =>
+                    GetEmployeesBloc(getEmployeesService: GetEmployeesService())
+                      ..add(GetListEmployeesEvent()),
               ),
               BlocProvider<AddEmployeeBloc>(
-                create:  (context) => AddEmployeeBloc(addEmployeeService: AddEmployeeService()),
+                create: (context) =>
+                    AddEmployeeBloc(addEmployeeService: AddEmployeeService()),
               ),
-            ],
-            child: MainPage()
-        ),
+            ], child: const MainPage()),
         '/LoginPage': (context) => RepositoryProvider(
               create: (context) => LoginService(),
               child: LoginPage(),

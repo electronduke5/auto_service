@@ -21,5 +21,5 @@ class SubmissionSuccess<T> extends GetModelsStatus {
 class SubmissionFailed extends GetModelsStatus {
   final Object exception;
 
-  SubmissionFailed(this.exception) : super(error: exception.toString());
+  SubmissionFailed(this.exception);
 }

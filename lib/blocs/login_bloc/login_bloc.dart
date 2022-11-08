@@ -22,9 +22,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       EmployeeDto employee =
           await loginService.login(event.login, event.password);
-      emit(state.copyWith(formStatus: SubmissionSuccess(employee)));
+      emit(state.copyWith(formStatus: FormSubmissionSuccess(employee)));
     } catch (error) {
-      emit(state.copyWith(formStatus: SubmissionFailed(error.toString())));
+      emit(state.copyWith(formStatus: FormSubmissionFailed(error.toString())));
       emit(state.copyWith(formStatus: const InitialFormStatus()));
     }
   }

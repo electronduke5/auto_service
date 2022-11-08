@@ -1,6 +1,5 @@
 part of 'add_employee_bloc.dart';
 
-@immutable
 abstract class AddEmployeeEvent {}
 
 class SurnameChanged extends AddEmployeeEvent {

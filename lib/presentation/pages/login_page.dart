@@ -1,5 +1,6 @@
 import 'package:auto_service/blocs/form_submission_status.dart';
 import 'package:auto_service/blocs/login_bloc/login_bloc.dart';
+import 'package:auto_service/presentation/widgets/snack_bar.dart';
 import 'package:auto_service/services/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +8,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
+
+  LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +26,14 @@ class LoginPage extends StatelessWidget {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         final formStatus = state.formStatus;
-        if (formStatus is SubmissionFailed) {
-          _showShackBar(context, formStatus.exception.toString());
-        } else if (formStatus is SubmissionSuccess) {
-          //Navigator.push(context, '/MainPage', MaterialPageRoute(builder: (context) => ))
-          Navigator.of(context).pushReplacementNamed('/MainPage', arguments: formStatus.entity);
+        if (formStatus is FormSubmissionFailed) {
+          SnackBarInfo.show(
+              context: context,
+              message: formStatus.exception.toString(),
+              isSuccess: false);
+        } else if (formStatus is FormSubmissionSuccess) {
+          Navigator.of(context)
+              .pushReplacementNamed('/MainPage', arguments: formStatus.entity);
         }
       },
       child: Form(
@@ -148,34 +154,27 @@ class LoginPage extends StatelessWidget {
           width: 250,
           margin: const EdgeInsets.symmetric(horizontal: 40),
           child: Material(
-              elevation: 15,
-              borderRadius: const BorderRadius.all(Radius.circular(5)),
-              shadowColor: Theme.of(context).primaryColor,
-              child: TextFormField(
-                validator: (value) =>
-                    state.isValidLogin ? null : 'Это обязательное поле',
-                onChanged: (value) =>
-                    context.read<LoginBloc>().add(LoginChanged(value)),
-                expands: false,
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.account_box),
-                  fillColor: state.formStatus is SubmissionFailed
-                      ? Colors.red
-                      : Colors.green,
-                  border: const OutlineInputBorder(),
-                  labelText: "Логин",
-                ),
-              )),
+            elevation: 15,
+            borderRadius: const BorderRadius.all(Radius.circular(5)),
+            shadowColor: Theme.of(context).primaryColor,
+            child: TextFormField(
+              validator: (value) =>
+                  state.isValidLogin ? null : 'Это обязательное поле',
+              onChanged: (value) =>
+                  context.read<LoginBloc>().add(LoginChanged(value)),
+              expands: false,
+              decoration: InputDecoration(
+                prefixIcon: const Icon(Icons.account_box),
+                fillColor: state.formStatus is FormSubmissionFailed
+                    ? Colors.red
+                    : Colors.green,
+                border: const OutlineInputBorder(),
+                labelText: "Логин",
+              ),
+            ),
+          ),
         );
       },
     );
-  }
-
-  void _showShackBar(BuildContext context, String message) {
-    final snackBar = SnackBar(
-      content: Text(message),
-      backgroundColor: Theme.of(context).errorColor,
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
