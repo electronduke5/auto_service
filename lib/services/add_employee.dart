@@ -1,7 +1,7 @@
 import 'package:auto_service/data/dto/employee_dto.dart';
 import 'package:auto_service/services/api_service.dart';
 
-class AddEmployeeService extends ApiService<EmployeeDto> {
+class EmployeeService extends ApiService<EmployeeDto> {
   Future<EmployeeDto> addEmployee({
     required String login,
     required String password,
@@ -24,4 +24,6 @@ class AddEmployeeService extends ApiService<EmployeeDto> {
             role: role,
             salary: salary,
           ).toJson());
+  
+  Future deleteEmployee({required int id}) => deleteEntity(apiRoute: 'http://127.0.0.1:8000/api/employees/$id');
 }

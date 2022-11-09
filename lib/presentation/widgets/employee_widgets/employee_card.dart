@@ -1,7 +1,9 @@
+import 'package:auto_service/blocs/delete_employee_bloc/delete_employee_bloc.dart';
 import 'package:auto_service/blocs/get_employees_bloc/get_employees_bloc.dart';
 import 'package:auto_service/blocs/get_models_status.dart';
 import 'package:auto_service/data/dto/employee_dto.dart';
 import 'package:auto_service/presentation/widgets/employee_widgets/employee_search_field.dart';
+import 'package:auto_service/presentation/widgets/snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -62,23 +64,27 @@ class EmployeeCard extends StatelessWidget {
 
   Widget _employeeGridView(GetEmployeesState state, double width, double height,
       BuildContext context) {
-    return GridView.builder(
-      padding: const EdgeInsets.all(10),
-      physics: const BouncingScrollPhysics(),
-      scrollDirection: Axis.vertical,
-      itemBuilder: (BuildContext context, int index) {
-        return _employeeViewCard(
-            context: context,
-            employee:
-                (state.modelsStatus.entities as List<EmployeeDto>)[index]);
+    return BlocBuilder<DeleteEmployeeBloc, DeleteEmployeeState>(
+      builder: (context, stateDelete) {
+        return GridView.builder(
+          padding: const EdgeInsets.all(10),
+          physics: const BouncingScrollPhysics(),
+          scrollDirection: Axis.vertical,
+          itemBuilder: (BuildContext context, int index) {
+            return _employeeViewCard(
+                context: context,
+                employee:
+                    (state.modelsStatus.entities as List<EmployeeDto>)[index]);
+          },
+          itemCount: (state.modelsStatus.entities as List<EmployeeDto>).length,
+          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+            crossAxisSpacing: 10,
+            //mainAxisExtent: 160,
+            childAspectRatio: width / height * 0.8,
+            maxCrossAxisExtent: MediaQuery.of(context).size.width * 0.2,
+          ),
+        );
       },
-      itemCount: (state.modelsStatus.entities as List<EmployeeDto>).length,
-      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        crossAxisSpacing: 10,
-        //mainAxisExtent: 160,
-        childAspectRatio: width / height,
-        maxCrossAxisExtent: MediaQuery.of(context).size.width * 0.2,
-      ),
     );
   }
 
@@ -108,8 +114,58 @@ class EmployeeCard extends StatelessWidget {
                     style: TextStyle(color: Theme.of(context).hintColor),
                   ),
                   Text(
-                    "ЗП: ${employee.salary} руб.",
+                    "Оклад: ${employee.salary} руб.",
                     style: TextStyle(color: Theme.of(context).hintColor),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .inversePrimary),
+                          ),
+                          onPressed: () {},
+                          child: Icon(Icons.info_outline,
+                              color:
+                                  Theme.of(context).colorScheme.inversePrimary),
+                        ),
+                        SizedBox(width: width * 0.01),
+                        OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            side: const BorderSide(color: Colors.amber),
+                          ),
+                          onPressed: () {},
+                          child: const Icon(Icons.edit, color: Colors.amber),
+                        ),
+                        SizedBox(width: width * 0.01),
+                        OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            side:
+                                BorderSide(color: Theme.of(context).errorColor),
+                          ),
+                          onPressed: () {
+                            context
+                                .read<DeleteEmployeeBloc>()
+                                .add(DeleteEmployeeEvent(id: employee.id!));
+                            SnackBarInfo.show(
+                                context: context,
+                                message:
+                                'Пользователь ${employee.surname} ${employee.name} успешно удалён!',
+                                isSuccess: true);
+                            context
+                                .read<GetEmployeesBloc>()
+                                .add(GetListEmployeesEvent());
+                          },
+                          child: Icon(Icons.delete_outlined,
+                              color: Theme.of(context).errorColor),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

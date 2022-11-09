@@ -10,7 +10,7 @@ part 'add_employee_event.dart';
 part 'add_employee_state.dart';
 
 class AddEmployeeBloc extends Bloc<AddEmployeeEvent, AddEmployeeState> {
-  final AddEmployeeService addEmployeeService;
+  final EmployeeService addEmployeeService;
 
   AddEmployeeBloc({required this.addEmployeeService})
       : super(AddEmployeeState()) {

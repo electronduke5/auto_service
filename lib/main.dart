@@ -1,4 +1,5 @@
 import 'package:auto_service/blocs/add_employee_bloc/add_employee_bloc.dart';
+import 'package:auto_service/blocs/delete_employee_bloc/delete_employee_bloc.dart';
 import 'package:auto_service/blocs/hr_navigation_bloc/hr_navigation_bloc.dart';
 import 'package:auto_service/presentation/pages/login_page.dart';
 import 'package:auto_service/presentation/pages/main_page.dart';
@@ -38,7 +39,6 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: const Color.fromRGBO(0, 26, 51, 1),
           textTheme: GoogleFonts.interTextTheme(
               const TextTheme(bodyMedium: TextStyle(color: Colors.white)))),
-      //home: const LoginPage(),
       home: RepositoryProvider(
         create: (context) => LoginService(),
         child: LoginPage(),
@@ -61,7 +61,10 @@ class MyApp extends StatelessWidget {
               ),
               BlocProvider<AddEmployeeBloc>(
                 create: (context) =>
-                    AddEmployeeBloc(addEmployeeService: AddEmployeeService()),
+                    AddEmployeeBloc(addEmployeeService: EmployeeService()),
+              ),
+              BlocProvider<DeleteEmployeeBloc>(
+                  create: (context) => DeleteEmployeeBloc(employeeService: EmployeeService())
               ),
             ], child: const MainPage()),
         '/LoginPage': (context) => RepositoryProvider(

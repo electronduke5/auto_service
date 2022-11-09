@@ -53,4 +53,26 @@ class ApiService<T> {
       throw response.data['message'];
     }
   }
+
+  Future deleteEntity(
+      {required String apiRoute}) async {
+    final dio = Dio(
+      BaseOptions(
+          headers: {"Accept": "application/json"},
+          followRedirects: false,
+          validateStatus: (status) => status! < 500),
+    );
+    final response = await dio.post(apiRoute, data: {"_method" : "DELETE"});
+
+    print("StatusCode: ${response.statusCode}");
+    print("data: ${response.data}");
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final data = response.data['data'];
+      return data['message'];
+    } else {
+      print('Error Message (api_service 74): ${response.data['message']}');
+      throw response.data['message'];
+    }
+  }
 }
