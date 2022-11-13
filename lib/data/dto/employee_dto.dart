@@ -38,13 +38,24 @@ class EmployeeDto {
         //TODO: Сделать преобразование в лсит fromJson
         orders = json['orders'] as List<dynamic>;
 
-  Map<String, dynamic> toJson() => {
-        'surname': surname,
-        'name': name,
-        'patronymic': patronymic,
-        'salary': salary,
-        'login': login,
-        'password': password,
-        'role': role,
-      };
+  Map<String, dynamic> toJson() {
+    return password != null
+        ? {
+            'surname': surname,
+            'name': name,
+            'patronymic': patronymic,
+            'salary': salary,
+            'login': login,
+            'password': password,
+            'role': role,
+          }
+        : {
+            'surname': surname,
+            'name': name,
+            'patronymic': patronymic,
+            'salary': salary,
+            'login': login,
+            'role': role,
+          };
+  }
 }

@@ -1,19 +1,17 @@
 import 'package:auto_service/blocs/form_submission_status.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 import '../../data/dto/employee_dto.dart';
-import '../../services/add_employee.dart';
+import '../../services/employee_service.dart';
 
-part 'add_employee_event.dart';
+part 'employee_event.dart';
 
-part 'add_employee_state.dart';
+part 'employee_state.dart';
 
-class AddEmployeeBloc extends Bloc<AddEmployeeEvent, AddEmployeeState> {
+class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
   final EmployeeService addEmployeeService;
 
-  AddEmployeeBloc({required this.addEmployeeService})
-      : super(AddEmployeeState()) {
+  EmployeeBloc({required this.addEmployeeService}) : super(EmployeeState()) {
     on<LoginChanged>((event, emit) => emit(state.copyWith(login: event.login)));
     on<PasswordChanged>(
         (event, emit) => emit(state.copyWith(password: event.password)));
@@ -28,10 +26,21 @@ class AddEmployeeBloc extends Bloc<AddEmployeeEvent, AddEmployeeState> {
         (event, emit) => emit(state.copyWith(salary: event.salary)));
 
     on<FormSubmitted>((event, emit) => _onFormSubmitted(event, emit));
+    on<FormSubmittedUpdate>(
+        (event, emit) => _onFormSubmittedUpdate(event, emit));
+
+    on<EditFormInitial>((event, emit) => emit(state.copyWith(
+        surname: event.employee.surname,
+        name: event.employee.name,
+        patronymic: event.employee.patronymic,
+        salary: event.employee.salary,
+        login: event.employee.login,
+        role: event.employee.role,
+        formStatus: const InitialFormStatus())));
   }
 
   void _onFormSubmitted(
-      FormSubmitted event, Emitter<AddEmployeeState> emit) async {
+      FormSubmitted event, Emitter<EmployeeState> emit) async {
     emit(state.copyWith(formStatus: FormSubmitting()));
     try {
       EmployeeDto employee = await addEmployeeService.addEmployee(
@@ -42,6 +51,36 @@ class AddEmployeeBloc extends Bloc<AddEmployeeEvent, AddEmployeeState> {
         password: event.password,
         salary: event.salary,
         role: event.role,
+      );
+      emit(state.copyWith(formStatus: FormSubmissionSuccess(employee)));
+      emit(state.copyWith(
+          formStatus: const InitialFormStatus(),
+          surname: '',
+          name: '',
+          password: '',
+          login: '',
+          role: '',
+          patronymic: '',
+          salary: 0));
+    } catch (error) {
+      emit(state.copyWith(formStatus: FormSubmissionFailed(error.toString())));
+      emit(state.copyWith(formStatus: const InitialFormStatus()));
+    }
+  }
+
+  void _onFormSubmittedUpdate(
+      FormSubmittedUpdate event, Emitter<EmployeeState> emit) async {
+    emit(state.copyWith(formStatus: FormSubmitting()));
+    try {
+      EmployeeDto employee = await addEmployeeService.editEmployee(
+        surname: event.surname,
+        name: event.name,
+        patronymic: event.patronymic,
+        login: event.login,
+        password: event.password,
+        salary: event.salary,
+        role: event.role,
+        id: event.id,
       );
       emit(state.copyWith(formStatus: FormSubmissionSuccess(employee)));
       emit(state.copyWith(

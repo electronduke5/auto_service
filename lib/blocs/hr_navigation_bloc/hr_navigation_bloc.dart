@@ -15,5 +15,6 @@ class HrNavigationBloc extends Bloc<HrNavigationEvent, HrNavigationState> {
 
     on<ToAddEmployeePage>((event, emit) => emit(HrInAddState()));
     on<ToEmployeesPage>((event, emit) => emit(HrInViewState()));
+    on<ToEditEmployeePage>((event, emit) => emit(HrInEditState(employee: event.employee)));
   }
 }

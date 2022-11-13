@@ -1,6 +1,6 @@
-part of 'add_employee_bloc.dart';
+part of 'employee_bloc.dart';
 
-class AddEmployeeState {
+class EmployeeState {
   final String surname;
   final String name;
   final String patronymic;
@@ -16,7 +16,11 @@ class AddEmployeeState {
 
   bool get isValidRole => role.isNotEmpty;
 
-  bool get isValidLogin => login.isNotEmpty;
+  bool isValidLogin(String? currentLogin) {
+    return login.isNotEmpty ? login == currentLogin : false;
+  }
+
+  bool get isValidAddLogin => login.isNotEmpty;
 
   bool get isValidLoginLength => login.length > 2;
 
@@ -28,7 +32,7 @@ class AddEmployeeState {
 
   bool get isValidPasswordRegex => _regexPassword.hasMatch(password);
 
-  AddEmployeeState({
+  EmployeeState({
     this.surname = '',
     this.name = '',
     this.patronymic = '',
@@ -39,7 +43,7 @@ class AddEmployeeState {
     this.formStatus = const InitialFormStatus(),
   });
 
-  AddEmployeeState copyWith({
+  EmployeeState copyWith({
     String? login,
     String? password,
     String? surname,
@@ -49,7 +53,7 @@ class AddEmployeeState {
     int? salary,
     FormSubmissionStatus? formStatus,
   }) {
-    return AddEmployeeState(
+    return EmployeeState(
       surname: surname ?? this.surname,
       name: name ?? this.name,
       patronymic: patronymic ?? this.patronymic,

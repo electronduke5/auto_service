@@ -1,9 +1,9 @@
-import 'package:auto_service/blocs/add_employee_bloc/add_employee_bloc.dart';
 import 'package:auto_service/blocs/delete_employee_bloc/delete_employee_bloc.dart';
+import 'package:auto_service/blocs/employee_bloc/employee_bloc.dart';
 import 'package:auto_service/blocs/hr_navigation_bloc/hr_navigation_bloc.dart';
 import 'package:auto_service/presentation/pages/login_page.dart';
 import 'package:auto_service/presentation/pages/main_page.dart';
-import 'package:auto_service/services/add_employee.dart';
+import 'package:auto_service/services/employee_service.dart';
 import 'package:auto_service/services/get_employees.dart';
 import 'package:auto_service/services/login.dart';
 import 'package:desktop_window/desktop_window.dart';
@@ -59,13 +59,13 @@ class MyApp extends StatelessWidget {
                     GetEmployeesBloc(getEmployeesService: GetEmployeesService())
                       ..add(GetListEmployeesEvent()),
               ),
-              BlocProvider<AddEmployeeBloc>(
+              BlocProvider<EmployeeBloc>(
                 create: (context) =>
-                    AddEmployeeBloc(addEmployeeService: EmployeeService()),
+                    EmployeeBloc(addEmployeeService: EmployeeService()),
               ),
               BlocProvider<DeleteEmployeeBloc>(
-                  create: (context) => DeleteEmployeeBloc(employeeService: EmployeeService())
-              ),
+                  create: (context) =>
+                      DeleteEmployeeBloc(employeeService: EmployeeService())),
             ], child: const MainPage()),
         '/LoginPage': (context) => RepositoryProvider(
               create: (context) => LoginService(),

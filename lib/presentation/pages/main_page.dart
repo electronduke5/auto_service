@@ -141,7 +141,13 @@ class MainPage extends StatelessWidget {
                   case HrInViewState:
                     return EmployeeCard(width: width, height: height);
                   case HrInAddState:
-                    return AddEmployeeCard(width: width);
+                    return AddEmployeeCard(
+                        width: width, navigationState: state);
+                  case HrInEditState:
+                    return AddEmployeeCard(
+                        width: width,
+                        navigationState: state,
+                        employee: state.employeeEdit);
                   case HrInProfileState:
                     return const Text("Страница профиля сотрудника");
                   default:

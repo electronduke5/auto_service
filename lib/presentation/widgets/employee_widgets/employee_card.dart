@@ -1,6 +1,8 @@
 import 'package:auto_service/blocs/delete_employee_bloc/delete_employee_bloc.dart';
+import 'package:auto_service/blocs/employee_bloc/employee_bloc.dart';
 import 'package:auto_service/blocs/get_employees_bloc/get_employees_bloc.dart';
 import 'package:auto_service/blocs/get_models_status.dart';
+import 'package:auto_service/blocs/hr_navigation_bloc/hr_navigation_bloc.dart';
 import 'package:auto_service/data/dto/employee_dto.dart';
 import 'package:auto_service/presentation/widgets/employee_widgets/employee_search_field.dart';
 import 'package:auto_service/presentation/widgets/snack_bar.dart';
@@ -139,7 +141,14 @@ class EmployeeCard extends StatelessWidget {
                           style: OutlinedButton.styleFrom(
                             side: const BorderSide(color: Colors.amber),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            context
+                                .read<EmployeeBloc>()
+                                .add(EditFormInitial(employee: employee));
+                            context
+                                .read<HrNavigationBloc>()
+                                .add(ToEditEmployeePage(employee: employee));
+                          },
                           child: const Icon(Icons.edit, color: Colors.amber),
                         ),
                         SizedBox(width: width * 0.01),
@@ -155,7 +164,7 @@ class EmployeeCard extends StatelessWidget {
                             SnackBarInfo.show(
                                 context: context,
                                 message:
-                                'Пользователь ${employee.surname} ${employee.name} успешно удалён!',
+                                    'Пользователь ${employee.surname} ${employee.name} успешно удалён!',
                                 isSuccess: true);
                             context
                                 .read<GetEmployeesBloc>()

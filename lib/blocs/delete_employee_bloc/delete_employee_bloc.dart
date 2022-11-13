@@ -1,5 +1,5 @@
 import 'package:auto_service/blocs/delete_status.dart';
-import 'package:auto_service/services/add_employee.dart';
+import 'package:auto_service/services/employee_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'delete_employee_event.dart';
