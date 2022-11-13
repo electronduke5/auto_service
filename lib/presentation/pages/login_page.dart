@@ -1,5 +1,6 @@
 import 'package:auto_service/blocs/form_submission_status.dart';
 import 'package:auto_service/blocs/login_bloc/login_bloc.dart';
+import 'package:auto_service/data/dto/employee_dto.dart';
 import 'package:auto_service/presentation/widgets/snack_bar.dart';
 import 'package:auto_service/services/login.dart';
 import 'package:flutter/material.dart';
@@ -32,8 +33,26 @@ class LoginPage extends StatelessWidget {
               message: formStatus.exception.toString(),
               isSuccess: false);
         } else if (formStatus is FormSubmissionSuccess) {
-          Navigator.of(context)
-              .pushReplacementNamed('/MainPage', arguments: formStatus.entity);
+          print(formStatus.entity.role);
+          switch (RoleEnum.values
+              .firstWhere((role) => role.name == formStatus.entity.role)) {
+            case RoleEnum.hr:
+              Navigator.of(context).pushReplacementNamed('/MainPage',
+                  arguments: formStatus.entity);
+              break;
+            case RoleEnum.purchasing:
+              // TODO: Handle this case.
+              break;
+            case RoleEnum.clientManager:
+              // TODO: Handle this case.
+              break;
+            case RoleEnum.accountant:
+              // TODO: Handle this case.
+              break;
+            case RoleEnum.storekeeper:
+              // TODO: Handle this case.
+              break;
+          }
         }
       },
       child: Form(

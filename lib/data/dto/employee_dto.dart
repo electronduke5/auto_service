@@ -59,3 +59,17 @@ class EmployeeDto {
           };
   }
 }
+
+enum RoleEnum {
+  hr(name:'HR менеджер'),
+  purchasing(name:'Менеджер по закупкам'),
+  clientManager(name:'Менеджер по работе с клиентами'),
+  accountant(name:'Бухгалтер'),
+  storekeeper(name:'Грузчик');
+
+  const RoleEnum({required this.name});
+
+  final String name;
+
+  String get() => name;
+}

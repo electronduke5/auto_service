@@ -44,12 +44,6 @@ class MyApp extends StatelessWidget {
         child: LoginPage(),
       ),
       routes: <String, WidgetBuilder>{
-        '/MainPage1': (context) => BlocProvider<GetEmployeesBloc>(
-              create: (context) =>
-                  GetEmployeesBloc(getEmployeesService: GetEmployeesService())
-                    ..add(GetListEmployeesEvent()),
-              child: const MainPage(),
-            ),
         '/MainPage': (context) => MultiBlocProvider(providers: [
               BlocProvider<HrNavigationBloc>(
                 create: (context) => HrNavigationBloc(),
