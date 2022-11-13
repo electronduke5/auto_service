@@ -38,7 +38,7 @@ class _RoleDropDownFilterState extends State<RoleDropDownFilter> {
         return DropdownButton(
           items: _menuItems,
           icon: const Icon(Icons.filter_list),
-          dropdownColor: darkColorScheme.background,
+          dropdownColor: Theme.of(context).colorScheme.background,
           value: _selectedItem1,
           hint: const Text('Фильтрация'),
           elevation: 4,

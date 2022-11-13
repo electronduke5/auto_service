@@ -7,6 +7,7 @@ import 'package:auto_service/presentation/widgets/employee_widgets/add_employee_
 import 'package:auto_service/presentation/widgets/employee_widgets/employee_card.dart';
 import 'package:auto_service/presentation/widgets/snack_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -69,68 +70,50 @@ class MainPage extends StatelessWidget {
         children: [
           //Столбец с действиями
           Container(
-            color: darkColorScheme.surface,
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
-                  child: Column(
-                    children: [
-                      ElevatedButton.icon(
-                        icon: const Icon(Icons.group_outlined),
-                        onPressed: () {
-                          context
-                              .read<HrNavigationBloc>()
-                              .add(ToEmployeesPage());
-                          context
-                              .read<GetEmployeesBloc>()
-                              .add(GetListEmployeesEvent());
-                        },
-                        label: const Text(
-                          "Все сотрудники",
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      ElevatedButton.icon(
-                        icon: const Icon(Icons.person_outline),
-                        onPressed: () {
-                          context.read<HrNavigationBloc>().add(
-                              ToProfilePage(loggedEmployee: loggedEmployee));
-                        },
-                        label: const Text(
-                          "Мой профиль",
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      ElevatedButton.icon(
-                        icon: const Icon(Icons.person_add_alt),
-                        onPressed: () {
-                          context
-                              .read<HrNavigationBloc>()
-                              .add(ToAddEmployeePage());
-                        },
-                        label: const Text(
-                          "Добавить сотрудника",
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      ElevatedButton.icon(
-                        icon: const Icon(Icons.settings_outlined),
-                        onPressed: () {},
-                        label: const Text(
-                          "Настройки",
-                        ),
-                      ),
-                    ],
+            color: Theme.of(context).colorScheme.surface,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
+              child: Column(
+                children: [
+                  ElevatedButton.icon(
+                    icon: const Icon(Icons.group_outlined),
+                    onPressed: () {
+                      context
+                          .read<HrNavigationBloc>()
+                          .add(ToEmployeesPage());
+                      context
+                          .read<GetEmployeesBloc>()
+                          .add(GetListEmployeesEvent());
+                    },
+                    style: ElevatedButton.styleFrom(
+                      elevation: 7
+                    ),
+                    label: const Text(
+                      "Все сотрудники",
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ElevatedButton.icon(
+                    icon: const Icon(Icons.person_add_alt),
+                    onPressed: () {
+                      context
+                          .read<HrNavigationBloc>()
+                          .add(ToAddEmployeePage());
+                    },
+                    style: ElevatedButton.styleFrom(
+                        elevation: 7
+                    ),
+                    label: const Text(
+                      "Добавить сотрудника",
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
             ),
           ),
           //Столбец с Dashboard

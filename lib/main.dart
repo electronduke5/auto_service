@@ -2,7 +2,7 @@ import 'package:auto_service/blocs/delete_employee_bloc/delete_employee_bloc.dar
 import 'package:auto_service/blocs/employee_bloc/employee_bloc.dart';
 import 'package:auto_service/blocs/hr_navigation_bloc/hr_navigation_bloc.dart';
 import 'package:auto_service/presentation/pages/login_page.dart';
-import 'package:auto_service/presentation/pages/main_page.dart';
+import 'package:auto_service/presentation/pages/hr_page.dart';
 import 'package:auto_service/services/employee_service.dart';
 import 'package:auto_service/services/get_employees.dart';
 import 'package:auto_service/services/login.dart';
