@@ -1,5 +1,6 @@
 import 'package:auto_service/blocs/autoparts/view_autoparts/view_autoparts_bloc.dart';
 import 'package:auto_service/blocs/get_models_status.dart';
+import 'package:auto_service/blocs/navigations_bloc/purchasing_nav_bloc/purchasing_nav_bloc.dart';
 import 'package:auto_service/data/dto/employee_dto.dart';
 import 'package:auto_service/presentation/widgets/actions_card.dart';
 import 'package:auto_service/presentation/widgets/app_bar.dart';
@@ -43,6 +44,7 @@ class PurchasingPage extends StatelessWidget {
                 ElevatedButton.icon(
                   icon: const Icon(Icons.list_alt_outlined),
                   onPressed: () {
+                    context.read<PurchasingNavBloc>().add(ToViewAutopartsPageEvent());
                     context.read<ViewAutopartsBloc>().add(GetListAutopartsEvent());
                   },
                   style: ElevatedButton.styleFrom(elevation: 7),
@@ -55,7 +57,9 @@ class PurchasingPage extends StatelessWidget {
                 ),
                 ElevatedButton.icon(
                   icon: const Icon(Icons.add_box_outlined),
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<PurchasingNavBloc>().add(ToAddAutopartPageEvent());
+                  },
                   style: ElevatedButton.styleFrom(elevation: 7),
                   label: const Text(
                     "Заказ запчасти",

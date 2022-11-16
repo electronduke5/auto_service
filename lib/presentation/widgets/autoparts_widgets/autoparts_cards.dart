@@ -48,6 +48,8 @@ class AutopartsCards extends StatelessWidget {
                         _tableHeaderElement('Кол-во'),
                         const VerticalDivider(),
                         _tableHeaderElement('Категория'),
+                        const VerticalDivider(),
+                        _tableHeaderElement('Действие'),
                       ],
                     ),
                   ),
@@ -116,6 +118,23 @@ class AutopartsCards extends StatelessWidget {
                     color: countColor.entries.firstWhere((element) => element.key.contains(autopart.count)).value),
                 const VerticalDivider(),
                 _itemInRow(value: autopart.category!.name.toString()),
+                const VerticalDivider(),
+                Expanded(
+                  child: Center(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.onPrimary,
+                      ),
+                        onPressed: (){
+                        //TODO: Событие в AutopartBloc на редактирование данной запчасти (Autopart autopart)
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.all(5.0),
+                          child: Text('Заказать'),
+                        ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

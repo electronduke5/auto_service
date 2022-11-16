@@ -1,6 +1,6 @@
 import 'package:auto_service/blocs/employee_bloc/employee_bloc.dart';
 import 'package:auto_service/blocs/form_submission_status.dart';
-import 'package:auto_service/blocs/hr_navigation_bloc/hr_navigation_bloc.dart';
+import 'package:auto_service/blocs/navigations_bloc/hr_navigation_bloc/hr_navigation_bloc.dart';
 import 'package:auto_service/data/dto/employee_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

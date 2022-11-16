@@ -1,5 +1,5 @@
 import 'package:auto_service/blocs/get_employees_bloc/get_employees_bloc.dart';
-import 'package:auto_service/blocs/hr_navigation_bloc/hr_navigation_bloc.dart';
+import 'package:auto_service/blocs/navigations_bloc/hr_navigation_bloc/hr_navigation_bloc.dart';
 import 'package:auto_service/presentation/widgets/employee_widgets/employee_edit_card.dart';
 import 'package:auto_service/presentation/widgets/snack_bar.dart';
 import 'package:flutter/material.dart';

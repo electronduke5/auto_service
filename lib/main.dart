@@ -1,7 +1,8 @@
 import 'package:auto_service/blocs/autoparts/view_autoparts/view_autoparts_bloc.dart';
 import 'package:auto_service/blocs/delete_employee_bloc/delete_employee_bloc.dart';
 import 'package:auto_service/blocs/employee_bloc/employee_bloc.dart';
-import 'package:auto_service/blocs/hr_navigation_bloc/hr_navigation_bloc.dart';
+import 'package:auto_service/blocs/navigations_bloc/hr_navigation_bloc/hr_navigation_bloc.dart';
+import 'package:auto_service/blocs/navigations_bloc/purchasing_nav_bloc/purchasing_nav_bloc.dart';
 import 'package:auto_service/presentation/pages/hr_page.dart';
 import 'package:auto_service/presentation/pages/login_page.dart';
 import 'package:auto_service/services/autoparts_service.dart';
@@ -50,7 +51,9 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         '/PurchasingPage': (context) => MultiBlocProvider(
               providers: [
-                //TODO: Удалить этот провайдер
+                BlocProvider<PurchasingNavBloc>(
+                  create: (context) => PurchasingNavBloc(),
+                ),
                 BlocProvider<ViewAutopartsBloc>(
                   create: (context) =>
                       ViewAutopartsBloc(autopartsService: AutopartsService())
