@@ -42,16 +42,14 @@ class AddEmployeeCard extends StatelessWidget {
             context.read<GetEmployeesBloc>().add(GetListEmployeesEvent());
           }
         },
-        child: addEmployeeCard(),
+        child: EmployeeEditCard(
+          navigationState: navigationState,
+          employee: employee,
+          width: width,
+        ),
       ),
     );
   }
 
-  Widget addEmployeeCard() {
-    return EmployeeEditCard(
-      navigationState: navigationState,
-      employee: employee,
-      width: width,
-    );
-  }
+
 }

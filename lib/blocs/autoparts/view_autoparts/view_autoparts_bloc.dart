@@ -9,7 +9,7 @@ part 'view_autoparts_event.dart';
 part 'view_autoparts_state.dart';
 
 class ViewAutopartsBloc extends Bloc<ViewAutopartsEvent, ViewAutopartsState> {
-  final AutopartsService autopartsService;
+  final AutopartService autopartsService;
 
   ViewAutopartsBloc({required this.autopartsService})
       : super(ViewAutopartsState()) {

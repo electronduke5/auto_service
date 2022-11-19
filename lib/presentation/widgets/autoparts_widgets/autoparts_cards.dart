@@ -11,7 +11,7 @@ class AutopartsCards extends StatelessWidget {
   final Map<dynamic, Color> countColor = {
     IntRange(0, 5): const Color(0xFFEA3D2F),
     IntRange(6, 11): const Color(0xFFF3AA18),
-    IntRange(12, 18): const Color(0xFF2FA84F),
+    IntRange(12, double.maxFinite.toInt()): const Color(0xFF2FA84F),
   };
 
   @override
@@ -115,7 +115,10 @@ class AutopartsCards extends StatelessWidget {
                 const VerticalDivider(),
                 _itemInRow(
                     value: autopart.count.toString(),
-                    color: countColor.entries.firstWhere((element) => element.key.contains(autopart.count)).value),
+                    color: countColor.entries
+                        .firstWhere(
+                            (element) => element.key.contains(autopart.count))
+                        .value),
                 const VerticalDivider(),
                 _itemInRow(value: autopart.category!.name.toString()),
                 const VerticalDivider(),
@@ -123,15 +126,16 @@ class AutopartsCards extends StatelessWidget {
                   child: Center(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.onPrimary,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.onPrimary,
                       ),
-                        onPressed: (){
+                      onPressed: () {
                         //TODO: Событие в AutopartBloc на редактирование данной запчасти (Autopart autopart)
-                        },
-                        child: const Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: Text('Заказать'),
-                        ),
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.all(5.0),
+                        child: Text('Заказать'),
+                      ),
                     ),
                   ),
                 ),
