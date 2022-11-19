@@ -1,5 +1,4 @@
 import 'package:auto_service/blocs/autoparts/add_edit_autopart_bloc/autopart_bloc.dart';
-import 'package:auto_service/blocs/autoparts/view_autoparts/view_autoparts_bloc.dart';
 import 'package:auto_service/blocs/categories/categories_bloc.dart';
 import 'package:auto_service/blocs/delete_employee_bloc/delete_employee_bloc.dart';
 import 'package:auto_service/blocs/employee_bloc/employee_bloc.dart';
@@ -60,15 +59,10 @@ class MyApp extends StatelessWidget {
                 ),
                 BlocProvider<AutopartBloc>(
                   create: (context) =>
-                      AutopartBloc(autopartService: AutopartService()),
+                      AutopartBloc(autopartService: AutopartService())..add(GetListAutopartsEvent()),
                 ),
                 BlocProvider<PurchasingNavBloc>(
                   create: (context) => PurchasingNavBloc(),
-                ),
-                BlocProvider<ViewAutopartsBloc>(
-                  create: (context) =>
-                      ViewAutopartsBloc(autopartsService: AutopartService())
-                        ..add(GetListAutopartsEvent()),
                 ),
               ],
               child: const PurchasingPage(),

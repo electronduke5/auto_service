@@ -13,8 +13,20 @@ class AutopartService extends ApiService<AutopartDto> {
     required AutopartDto autopart,
   }) =>
       getEntity(
-          apiRoute: 'http://127.0.0.1:8000/api/autoparts',
-          entityProducer: (Map<String, dynamic> json) =>
-              AutopartDto.fromJson(json),
-          dataJson: autopart.toJson());
+        apiRoute: 'http://127.0.0.1:8000/api/autoparts',
+        entityProducer: (Map<String, dynamic> json) =>
+            AutopartDto.fromJson(json),
+        dataJson: autopart.toJson(),
+      );
+
+  Future<AutopartDto> editCount({required AutopartDto autopart}) {
+    Map<String, dynamic> autopartJson = autopart.toJson();
+    autopartJson.addAll({'_method': 'PUT'});
+
+    return getEntity(
+        apiRoute: 'http://127.0.0.1:8000/api/autoparts/${autopart.id}',
+        entityProducer: (Map<String, dynamic> json) =>
+            AutopartDto.fromJson(json),
+        dataJson: autopartJson);
+  }
 }

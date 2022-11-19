@@ -7,6 +7,8 @@ class AutopartState {
   final String count;
   final CategoryDto? categoryId;
   final FormSubmissionStatus formStatus;
+  final GetModelsStatus modelsStatus;
+
 
   bool get isValidName => name.isNotEmpty;
 
@@ -25,6 +27,7 @@ class AutopartState {
     this.count = '',
     this.categoryId,
     this.formStatus = const InitialFormStatus(),
+    this.modelsStatus = const InitialModelsStatus(),
   });
 
   AutopartState copyWith({
@@ -34,6 +37,7 @@ class AutopartState {
     String? count,
     CategoryDto? categoryId,
     FormSubmissionStatus? formStatus,
+    GetModelsStatus? modelsStatus
   }) =>
       AutopartState(
         name: name ?? this.name,
@@ -42,5 +46,6 @@ class AutopartState {
         categoryId: categoryId ?? this.categoryId,
         count: count ?? this.count,
         formStatus: formStatus ?? this.formStatus,
+          modelsStatus: modelsStatus ?? this.modelsStatus
       );
 }

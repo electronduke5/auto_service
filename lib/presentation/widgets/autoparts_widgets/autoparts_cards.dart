@@ -1,12 +1,18 @@
-import 'package:auto_service/blocs/autoparts/view_autoparts/view_autoparts_bloc.dart';
+import 'package:auto_service/blocs/autoparts/add_edit_autopart_bloc/autopart_bloc.dart';
+import 'package:auto_service/blocs/form_submission_status.dart';
 import 'package:auto_service/blocs/get_models_status.dart';
+import 'package:auto_service/blocs/navigations_bloc/purchasing_nav_bloc/purchasing_nav_bloc.dart';
 import 'package:auto_service/data/dto/autoparts_dto.dart';
+import 'package:auto_service/presentation/widgets/snack_bar.dart';
+import 'package:auto_service/services/autoparts_service.dart';
 import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AutopartsCards extends StatelessWidget {
-  AutopartsCards({Key? key}) : super(key: key);
+  AutopartsCards({Key? key, required this.context}) : super(key: key);
+  BuildContext context;
+  GlobalKey<FormState> editCountKey = GlobalKey<FormState>();
 
   final Map<dynamic, Color> countColor = {
     IntRange(0, 5): const Color(0xFFEA3D2F),
@@ -59,7 +65,7 @@ class AutopartsCards extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: BlocBuilder<ViewAutopartsBloc, ViewAutopartsState>(
+          child: BlocBuilder<AutopartBloc, AutopartState>(
               builder: (context, state) {
             switch (state.modelsStatus.runtimeType) {
               case Submitting:
@@ -83,7 +89,7 @@ class AutopartsCards extends StatelessWidget {
     );
   }
 
-  Widget _autopartsListView(ViewAutopartsState state, BuildContext context) {
+  Widget _autopartsListView(AutopartState state, BuildContext context) {
     return ListView.builder(
       itemBuilder: (BuildContext context, int index) {
         return _autopartCard(
@@ -130,6 +136,7 @@ class AutopartsCards extends StatelessWidget {
                             Theme.of(context).colorScheme.onPrimary,
                       ),
                       onPressed: () {
+                        openDialog(this.context, autopart);
                         //TODO: Событие в AutopartBloc на редактирование данной запчасти (Autopart autopart)
                       },
                       child: const Padding(
@@ -165,6 +172,97 @@ class AutopartsCards extends StatelessWidget {
       ),
     );
   }
+
+  Future openDialog(BuildContext context, AutopartDto autopart) => showDialog(
+        context: context,
+        builder: (context) => MultiBlocProvider(
+          providers: [
+            BlocProvider<AutopartBloc>(
+              create: (context) =>
+                  AutopartBloc(autopartService: AutopartService()),
+            ),
+            BlocProvider<PurchasingNavBloc>(
+              create: (context) => PurchasingNavBloc(),
+            ),
+          ],
+          child: BlocListener<AutopartBloc, AutopartState>(
+            listener: (context, state) {
+              final formStatus = state.formStatus;
+              if (formStatus is FormSubmissionFailed) {
+                SnackBarInfo.show(
+                    context: context,
+                    message: formStatus.exception.toString(),
+                    isSuccess: false);
+              } else if (formStatus is FormSubmissionSuccess<AutopartDto>) {
+                SnackBarInfo.show(
+                    context: context,
+                    message: 'Запчасти успешно заказаны',
+                    isSuccess: true);
+                print('грузится?');
+                context.read<AutopartBloc>().add(GetListAutopartsEvent());
+              }
+            },
+            child: AlertDialog(
+              title: const Text('Дозаказ запчасти'),
+              content: BlocBuilder<AutopartBloc, AutopartState>(
+                builder: (context, state) {
+                  return Form(
+                    key: editCountKey,
+                    child: TextFormField(
+                      validator: (value) {
+                        if (int.tryParse(value!) == null) {
+                          return 'Поле должно состоять из цифр';
+                        } else if (int.parse(value) <= 0) {
+                          return "Число должно быть больше нуля";
+                        }
+                        return value.isNotEmpty
+                            ? null
+                            : "Это обязательное поле";
+                      },
+                      onChanged: (value) {
+                        context.read<AutopartBloc>().add(CountChanged(value));
+                      },
+                      maxLines: 1,
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.onetwothree),
+                        border: OutlineInputBorder(),
+                        labelText: "Количество",
+                      ),
+                    ),
+                  );
+                },
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Отмена'),
+                ),
+                BlocBuilder<AutopartBloc, AutopartState>(
+                  builder: (context, state) {
+                    return TextButton(
+                        onPressed: () {
+                          if (editCountKey.currentState!.validate()) {
+                            context.read<AutopartBloc>().add(
+                                  FormSubmittedUpdate(
+                                      id: autopart.id!,
+                                      count: int.parse(state.count),
+                                      autopart: autopart),
+                                );
+                            editCountKey.currentState!.reset();
+                            context.read<AutopartBloc>().add(GetListAutopartsEvent());
+                            Navigator.of(context).pop();
+                          }
+                        },
+                        child: const Text('Заказать'));
+                  },
+                )
+              ],
+            ),
+          ),
+        ),
+      );
 
   Widget _tableHeaderElement(String value) {
     return Expanded(

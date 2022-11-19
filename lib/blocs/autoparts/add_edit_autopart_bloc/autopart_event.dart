@@ -3,6 +3,8 @@ part of 'autopart_bloc.dart';
 @immutable
 abstract class AutopartEvent {}
 
+class GetListAutopartsEvent extends AutopartEvent {}
+
 class InitialAutopartEvent extends AutopartEvent {
   final AutopartState autopartState;
 
@@ -43,6 +45,14 @@ class EditFormInitial extends AutopartEvent {
   final AutopartDto autopart;
 
   EditFormInitial({required this.autopart});
+}
+
+class FormSubmittedUpdate extends AutopartEvent{
+  final int id;
+  final int count;
+  final AutopartDto autopart;
+
+  FormSubmittedUpdate({required this.id, required this.count, required this.autopart});
 }
 
 class FormSubmitted extends AutopartEvent {

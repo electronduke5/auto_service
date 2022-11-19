@@ -1,5 +1,4 @@
 import 'package:auto_service/blocs/autoparts/add_edit_autopart_bloc/autopart_bloc.dart';
-import 'package:auto_service/blocs/autoparts/view_autoparts/view_autoparts_bloc.dart';
 import 'package:auto_service/blocs/categories/categories_bloc.dart';
 import 'package:auto_service/blocs/form_submission_status.dart';
 import 'package:auto_service/blocs/get_models_status.dart';
@@ -36,7 +35,7 @@ class AddAutopartPage extends StatelessWidget {
               isSuccess: true,
             );
             context.read<PurchasingNavBloc>().add(ToViewAutopartsPageEvent());
-            context.read<ViewAutopartsBloc>().add(GetListAutopartsEvent());
+            context.read<AutopartBloc>().add(GetListAutopartsEvent());
           }
         },
         child: BlocBuilder<CategoryBloc, CategoryState>(

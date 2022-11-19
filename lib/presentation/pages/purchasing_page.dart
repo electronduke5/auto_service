@@ -1,5 +1,4 @@
 import 'package:auto_service/blocs/autoparts/add_edit_autopart_bloc/autopart_bloc.dart';
-import 'package:auto_service/blocs/autoparts/view_autoparts/view_autoparts_bloc.dart';
 import 'package:auto_service/blocs/categories/categories_bloc.dart';
 import 'package:auto_service/blocs/get_models_status.dart';
 import 'package:auto_service/blocs/navigations_bloc/purchasing_nav_bloc/purchasing_nav_bloc.dart';
@@ -28,7 +27,7 @@ class PurchasingPage extends StatelessWidget {
   }
 
   Widget _buildPurchaseBody(BuildContext context, double width) {
-    return BlocListener<ViewAutopartsBloc, ViewAutopartsState>(
+    return BlocListener<AutopartBloc, AutopartState>(
       listener: (context, state) {
         if (state.modelsStatus is SubmissionFailed) {
           SnackBarInfo.show(
@@ -50,7 +49,7 @@ class PurchasingPage extends StatelessWidget {
                         .read<PurchasingNavBloc>()
                         .add(ToViewAutopartsPageEvent());
                     context
-                        .read<ViewAutopartsBloc>()
+                        .read<AutopartBloc>()
                         .add(GetListAutopartsEvent());
                   },
                   style: ElevatedButton.styleFrom(elevation: 7),
@@ -88,7 +87,7 @@ class PurchasingPage extends StatelessWidget {
               builder: (context, state) {
                 switch (state.runtimeType) {
                   case PurchasingInViewState:
-                    return AutopartsCards();
+                    return AutopartsCards(context: context);
                   case PurchasingInAddState:
                     return AddAutopartPage(width: width);
                   default:
