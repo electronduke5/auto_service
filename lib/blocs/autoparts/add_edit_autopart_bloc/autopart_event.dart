@@ -2,6 +2,13 @@ part of 'autopart_bloc.dart';
 
 @immutable
 abstract class AutopartEvent {}
+
+//DeleteAutopart
+class DeleteAutopartEvent extends AutopartEvent {
+  final int id;
+  DeleteAutopartEvent(this.id);
+}
+
 //GetAutoparts
 class GetListAutopartsEvent extends AutopartEvent {}
 
@@ -18,14 +25,6 @@ class SortByDescAutopartEvent extends AutopartEvent {
 
   SortByDescAutopartEvent({required this.sortByDescQuery});
 }
-//class SortByName extends AutopartEvent {}
-// class SortBySalePrice extends AutopartEvent {}
-// class SortByPurchasePrice extends AutopartEvent {}
-//class SortByCount extends AutopartEvent {}
-
-//class SortBySalePriceDesc extends AutopartEvent {}
-//class SortByPurchasePriceDesc extends AutopartEvent {}
-//class SortByCountDesc extends AutopartEvent {}
 
 class SearchChangedEvent extends AutopartEvent {
   final String searchQuery;

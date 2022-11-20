@@ -6,6 +6,7 @@ import 'package:auto_service/blocs/navigations_bloc/hr_navigation_bloc/hr_naviga
 import 'package:auto_service/blocs/navigations_bloc/purchasing_nav_bloc/purchasing_nav_bloc.dart';
 import 'package:auto_service/presentation/pages/hr_page.dart';
 import 'package:auto_service/presentation/pages/login_page.dart';
+import 'package:auto_service/presentation/pages/storekeeper_page.dart';
 import 'package:auto_service/services/autoparts_service.dart';
 import 'package:auto_service/services/category_service.dart';
 import 'package:auto_service/services/employee_service.dart';
@@ -44,13 +45,21 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           colorScheme: darkColorScheme,
           scaffoldBackgroundColor: const Color.fromRGBO(0, 26, 51, 1),
-          textTheme: GoogleFonts.interTextTheme(
+          textTheme: GoogleFonts.openSansTextTheme(
               const TextTheme(bodyMedium: TextStyle(color: Colors.white)))),
       home: RepositoryProvider(
         create: (context) => LoginService(),
         child: LoginPage(),
       ),
       routes: <String, WidgetBuilder>{
+        '/StorekeeperPage' : (context) =>MultiBlocProvider(
+            providers: [
+              BlocProvider<AutopartBloc>(
+                create: (context) =>
+                AutopartBloc(autopartService: AutopartService())..add(GetListAutopartsEvent()),
+              ),
+            ],
+            child: const StorekeeperPage()),
         '/PurchasingPage': (context) => MultiBlocProvider(
               providers: [
                 BlocProvider<CategoryBloc>(

@@ -9,7 +9,8 @@ class AutopartState {
   final FormSubmissionStatus formStatus;
   final GetModelsStatus modelsStatus;
   final String searchQuery;
-
+  final String message;
+  final DeleteStatus deleteStatus;
 
   bool get isValidName => name.isNotEmpty;
 
@@ -30,6 +31,8 @@ class AutopartState {
     this.searchQuery = '',
     this.formStatus = const InitialFormStatus(),
     this.modelsStatus = const InitialModelsStatus(),
+    this.message = '',
+    this.deleteStatus = const InitialDeleteStatus(),
   });
 
   AutopartState copyWith({
@@ -40,7 +43,9 @@ class AutopartState {
     CategoryDto? categoryId,
     FormSubmissionStatus? formStatus,
     GetModelsStatus? modelsStatus,
-    String? searchQuery
+    String? searchQuery,
+    String? message,
+    DeleteStatus? deleteStatus,
   }) =>
       AutopartState(
         name: name ?? this.name,
@@ -49,7 +54,9 @@ class AutopartState {
         categoryId: categoryId ?? this.categoryId,
         count: count ?? this.count,
         formStatus: formStatus ?? this.formStatus,
-          modelsStatus: modelsStatus ?? this.modelsStatus,
+        modelsStatus: modelsStatus ?? this.modelsStatus,
         searchQuery: searchQuery ?? this.searchQuery,
+        message: message ?? this.message,
+        deleteStatus: deleteStatus ?? this.deleteStatus,
       );
 }

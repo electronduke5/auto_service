@@ -30,4 +30,7 @@ class AutopartService extends ApiService<AutopartDto> {
             AutopartDto.fromJson(json),
         dataJson: autopartJson);
   }
+
+  Future deleteAutopart({required int id}) =>
+      deleteEntity(apiRoute: 'http://127.0.0.1:8000/api/autoparts/$id');
 }

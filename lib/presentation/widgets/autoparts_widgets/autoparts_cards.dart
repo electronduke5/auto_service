@@ -3,6 +3,7 @@ import 'package:auto_service/blocs/form_submission_status.dart';
 import 'package:auto_service/blocs/get_models_status.dart';
 import 'package:auto_service/blocs/navigations_bloc/purchasing_nav_bloc/purchasing_nav_bloc.dart';
 import 'package:auto_service/data/dto/autoparts_dto.dart';
+import 'package:auto_service/data/dto/employee_dto.dart';
 import 'package:auto_service/presentation/widgets/autoparts_widgets/autopart_search_field.dart';
 import 'package:auto_service/presentation/widgets/autoparts_widgets/autopart_sort_dropdown.dart';
 import 'package:auto_service/presentation/widgets/snack_bar.dart';
@@ -12,9 +13,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AutopartsCards extends StatelessWidget {
-  AutopartsCards({Key? key, required this.context}) : super(key: key);
+  AutopartsCards(
+      {Key? key, required this.context, required this.loggedEmployee})
+      : super(key: key);
   BuildContext context;
   GlobalKey<FormState> editCountKey = GlobalKey<FormState>();
+  final EmployeeDto loggedEmployee;
 
   final Map<dynamic, Color> countColor = {
     IntRange(0, 5): const Color(0xFFEA3D2F),
@@ -66,28 +70,27 @@ class AutopartsCards extends StatelessWidget {
               Expanded(
                 child: BlocBuilder<AutopartBloc, AutopartState>(
                     builder: (context, state) {
-                      switch (state.modelsStatus.runtimeType) {
-                        case Submitting:
-                          return const Center(child: CircularProgressIndicator());
+                  switch (state.modelsStatus.runtimeType) {
+                    case Submitting:
+                      return const Center(child: CircularProgressIndicator());
 
-                        case SubmissionSuccess<AutopartDto>:
-                          return _autopartsListView(state, context);
+                    case SubmissionSuccess<AutopartDto>:
+                      return _autopartsListView(state, context);
 
-                        case SubmissionFailed:
-                          return Center(
-                            child: Text(state.modelsStatus.error ?? "хз"),
-                          );
-                        default:
-                          return const Center(
-                            child: Text("Непредвиденная ошибка"),
-                          );
-                      }
-                    }),
+                    case SubmissionFailed:
+                      return Center(
+                        child: Text(state.modelsStatus.error ?? "хз"),
+                      );
+                    default:
+                      return const Center(
+                        child: Text("Непредвиденная ошибка"),
+                      );
+                  }
+                }),
               ),
             ],
           ),
         ),
-
       ],
     );
   }
@@ -132,22 +135,60 @@ class AutopartsCards extends StatelessWidget {
                 _itemInRow(value: autopart.category!.name.toString()),
                 const VerticalDivider(),
                 Expanded(
-                  child: Center(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            Theme.of(context).colorScheme.onPrimary,
-                      ),
-                      onPressed: () {
-                        openDialog(this.context, autopart);
-                        //TODO: Событие в AutopartBloc на редактирование данной запчасти (Autopart autopart)
-                      },
-                      child: const Padding(
-                        padding: EdgeInsets.all(5.0),
-                        child: Text('Заказать'),
-                      ),
-                    ),
-                  ),
+                  child: loggedEmployee.role == RoleEnum.purchasing.name
+                      ? Center(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.onPrimary,
+                            ),
+                            onPressed: () {
+                              openDialog(this.context, autopart);
+                              //TODO: Событие в AutopartBloc на редактирование данной запчасти (Autopart autopart)
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.all(5.0),
+                              child: Text('Заказать'),
+                            ),
+                          ),
+                        )
+                      : Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimary
+                                      .withOpacity(0.8),
+                                ),
+                                onPressed: () {
+                                  //openDialog(this.context, autopart);
+                                  //TODO: Событие в AutopartBloc на редактирование данной запчасти (Autopart autopart)
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.all(5.0),
+                                  child: Text('Изменить'),
+                                ),
+                              ),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Theme.of(context)
+                                      .colorScheme
+                                      .errorContainer,
+                                ),
+                                onPressed: () {
+                                  openDeleteDialog(context, autopart);
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.all(5.0),
+                                  child: Icon(Icons.delete_outline),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                 ),
               ],
             ),
@@ -156,6 +197,53 @@ class AutopartsCards extends StatelessWidget {
       ),
     );
   }
+
+  Future openDeleteDialog(BuildContext context, AutopartDto autopart) =>
+      showDialog(
+        context: context,
+        builder: (context) => BlocProvider<AutopartBloc>(
+          create: (context) => AutopartBloc(autopartService: AutopartService()),
+          child: AlertDialog(
+            title: const Text('Подтверждение удаления'),
+            content: Text(
+                'Вы действительно хотите удалить все ${autopart.count} запчасти?'),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Text('Отменить'),
+                ),
+              ),
+              BlocBuilder<AutopartBloc, AutopartState>(
+                builder: (context, state) {
+                  return ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).errorColor,
+                    ),
+                    onPressed: () {
+                      context
+                          .read<AutopartBloc>()
+                          .add(DeleteAutopartEvent(autopart.id!));
+                      SnackBarInfo.show(
+                          context: context,
+                          message: 'Запчасти ${autopart.name} удалены!',
+                          isSuccess: true);
+                      Navigator.of(context).pop();
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Text('Удалить'),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      );
 
   Widget _itemInRow({required String value, Color? color}) {
     return Expanded(
@@ -254,7 +342,9 @@ class AutopartsCards extends StatelessWidget {
                                       autopart: autopart),
                                 );
                             editCountKey.currentState!.reset();
-                            context.read<AutopartBloc>().add(GetListAutopartsEvent());
+                            context
+                                .read<AutopartBloc>()
+                                .add(GetListAutopartsEvent());
                             Navigator.of(context).pop();
                           }
                         },

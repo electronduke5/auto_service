@@ -1,3 +1,4 @@
+import 'package:auto_service/blocs/delete_status.dart';
 import 'package:auto_service/blocs/form_submission_status.dart';
 import 'package:auto_service/blocs/get_models_status.dart';
 import 'package:auto_service/data/dto/autoparts_dto.dart';
@@ -55,7 +56,24 @@ class AutopartBloc extends Bloc<AutopartEvent, AutopartState> {
     on<SearchAutopartEvent>((event, emit) =>
         _functions(event, emit, event.functions, event.searchQuery));
 
-    on<SearchChangedEvent>((event, emit) =>emit(state.copyWith(searchQuery: event.searchQuery)));
+    on<SearchChangedEvent>((event, emit) => emit(state.copyWith(searchQuery: event.searchQuery)));
+    
+    on<DeleteAutopartEvent>((event, emit) => _onDeleteAutopart(event, emit));
+  }
+
+  void _onDeleteAutopart(DeleteAutopartEvent event, Emitter<AutopartState> emit) async {
+    emit(state.copyWith(deleteStatus: SubmittingDelete()));
+    try {
+      String message = await autopartService.deleteAutopart(id: event.id);
+      print('error in autopart_bloc 68: $message}');
+      emit(state.copyWith(deleteStatus: SubmissionDeleteSuccess(successMessage: message)));
+    } catch (error) {
+      print('error in autopart_bloc 70: $error}');
+      emit(state.copyWith(
+          deleteStatus:
+          SubmissionDeleteFailed(errorMessage: error.toString())));
+      emit(state.copyWith(deleteStatus: const InitialDeleteStatus()));
+    }
   }
 
   void _functions(AutopartEvent event, Emitter<AutopartState> emit, String func,

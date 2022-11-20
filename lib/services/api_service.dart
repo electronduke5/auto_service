@@ -67,7 +67,7 @@ class ApiService<T> {
     print("StatusCode: ${response.statusCode}");
     print("data: ${response.data}");
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 204) {
       final data = response.data['data'];
       return data['message'];
     } else {

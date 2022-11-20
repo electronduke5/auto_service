@@ -1,18 +1,15 @@
 import 'package:auto_service/blocs/autoparts/add_edit_autopart_bloc/autopart_bloc.dart';
-import 'package:auto_service/blocs/categories/categories_bloc.dart';
 import 'package:auto_service/blocs/get_models_status.dart';
-import 'package:auto_service/blocs/navigations_bloc/purchasing_nav_bloc/purchasing_nav_bloc.dart';
 import 'package:auto_service/data/dto/employee_dto.dart';
 import 'package:auto_service/presentation/widgets/actions_card.dart';
 import 'package:auto_service/presentation/widgets/app_bar.dart';
-import 'package:auto_service/presentation/widgets/autoparts_widgets/add_autopart_page.dart';
 import 'package:auto_service/presentation/widgets/autoparts_widgets/autoparts_cards.dart';
 import 'package:auto_service/presentation/widgets/snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PurchasingPage extends StatelessWidget {
-  const PurchasingPage({Key? key}) : super(key: key);
+class StorekeeperPage extends StatelessWidget {
+  const StorekeeperPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +19,11 @@ class PurchasingPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBarWidget(context: context, loggedEmployee: loggedEmployee),
-      body: _buildPurchaseBody(context, cardWidth, loggedEmployee),
+      body: _buildStorekeeperBody(context, cardWidth,loggedEmployee),
     );
   }
 
-  Widget _buildPurchaseBody(BuildContext context, double width, EmployeeDto loggedEmployee) {
+  Widget _buildStorekeeperBody(BuildContext context, double cardWidth, EmployeeDto loggedEmployee) {
     return BlocListener<AutopartBloc, AutopartState>(
       listener: (context, state) {
         if (state.modelsStatus is SubmissionFailed) {
@@ -45,12 +42,11 @@ class PurchasingPage extends StatelessWidget {
                 ElevatedButton.icon(
                   icon: const Icon(Icons.list_alt_outlined),
                   onPressed: () {
-                    context
-                        .read<PurchasingNavBloc>()
-                        .add(ToViewAutopartsPageEvent());
-                    context
-                        .read<AutopartBloc>()
-                        .add(GetListAutopartsEvent());
+                    //TODO: Навигация
+                    // context
+                    //     .read<PurchasingNavBloc>()
+                    //     .add(ToViewAutopartsPageEvent());
+                    context.read<AutopartBloc>().add(GetListAutopartsEvent());
                   },
                   style: ElevatedButton.styleFrom(elevation: 7),
                   label: const Text(
@@ -61,19 +57,11 @@ class PurchasingPage extends StatelessWidget {
                   height: 10,
                 ),
                 ElevatedButton.icon(
-                  icon: const Icon(Icons.add_box_outlined),
-                  onPressed: () {
-                    context.read<CategoryBloc>().add(GetListCategoriesEvent());
-                    context
-                        .read<PurchasingNavBloc>()
-                        .add(ToAddAutopartPageEvent());
-                    context
-                        .read<AutopartBloc>()
-                        .add(InitialAutopartEvent(AutopartState()));
-                  },
+                  icon: const Icon(Icons.question_mark),
+                  onPressed: () {},
                   style: ElevatedButton.styleFrom(elevation: 7),
                   label: const Text(
-                    "Заказ запчасти",
+                    "хз что тут",
                   ),
                 ),
                 const SizedBox(
@@ -83,20 +71,7 @@ class PurchasingPage extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: BlocBuilder<PurchasingNavBloc, PurchasingNavState>(
-              builder: (context, state) {
-                switch (state.runtimeType) {
-                  case PurchasingInViewState:
-                    return AutopartsCards(context: context, loggedEmployee: loggedEmployee);
-                  case PurchasingInAddState:
-                    return AddAutopartPage(width: width);
-                  default:
-                    return const Center(
-                      child: Text('Что-то не работает'),
-                    );
-                }
-              },
-            ),
+              child: AutopartsCards(context: context, loggedEmployee: loggedEmployee),
           ),
         ],
       ),
