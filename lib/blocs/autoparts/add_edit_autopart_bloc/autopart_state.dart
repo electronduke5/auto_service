@@ -8,6 +8,7 @@ class AutopartState {
   final CategoryDto? categoryId;
   final FormSubmissionStatus formStatus;
   final GetModelsStatus modelsStatus;
+  final String searchQuery;
 
 
   bool get isValidName => name.isNotEmpty;
@@ -26,6 +27,7 @@ class AutopartState {
     this.salePrice = '',
     this.count = '',
     this.categoryId,
+    this.searchQuery = '',
     this.formStatus = const InitialFormStatus(),
     this.modelsStatus = const InitialModelsStatus(),
   });
@@ -37,7 +39,8 @@ class AutopartState {
     String? count,
     CategoryDto? categoryId,
     FormSubmissionStatus? formStatus,
-    GetModelsStatus? modelsStatus
+    GetModelsStatus? modelsStatus,
+    String? searchQuery
   }) =>
       AutopartState(
         name: name ?? this.name,
@@ -46,6 +49,7 @@ class AutopartState {
         categoryId: categoryId ?? this.categoryId,
         count: count ?? this.count,
         formStatus: formStatus ?? this.formStatus,
-          modelsStatus: modelsStatus ?? this.modelsStatus
+          modelsStatus: modelsStatus ?? this.modelsStatus,
+        searchQuery: searchQuery ?? this.searchQuery,
       );
 }

@@ -3,6 +3,8 @@ import 'package:auto_service/blocs/form_submission_status.dart';
 import 'package:auto_service/blocs/get_models_status.dart';
 import 'package:auto_service/blocs/navigations_bloc/purchasing_nav_bloc/purchasing_nav_bloc.dart';
 import 'package:auto_service/data/dto/autoparts_dto.dart';
+import 'package:auto_service/presentation/widgets/autoparts_widgets/autopart_search_field.dart';
+import 'package:auto_service/presentation/widgets/autoparts_widgets/autopart_sort_dropdown.dart';
 import 'package:auto_service/presentation/widgets/snack_bar.dart';
 import 'package:auto_service/services/autoparts_service.dart';
 import 'package:dartx/dartx.dart';
@@ -26,16 +28,16 @@ class AutopartsCards extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         SizedBox(
+          child: Row(
+            children: [
+              const AutopartSortDropDown(),
+              AutopartSearchField(),
+            ],
+          ),
+        ),
+        Expanded(
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const [
-                  Text('Сортировка'),
-                  Text('Поиск'),
-                  Text('Фильтрация'),
-                ],
-              ),
               Card(
                 elevation: 5,
                 color: Theme.of(context).colorScheme.onPrimary,
@@ -61,30 +63,31 @@ class AutopartsCards extends StatelessWidget {
                   ),
                 ),
               ),
+              Expanded(
+                child: BlocBuilder<AutopartBloc, AutopartState>(
+                    builder: (context, state) {
+                      switch (state.modelsStatus.runtimeType) {
+                        case Submitting:
+                          return const Center(child: CircularProgressIndicator());
+
+                        case SubmissionSuccess<AutopartDto>:
+                          return _autopartsListView(state, context);
+
+                        case SubmissionFailed:
+                          return Center(
+                            child: Text(state.modelsStatus.error ?? "хз"),
+                          );
+                        default:
+                          return const Center(
+                            child: Text("Непредвиденная ошибка"),
+                          );
+                      }
+                    }),
+              ),
             ],
           ),
         ),
-        Expanded(
-          child: BlocBuilder<AutopartBloc, AutopartState>(
-              builder: (context, state) {
-            switch (state.modelsStatus.runtimeType) {
-              case Submitting:
-                return const Center(child: CircularProgressIndicator());
 
-              case SubmissionSuccess<AutopartDto>:
-                return _autopartsListView(state, context);
-
-              case SubmissionFailed:
-                return Center(
-                  child: Text(state.modelsStatus.error ?? "хз"),
-                );
-              default:
-                return const Center(
-                  child: Text("Непредвиденная ошибка"),
-                );
-            }
-          }),
-        ),
       ],
     );
   }

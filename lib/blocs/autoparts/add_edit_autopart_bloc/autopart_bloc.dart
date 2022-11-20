@@ -40,22 +40,47 @@ class AutopartBloc extends Bloc<AutopartEvent, AutopartState> {
           formStatus: const InitialFormStatus(),
         )));
 
-    on<FormSubmittedUpdate>((event, emit) => _onFormSubmittedUpdate(event, emit));
+    on<FormSubmittedUpdate>(
+        (event, emit) => _onFormSubmittedUpdate(event, emit));
 
     on<GetListAutopartsEvent>(
-            (event, emit) => _onGetListAutopartsEvent(event, emit));
+        (event, emit) => _onGetListAutopartsEvent(event, emit));
+
+    on<SortByAutopartEvent>((event, emit) =>
+        _functions(event, emit, event.functions, event.sortByQuery));
+
+    on<SortByDescAutopartEvent>((event, emit) =>
+        _functions(event, emit, event.functions, event.sortByDescQuery));
+
+    on<SearchAutopartEvent>((event, emit) =>
+        _functions(event, emit, event.functions, event.searchQuery));
+
+    on<SearchChangedEvent>((event, emit) =>emit(state.copyWith(searchQuery: event.searchQuery)));
+  }
+
+  void _functions(AutopartEvent event, Emitter<AutopartState> emit, String func,
+      String query) async {
+    emit(state.copyWith(modelsStatus: Submitting()));
+    try {
+      List<AutopartDto> autoparts =
+          await autopartService.getAutoparts(function: func, query: query);
+      emit(state.copyWith(
+          modelsStatus:
+              SubmissionSuccess<AutopartDto>(listEntities: autoparts)));
+    } catch (error) {
+      emit(state.copyWith(modelsStatus: SubmissionFailed(error)));
+    }
   }
 
   void _onGetListAutopartsEvent(
       GetListAutopartsEvent event, Emitter<AutopartState> emit) async {
     emit(state.copyWith(modelsStatus: Submitting()));
     try {
-      print('ну блять все должно грузиться');
       List<AutopartDto> autoparts = await autopartService.getAutoparts();
 
       emit(state.copyWith(
           modelsStatus:
-          SubmissionSuccess<AutopartDto>(listEntities: autoparts)));
+              SubmissionSuccess<AutopartDto>(listEntities: autoparts)));
     } catch (error) {
       emit(state.copyWith(modelsStatus: SubmissionFailed(error)));
     }
@@ -74,7 +99,8 @@ class AutopartBloc extends Bloc<AutopartEvent, AutopartState> {
         count: event.count,
         category: event.category,
       ));
-      emit(state.copyWith(formStatus: FormSubmissionSuccess<AutopartDto>(autopart)));
+      emit(state.copyWith(
+          formStatus: FormSubmissionSuccess<AutopartDto>(autopart)));
     } catch (error) {
       emit(state.copyWith(formStatus: FormSubmissionFailed(error.toString())));
     }
@@ -88,13 +114,13 @@ class AutopartBloc extends Bloc<AutopartEvent, AutopartState> {
     try {
       AutopartDto autopart = await autopartService.editCount(
           autopart: AutopartDto(
-            id: event.id,
-            name: event.autopart.name,
-            purchasePrice: event.autopart.purchasePrice,
-            salePrice: event.autopart.salePrice,
-            count: event.count + event.autopart.count!,
-            category: event.autopart.category,
-          ));
+        id: event.id,
+        name: event.autopart.name,
+        purchasePrice: event.autopart.purchasePrice,
+        salePrice: event.autopart.salePrice,
+        count: event.count + event.autopart.count!,
+        category: event.autopart.category,
+      ));
       emit(state.copyWith(formStatus: FormSubmissionSuccess(autopart)));
     } catch (error) {
       emit(state.copyWith(formStatus: FormSubmissionFailed(error.toString())));

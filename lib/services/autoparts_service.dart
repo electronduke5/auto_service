@@ -2,11 +2,12 @@ import 'package:auto_service/data/dto/autoparts_dto.dart';
 import 'package:auto_service/services/api_service.dart';
 
 class AutopartService extends ApiService<AutopartDto> {
-  Future<List<AutopartDto>> getAutoparts() {
+  Future<List<AutopartDto>> getAutoparts({String? function, String? query}) {
     return getEntities(
-      apiRoute: 'http://127.0.0.1:8000/api/autoparts',
-      entityProducer: (json) => AutopartDto.fromJson(json),
-    );
+        apiRoute: 'http://127.0.0.1:8000/api/autoparts',
+        entityProducer: (json) => AutopartDto.fromJson(json),
+        function: function,
+        query: query);
   }
 
   Future<AutopartDto> addAutopart({
