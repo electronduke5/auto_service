@@ -1,9 +1,11 @@
 import 'package:auto_service/blocs/autoparts/add_edit_autopart_bloc/autopart_bloc.dart';
 import 'package:auto_service/blocs/get_models_status.dart';
+import 'package:auto_service/blocs/navigations_bloc/storekeeper_nav_bloc/storekeeper_nav_bloc.dart';
 import 'package:auto_service/data/dto/employee_dto.dart';
 import 'package:auto_service/presentation/widgets/actions_card.dart';
 import 'package:auto_service/presentation/widgets/app_bar.dart';
 import 'package:auto_service/presentation/widgets/autoparts_widgets/autoparts_cards.dart';
+import 'package:auto_service/presentation/widgets/autoparts_widgets/edit_autopart_page.dart';
 import 'package:auto_service/presentation/widgets/snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,11 +21,12 @@ class StorekeeperPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBarWidget(context: context, loggedEmployee: loggedEmployee),
-      body: _buildStorekeeperBody(context, cardWidth,loggedEmployee),
+      body: _buildStorekeeperBody(context, cardWidth, loggedEmployee),
     );
   }
 
-  Widget _buildStorekeeperBody(BuildContext context, double cardWidth, EmployeeDto loggedEmployee) {
+  Widget _buildStorekeeperBody(
+      BuildContext context, double cardWidth, EmployeeDto loggedEmployee) {
     return BlocListener<AutopartBloc, AutopartState>(
       listener: (context, state) {
         if (state.modelsStatus is SubmissionFailed) {
@@ -42,10 +45,9 @@ class StorekeeperPage extends StatelessWidget {
                 ElevatedButton.icon(
                   icon: const Icon(Icons.list_alt_outlined),
                   onPressed: () {
-                    //TODO: Навигация
-                    // context
-                    //     .read<PurchasingNavBloc>()
-                    //     .add(ToViewAutopartsPageEvent());
+                    context
+                        .read<StorekeeperNavBloc>()
+                        .add(ToViewAutopartsEvent());
                     context.read<AutopartBloc>().add(GetListAutopartsEvent());
                   },
                   style: ElevatedButton.styleFrom(elevation: 7),
@@ -71,7 +73,21 @@ class StorekeeperPage extends StatelessWidget {
             ),
           ),
           Expanded(
-              child: AutopartsCards(context: context, loggedEmployee: loggedEmployee),
+            child: BlocBuilder<StorekeeperNavBloc, StorekeeperNavState>(
+              builder: (context, state) {
+                switch (state.runtimeType) {
+                  case StorekeeperInViewState:
+                    return AutopartsCards(
+                        context: context, loggedEmployee: loggedEmployee);
+                  case StorekeeperInEditState:
+                    return const EditAutopartPage();
+                  default:
+                    return const Center(
+                      child: Text('Что-то не работает'),
+                    );
+                }
+              },
+            ),
           ),
         ],
       ),

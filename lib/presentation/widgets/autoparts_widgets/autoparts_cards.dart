@@ -1,13 +1,11 @@
 import 'package:auto_service/blocs/autoparts/add_edit_autopart_bloc/autopart_bloc.dart';
-import 'package:auto_service/blocs/form_submission_status.dart';
 import 'package:auto_service/blocs/get_models_status.dart';
-import 'package:auto_service/blocs/navigations_bloc/purchasing_nav_bloc/purchasing_nav_bloc.dart';
+import 'package:auto_service/blocs/navigations_bloc/storekeeper_nav_bloc/storekeeper_nav_bloc.dart';
 import 'package:auto_service/data/dto/autoparts_dto.dart';
 import 'package:auto_service/data/dto/employee_dto.dart';
+import 'package:auto_service/presentation/widgets/autoparts_widgets/alert_dialogs_autoparts.dart';
 import 'package:auto_service/presentation/widgets/autoparts_widgets/autopart_search_field.dart';
 import 'package:auto_service/presentation/widgets/autoparts_widgets/autopart_sort_dropdown.dart';
-import 'package:auto_service/presentation/widgets/snack_bar.dart';
-import 'package:auto_service/services/autoparts_service.dart';
 import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +15,6 @@ class AutopartsCards extends StatelessWidget {
       {Key? key, required this.context, required this.loggedEmployee})
       : super(key: key);
   BuildContext context;
-  GlobalKey<FormState> editCountKey = GlobalKey<FormState>();
   final EmployeeDto loggedEmployee;
 
   final Map<dynamic, Color> countColor = {
@@ -143,8 +140,8 @@ class AutopartsCards extends StatelessWidget {
                                   Theme.of(context).colorScheme.onPrimary,
                             ),
                             onPressed: () {
-                              openDialog(this.context, autopart);
-                              //TODO: Событие в AutopartBloc на редактирование данной запчасти (Autopart autopart)
+                              AutopartsDialog.openEditDialog(context, autopart,
+                                  context.read<AutopartBloc>());
                             },
                             child: const Padding(
                               padding: EdgeInsets.all(5.0),
@@ -156,21 +153,27 @@ class AutopartsCards extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Theme.of(context)
-                                      .colorScheme
-                                      .onPrimary
-                                      .withOpacity(0.8),
-                                ),
-                                onPressed: () {
-                                  //openDialog(this.context, autopart);
-                                  //TODO: Событие в AutopartBloc на редактирование данной запчасти (Autopart autopart)
+                              BlocBuilder<StorekeeperNavBloc,
+                                  StorekeeperNavState>(
+                                builder: (context, state) {
+                                  return ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimary
+                                          .withOpacity(0.8),
+                                    ),
+                                    onPressed: () {
+                                      context
+                                          .read<StorekeeperNavBloc>()
+                                          .add(ToEditAutopartEvent(autopart));
+                                    },
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(5.0),
+                                      child: Text('Изменить'),
+                                    ),
+                                  );
                                 },
-                                child: const Padding(
-                                  padding: EdgeInsets.all(5.0),
-                                  child: Text('Изменить'),
-                                ),
                               ),
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
@@ -179,7 +182,8 @@ class AutopartsCards extends StatelessWidget {
                                       .errorContainer,
                                 ),
                                 onPressed: () {
-                                  openDeleteDialog(context, autopart);
+                                  AutopartsDialog.openDeleteDialog(context,
+                                      autopart, context.read<AutopartBloc>());
                                 },
                                 child: const Padding(
                                   padding: EdgeInsets.all(5.0),
@@ -197,53 +201,6 @@ class AutopartsCards extends StatelessWidget {
       ),
     );
   }
-
-  Future openDeleteDialog(BuildContext context, AutopartDto autopart) =>
-      showDialog(
-        context: context,
-        builder: (context) => BlocProvider<AutopartBloc>(
-          create: (context) => AutopartBloc(autopartService: AutopartService()),
-          child: AlertDialog(
-            title: const Text('Подтверждение удаления'),
-            content: Text(
-                'Вы действительно хотите удалить все ${autopart.count} запчасти?'),
-            actions: [
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Text('Отменить'),
-                ),
-              ),
-              BlocBuilder<AutopartBloc, AutopartState>(
-                builder: (context, state) {
-                  return ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).errorColor,
-                    ),
-                    onPressed: () {
-                      context
-                          .read<AutopartBloc>()
-                          .add(DeleteAutopartEvent(autopart.id!));
-                      SnackBarInfo.show(
-                          context: context,
-                          message: 'Запчасти ${autopart.name} удалены!',
-                          isSuccess: true);
-                      Navigator.of(context).pop();
-                    },
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text('Удалить'),
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
-      );
 
   Widget _itemInRow({required String value, Color? color}) {
     return Expanded(
@@ -263,99 +220,6 @@ class AutopartsCards extends StatelessWidget {
       ),
     );
   }
-
-  Future openDialog(BuildContext context, AutopartDto autopart) => showDialog(
-        context: context,
-        builder: (context) => MultiBlocProvider(
-          providers: [
-            BlocProvider<AutopartBloc>(
-              create: (context) =>
-                  AutopartBloc(autopartService: AutopartService()),
-            ),
-            BlocProvider<PurchasingNavBloc>(
-              create: (context) => PurchasingNavBloc(),
-            ),
-          ],
-          child: BlocListener<AutopartBloc, AutopartState>(
-            listener: (context, state) {
-              final formStatus = state.formStatus;
-              if (formStatus is FormSubmissionFailed) {
-                SnackBarInfo.show(
-                    context: context,
-                    message: formStatus.exception.toString(),
-                    isSuccess: false);
-              } else if (formStatus is FormSubmissionSuccess<AutopartDto>) {
-                SnackBarInfo.show(
-                    context: context,
-                    message: 'Запчасти успешно заказаны',
-                    isSuccess: true);
-                print('грузится?');
-                context.read<AutopartBloc>().add(GetListAutopartsEvent());
-              }
-            },
-            child: AlertDialog(
-              title: const Text('Дозаказ запчасти'),
-              content: BlocBuilder<AutopartBloc, AutopartState>(
-                builder: (context, state) {
-                  return Form(
-                    key: editCountKey,
-                    child: TextFormField(
-                      validator: (value) {
-                        if (int.tryParse(value!) == null) {
-                          return 'Поле должно состоять из цифр';
-                        } else if (int.parse(value) <= 0) {
-                          return "Число должно быть больше нуля";
-                        }
-                        return value.isNotEmpty
-                            ? null
-                            : "Это обязательное поле";
-                      },
-                      onChanged: (value) {
-                        context.read<AutopartBloc>().add(CountChanged(value));
-                      },
-                      maxLines: 1,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.onetwothree),
-                        border: OutlineInputBorder(),
-                        labelText: "Количество",
-                      ),
-                    ),
-                  );
-                },
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Отмена'),
-                ),
-                BlocBuilder<AutopartBloc, AutopartState>(
-                  builder: (context, state) {
-                    return TextButton(
-                        onPressed: () {
-                          if (editCountKey.currentState!.validate()) {
-                            context.read<AutopartBloc>().add(
-                                  FormSubmittedUpdate(
-                                      id: autopart.id!,
-                                      count: int.parse(state.count),
-                                      autopart: autopart),
-                                );
-                            editCountKey.currentState!.reset();
-                            context
-                                .read<AutopartBloc>()
-                                .add(GetListAutopartsEvent());
-                            Navigator.of(context).pop();
-                          }
-                        },
-                        child: const Text('Заказать'));
-                  },
-                )
-              ],
-            ),
-          ),
-        ),
-      );
 
   Widget _tableHeaderElement(String value) {
     return Expanded(

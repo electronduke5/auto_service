@@ -143,6 +143,5 @@ class AutopartBloc extends Bloc<AutopartEvent, AutopartState> {
     } catch (error) {
       emit(state.copyWith(formStatus: FormSubmissionFailed(error.toString())));
     }
-    emit(AutopartState());
   }
 }
