@@ -5,7 +5,7 @@ class AutopartState {
   final String purchasePrice;
   final String salePrice;
   final String count;
-  final CategoryDto? categoryId;
+  final CategoryDto? category;
   final FormSubmissionStatus formStatus;
   final GetModelsStatus modelsStatus;
   final String searchQuery;
@@ -20,14 +20,14 @@ class AutopartState {
 
   bool get isValidSale => salePrice.isNotEmpty;
 
-  bool get isNotEmptyCategory => categoryId != null;
+  bool get isNotEmptyCategory => category != null;
 
   AutopartState({
     this.name = '',
     this.purchasePrice = '',
     this.salePrice = '',
     this.count = '',
-    this.categoryId,
+    this.category,
     this.searchQuery = '',
     this.formStatus = const InitialFormStatus(),
     this.modelsStatus = const InitialModelsStatus(),
@@ -51,7 +51,7 @@ class AutopartState {
         name: name ?? this.name,
         purchasePrice: purchasePrice ?? this.purchasePrice,
         salePrice: salePrice ?? this.salePrice,
-        categoryId: categoryId ?? this.categoryId,
+        category: categoryId ?? this.category,
         count: count ?? this.count,
         formStatus: formStatus ?? this.formStatus,
         modelsStatus: modelsStatus ?? this.modelsStatus,

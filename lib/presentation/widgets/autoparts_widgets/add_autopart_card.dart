@@ -1,9 +1,11 @@
 import 'package:auto_service/blocs/autoparts/add_edit_autopart_bloc/autopart_bloc.dart';
 import 'package:auto_service/blocs/form_submission_status.dart';
+import 'package:auto_service/blocs/navigations_bloc/storekeeper_nav_bloc/storekeeper_nav_bloc.dart';
 import 'package:auto_service/data/dto/autoparts_dto.dart';
 import 'package:auto_service/data/dto/category_dto.dart';
 import 'package:auto_service/validation/autopart_validation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddAutopartCard extends StatelessWidget {
@@ -11,10 +13,12 @@ class AddAutopartCard extends StatelessWidget {
     Key? key,
     required this.width,
     required this.menuItems,
+    this.autopart,
   }) : super(key: key);
 
   final double width;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final AutopartDto? autopart;
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +29,13 @@ class AddAutopartCard extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              const Padding(
-                padding: EdgeInsets.only(top: 20.0),
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0),
                 child: Text(
-                  'Заказ запчасти',
+                  autopart == null ? 'Заказ запчасти' : 'Изменение',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 22, fontWeight: FontWeight.bold),
                 ),
               ),
               Row(
@@ -38,7 +43,10 @@ class AddAutopartCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: TextFormField(
-                      validator: (value) => AutopartValidation.validated(state: state).nameMessage,
+                      initialValue: autopart?.name,
+                      validator: (value) =>
+                          AutopartValidation.validated(state: state)
+                              .nameMessage,
                       onChanged: (value) =>
                           context.read<AutopartBloc>().add(NameChanged(value)),
                       maxLines: 1,
@@ -52,14 +60,25 @@ class AddAutopartCard extends StatelessWidget {
                   SizedBox(width: width / 20),
                   Expanded(
                     child: TextFormField(
-                      validator:(value) => AutopartValidation.validated(state: state).purchaseMessage,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      enabled: autopart == null,
+                      initialValue: autopart?.purchasePrice.toString(),
+                      validator: (value) =>
+                          AutopartValidation.validated(state: state)
+                              .purchaseMessage,
                       onChanged: (value) => context
                           .read<AutopartBloc>()
                           .add(PurchasePriceChanged(value)),
                       maxLines: 1,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.money),
-                        border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                        suffixIcon: autopart != null
+                            ? Icon(
+                                Icons.edit_off_outlined,
+                                color: Theme.of(context).errorColor,
+                              )
+                            : null,
+                        prefixIcon: const Icon(Icons.money),
+                        border: const OutlineInputBorder(),
                         labelText: "Закупочная цена",
                       ),
                     ),
@@ -67,14 +86,25 @@ class AddAutopartCard extends StatelessWidget {
                   SizedBox(width: width / 20),
                   Expanded(
                     child: TextFormField(
-                      validator: (value) => AutopartValidation.validated(state: state).saleMessage,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      enabled: autopart == null,
+                      initialValue: autopart?.salePrice.toString(),
+                      validator: (value) =>
+                          AutopartValidation.validated(state: state)
+                              .saleMessage,
                       onChanged: (value) => context
                           .read<AutopartBloc>()
                           .add(SalePriceChanged(value)),
                       maxLines: 1,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.money),
+                      decoration: InputDecoration(
+                        suffixIcon: autopart != null
+                            ? Icon(
+                                Icons.edit_off_outlined,
+                                color: Theme.of(context).errorColor,
+                              )
+                            : null,
+                        border: const OutlineInputBorder(),
+                        prefixIcon: const Icon(Icons.money),
                         labelText: "Продажная цена",
                       ),
                     ),
@@ -90,10 +120,13 @@ class AddAutopartCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: TextFormField(
-                      validator: (value) => AutopartValidation.validated(state: state).countMessage,
-                      onChanged: (value) => context
-                          .read<AutopartBloc>()
-                          .add(CountChanged(value)),
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      initialValue: autopart?.count.toString(),
+                      validator: (value) =>
+                          AutopartValidation.validated(state: state)
+                              .countMessage,
+                      onChanged: (value) =>
+                          context.read<AutopartBloc>().add(CountChanged(value)),
                       maxLines: 1,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.onetwothree),
@@ -128,21 +161,32 @@ class AddAutopartCard extends StatelessWidget {
                                         vertical: 20)),
                                 onPressed: () {
                                   if (formKey.currentState!.validate()) {
-                                    context
-                                        .read<AutopartBloc>()
-                                        .add(FormSubmitted(
-                                          name: state.name,
-                                          purchasePrice: double.parse(state.purchasePrice),
-                                          salePrice: double.parse(state.salePrice),
-                                          count: int.parse(state.count)  ,
-                                          category: state.categoryId!,
-                                        ));
-
+                                    autopart == null
+                                        ? context
+                                            .read<AutopartBloc>()
+                                            .add(FormSubmitted(
+                                              name: state.name,
+                                              purchasePrice: double.parse(
+                                                  state.purchasePrice),
+                                              salePrice:
+                                                  double.parse(state.salePrice),
+                                              count: int.parse(state.count),
+                                              category: state.category!,
+                                            ))
+                                        : context
+                                            .read<AutopartBloc>()
+                                            .add(FormSubmittedUpdate(
+                                              name: state.name,
+                                              category: state.category!,
+                                              count: int.parse(state.count),
+                                              autopart: autopart!,
+                                              id: autopart!.id!,
+                                            ));
                                     formKey.currentState!.reset();
                                   }
                                 },
-                                child: const Text(
-                                  "Заказать",
+                                child: Text(
+                                  autopart == null ? "Заказать" : "Сохранить",
                                 ),
                               );
                       },
@@ -179,10 +223,18 @@ class AddAutopartCard extends StatelessWidget {
       child: BlocBuilder<AutopartBloc, AutopartState>(
         builder: (context, state) {
           return DropdownButtonFormField(
-            validator: (value) => AutopartValidation.validated(state: state).categoryMessage,
+            validator: (value) =>
+                AutopartValidation.validated(state: state).categoryMessage,
             icon: const Icon(Icons.category_outlined),
             dropdownColor: Theme.of(context).colorScheme.background,
-            value: _selectedItem,
+            value: autopart != null
+                ? menuItemsDropDown
+                        .where((category) =>
+                            category.value!.id == autopart!.category!.id)
+                        .first
+                        .value ??
+                    _selectedItem
+                : _selectedItem,
             elevation: 4,
             hint: const Text('Категория'),
             items: menuItemsDropDown,

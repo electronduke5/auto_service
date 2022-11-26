@@ -20,7 +20,7 @@ class AutopartService extends ApiService<AutopartDto> {
         dataJson: autopart.toJson(),
       );
 
-  Future<AutopartDto> editCount({required AutopartDto autopart}) {
+  Future<AutopartDto> editAutopart({required AutopartDto autopart}) {
     Map<String, dynamic> autopartJson = autopart.toJson();
     autopartJson.addAll({'_method': 'PUT'});
 

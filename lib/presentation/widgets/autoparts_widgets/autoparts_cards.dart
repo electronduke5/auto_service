@@ -1,4 +1,5 @@
 import 'package:auto_service/blocs/autoparts/add_edit_autopart_bloc/autopart_bloc.dart';
+import 'package:auto_service/blocs/categories/categories_bloc.dart';
 import 'package:auto_service/blocs/get_models_status.dart';
 import 'package:auto_service/blocs/navigations_bloc/storekeeper_nav_bloc/storekeeper_nav_bloc.dart';
 import 'package:auto_service/data/dto/autoparts_dto.dart';
@@ -80,7 +81,7 @@ class AutopartsCards extends StatelessWidget {
                       );
                     default:
                       return const Center(
-                        child: Text("Непредвиденная ошибка"),
+                        child: CircularProgressIndicator(),
                       );
                   }
                 }),
@@ -164,6 +165,11 @@ class AutopartsCards extends StatelessWidget {
                                           .withOpacity(0.8),
                                     ),
                                     onPressed: () {
+                                      context.read<AutopartBloc>().add(
+                                          EditFormInitial(autopart: autopart));
+                                      context
+                                          .read<CategoryBloc>()
+                                          .add(GetListCategoriesEvent());
                                       context
                                           .read<StorekeeperNavBloc>()
                                           .add(ToEditAutopartEvent(autopart));

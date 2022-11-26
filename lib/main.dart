@@ -62,6 +62,10 @@ class MyApp extends StatelessWidget {
               BlocProvider<StorekeeperNavBloc>(
                 create: (context) => StorekeeperNavBloc(),
               ),
+              BlocProvider<CategoryBloc>(
+                create: (context) =>
+                    CategoryBloc(categoryService: CategoryService()),
+              ),
             ],
             child: const StorekeeperPage()),
         '/PurchasingPage': (context) => MultiBlocProvider(

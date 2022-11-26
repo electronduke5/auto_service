@@ -82,12 +82,20 @@ class EditFormInitial extends AutopartEvent {
   EditFormInitial({required this.autopart});
 }
 
-class FormSubmittedUpdate extends AutopartEvent{
+class FormSubmittedUpdateCount extends AutopartEvent{
   final int id;
   final int count;
   final AutopartDto autopart;
+  FormSubmittedUpdateCount({required this.id, required this.count, required this.autopart});
+}
 
-  FormSubmittedUpdate({required this.id, required this.count, required this.autopart});
+class FormSubmittedUpdate extends AutopartEvent{
+  final int id;
+  final int count;
+  final String name;
+  final CategoryDto category;
+  final AutopartDto autopart;
+  FormSubmittedUpdate({required this.id, required this.count, required this.autopart, required this.category, required this.name});
 }
 
 class FormSubmitted extends AutopartEvent {

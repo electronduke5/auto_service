@@ -4,8 +4,8 @@ import 'package:auto_service/blocs/navigations_bloc/storekeeper_nav_bloc/storeke
 import 'package:auto_service/data/dto/employee_dto.dart';
 import 'package:auto_service/presentation/widgets/actions_card.dart';
 import 'package:auto_service/presentation/widgets/app_bar.dart';
+import 'package:auto_service/presentation/widgets/autoparts_widgets/add_autopart_page.dart';
 import 'package:auto_service/presentation/widgets/autoparts_widgets/autoparts_cards.dart';
-import 'package:auto_service/presentation/widgets/autoparts_widgets/edit_autopart_page.dart';
 import 'package:auto_service/presentation/widgets/snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -80,7 +80,7 @@ class StorekeeperPage extends StatelessWidget {
                     return AutopartsCards(
                         context: context, loggedEmployee: loggedEmployee);
                   case StorekeeperInEditState:
-                    return const EditAutopartPage();
+                    return AddAutopartPage(width: cardWidth, autopart: state.autopartEdit!);
                   default:
                     return const Center(
                       child: Text('Что-то не работает'),

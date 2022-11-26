@@ -121,7 +121,7 @@ class AutopartsDialog {
                         onPressed: () {
                           if (editCountKey.currentState!.validate()) {
                             bloc.add(
-                              FormSubmittedUpdate(
+                              FormSubmittedUpdateCount(
                                   id: autopart.id!,
                                   count: int.parse(state.count),
                                   autopart: autopart),

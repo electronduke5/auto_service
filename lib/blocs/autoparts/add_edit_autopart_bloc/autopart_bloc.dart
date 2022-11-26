@@ -8,7 +8,6 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 part 'autopart_event.dart';
-
 part 'autopart_state.dart';
 
 class AutopartBloc extends Bloc<AutopartEvent, AutopartState> {
@@ -41,6 +40,9 @@ class AutopartBloc extends Bloc<AutopartEvent, AutopartState> {
           formStatus: const InitialFormStatus(),
         )));
 
+    on<FormSubmittedUpdateCount>(
+        (event, emit) => _onFormSubmittedUpdateCount(event, emit));
+
     on<FormSubmittedUpdate>(
         (event, emit) => _onFormSubmittedUpdate(event, emit));
 
@@ -56,22 +58,25 @@ class AutopartBloc extends Bloc<AutopartEvent, AutopartState> {
     on<SearchAutopartEvent>((event, emit) =>
         _functions(event, emit, event.functions, event.searchQuery));
 
-    on<SearchChangedEvent>((event, emit) => emit(state.copyWith(searchQuery: event.searchQuery)));
-    
+    on<SearchChangedEvent>(
+        (event, emit) => emit(state.copyWith(searchQuery: event.searchQuery)));
+
     on<DeleteAutopartEvent>((event, emit) => _onDeleteAutopart(event, emit));
   }
 
-  void _onDeleteAutopart(DeleteAutopartEvent event, Emitter<AutopartState> emit) async {
+  void _onDeleteAutopart(
+      DeleteAutopartEvent event, Emitter<AutopartState> emit) async {
     emit(state.copyWith(deleteStatus: SubmittingDelete()));
     try {
       String message = await autopartService.deleteAutopart(id: event.id);
       print('error in autopart_bloc 68: $message}');
-      emit(state.copyWith(deleteStatus: SubmissionDeleteSuccess(successMessage: message)));
+      emit(state.copyWith(
+          deleteStatus: SubmissionDeleteSuccess(successMessage: message)));
     } catch (error) {
       print('error in autopart_bloc 70: $error}');
       emit(state.copyWith(
           deleteStatus:
-          SubmissionDeleteFailed(errorMessage: error.toString())));
+              SubmissionDeleteFailed(errorMessage: error.toString())));
       emit(state.copyWith(deleteStatus: const InitialDeleteStatus()));
     }
   }
@@ -125,12 +130,12 @@ class AutopartBloc extends Bloc<AutopartEvent, AutopartState> {
     emit(AutopartState());
   }
 
-  void _onFormSubmittedUpdate(
-      FormSubmittedUpdate event, Emitter<AutopartState> emit) async {
+  void _onFormSubmittedUpdateCount(
+      FormSubmittedUpdateCount event, Emitter<AutopartState> emit) async {
     emit(state.copyWith(formStatus: FormSubmitting()));
 
     try {
-      AutopartDto autopart = await autopartService.editCount(
+      AutopartDto autopart = await autopartService.editAutopart(
           autopart: AutopartDto(
         id: event.id,
         name: event.autopart.name,
@@ -143,5 +148,27 @@ class AutopartBloc extends Bloc<AutopartEvent, AutopartState> {
     } catch (error) {
       emit(state.copyWith(formStatus: FormSubmissionFailed(error.toString())));
     }
+    emit(AutopartState());
+  }
+
+  void _onFormSubmittedUpdate(
+      FormSubmittedUpdate event, Emitter<AutopartState> emit) async {
+    emit(state.copyWith(formStatus: FormSubmitting()));
+
+    try {
+      AutopartDto autopart = await autopartService.editAutopart(
+          autopart: AutopartDto(
+        id: event.id,
+        name: event.name,
+        purchasePrice: event.autopart.purchasePrice,
+        salePrice: event.autopart.salePrice,
+        count: event.count,
+        category: event.category,
+      ));
+      emit(state.copyWith(formStatus: FormSubmissionSuccess(autopart)));
+    } catch (error) {
+      emit(state.copyWith(formStatus: FormSubmissionFailed(error.toString())));
+    }
+    emit(AutopartState());
   }
 }
