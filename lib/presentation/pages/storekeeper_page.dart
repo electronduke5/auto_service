@@ -58,17 +58,6 @@ class StorekeeperPage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                ElevatedButton.icon(
-                  icon: const Icon(Icons.question_mark),
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(elevation: 7),
-                  label: const Text(
-                    "хз что тут",
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
               ],
             ),
           ),

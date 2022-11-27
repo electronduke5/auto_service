@@ -1,18 +1,18 @@
 import 'package:auto_service/blocs/get_models_status.dart';
+import 'package:auto_service/services/employee_service.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 import '../../data/dto/employee_dto.dart';
-import '../../services/get_employees.dart';
 
 part 'get_employees_event.dart';
 
 part 'get_employees_state.dart';
 
 class GetEmployeesBloc extends Bloc<GetEmployeesEvent, GetEmployeesState> {
-  final GetEmployeesService getEmployeesService;
+  final EmployeeService employeesService;
 
-  GetEmployeesBloc({required this.getEmployeesService})
+  GetEmployeesBloc({required this.employeesService})
       : super(GetEmployeesState()) {
     on<GetListEmployeesEvent>(
         (event, emit) async => _onGetListEmployeesEvent(event, emit));
@@ -43,7 +43,7 @@ class GetEmployeesBloc extends Bloc<GetEmployeesEvent, GetEmployeesState> {
     emit(state.copyWith(modelsStatus: Submitting()));
     try {
       List<EmployeeDto> employees =
-          await getEmployeesService.getEmployees(function: func, query: query);
+          await employeesService.getEmployees(function: func, query: query);
       emit(state.copyWith(
           modelsStatus:
               SubmissionSuccess<EmployeeDto>(listEntities: employees)));
@@ -56,7 +56,7 @@ class GetEmployeesBloc extends Bloc<GetEmployeesEvent, GetEmployeesState> {
       GetEmployeesEvent event, Emitter<GetEmployeesState> emit) async {
     emit(state.copyWith(modelsStatus: Submitting()));
     try {
-      List<EmployeeDto> employees = await getEmployeesService.getEmployees();
+      List<EmployeeDto> employees = await employeesService.getEmployees();
       emit(state.copyWith(
           modelsStatus:
               SubmissionSuccess<EmployeeDto>(listEntities: employees)));

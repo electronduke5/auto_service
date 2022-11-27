@@ -11,7 +11,6 @@ import 'package:auto_service/presentation/pages/storekeeper_page.dart';
 import 'package:auto_service/services/autoparts_service.dart';
 import 'package:auto_service/services/category_service.dart';
 import 'package:auto_service/services/employee_service.dart';
-import 'package:auto_service/services/get_employees.dart';
 import 'package:auto_service/services/login.dart';
 import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
@@ -90,7 +89,7 @@ class MyApp extends StatelessWidget {
               ),
               BlocProvider<GetEmployeesBloc>(
                 create: (context) =>
-                    GetEmployeesBloc(getEmployeesService: GetEmployeesService())
+                    GetEmployeesBloc(employeesService: EmployeeService())
                       ..add(GetListEmployeesEvent()),
               ),
               BlocProvider<EmployeeBloc>(

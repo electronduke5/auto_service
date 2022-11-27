@@ -33,7 +33,7 @@ class AddAutopartPage extends StatelessWidget {
           } else if (formStatus is FormSubmissionSuccess<AutopartDto>) {
             SnackBarInfo.show(
               context: context,
-              message: 'Запчасть успешно заказана2!',
+              message: 'Выполнено!',
               isSuccess: true,
             );
             switch(autopart){
