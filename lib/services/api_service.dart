@@ -16,7 +16,8 @@ class ApiService<T> {
     } else {
       response = await dio.get(apiRoute);
     }
-
+    //print("StatusCode: ${response.statusCode}");
+    //print("data: ${response.data}");
     if (response.statusCode == 200) {
       final data = response.data['data'] as List;
       return data.map((json) => entityProducer(json)).toList();

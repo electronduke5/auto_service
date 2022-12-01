@@ -1,15 +1,19 @@
 import 'package:auto_service/blocs/autoparts/add_edit_autopart_bloc/autopart_bloc.dart';
 import 'package:auto_service/blocs/categories/categories_bloc.dart';
+import 'package:auto_service/blocs/clients/client_bloc.dart';
 import 'package:auto_service/blocs/delete_employee_bloc/delete_employee_bloc.dart';
 import 'package:auto_service/blocs/employee_bloc/employee_bloc.dart';
 import 'package:auto_service/blocs/navigations_bloc/hr_navigation_bloc/hr_navigation_bloc.dart';
 import 'package:auto_service/blocs/navigations_bloc/purchasing_nav_bloc/purchasing_nav_bloc.dart';
+import 'package:auto_service/blocs/navigations_bloc/receiver_nav_bloc/receiver_nav_bloc.dart';
 import 'package:auto_service/blocs/navigations_bloc/storekeeper_nav_bloc/storekeeper_nav_bloc.dart';
 import 'package:auto_service/presentation/pages/hr_page.dart';
 import 'package:auto_service/presentation/pages/login_page.dart';
+import 'package:auto_service/presentation/pages/receiver_page.dart';
 import 'package:auto_service/presentation/pages/storekeeper_page.dart';
 import 'package:auto_service/services/autoparts_service.dart';
 import 'package:auto_service/services/category_service.dart';
+import 'package:auto_service/services/client_service.dart';
 import 'package:auto_service/services/employee_service.dart';
 import 'package:auto_service/services/login.dart';
 import 'package:desktop_window/desktop_window.dart';
@@ -52,11 +56,20 @@ class MyApp extends StatelessWidget {
         child: LoginPage(),
       ),
       routes: <String, WidgetBuilder>{
-        '/StorekeeperPage' : (context) =>MultiBlocProvider(
-            providers: [
+        '/ReceiverPage': (context) => MultiBlocProvider(providers: [
+              BlocProvider<ClientBloc>(
+                create: (context) => ClientBloc(clientService: ClientService())
+                  ..add(GetListClientEvent()),
+              ),
+              BlocProvider<ReceiverNavBloc>(
+                create: (context) => ReceiverNavBloc(),
+              ),
+            ], child: const ReceiverPage()),
+        '/StorekeeperPage': (context) => MultiBlocProvider(providers: [
               BlocProvider<AutopartBloc>(
                 create: (context) =>
-                AutopartBloc(autopartService: AutopartService())..add(GetListAutopartsEvent()),
+                    AutopartBloc(autopartService: AutopartService())
+                      ..add(GetListAutopartsEvent()),
               ),
               BlocProvider<StorekeeperNavBloc>(
                 create: (context) => StorekeeperNavBloc(),
@@ -65,8 +78,7 @@ class MyApp extends StatelessWidget {
                 create: (context) =>
                     CategoryBloc(categoryService: CategoryService()),
               ),
-            ],
-            child: const StorekeeperPage()),
+            ], child: const StorekeeperPage()),
         '/PurchasingPage': (context) => MultiBlocProvider(
               providers: [
                 BlocProvider<CategoryBloc>(
@@ -75,7 +87,8 @@ class MyApp extends StatelessWidget {
                 ),
                 BlocProvider<AutopartBloc>(
                   create: (context) =>
-                      AutopartBloc(autopartService: AutopartService())..add(GetListAutopartsEvent()),
+                      AutopartBloc(autopartService: AutopartService())
+                        ..add(GetListAutopartsEvent()),
                 ),
                 BlocProvider<PurchasingNavBloc>(
                   create: (context) => PurchasingNavBloc(),

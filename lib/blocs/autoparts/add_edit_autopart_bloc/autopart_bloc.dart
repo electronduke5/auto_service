@@ -19,7 +19,7 @@ class AutopartBloc extends Bloc<AutopartEvent, AutopartState> {
     on<NameChanged>((event, emit) => emit(state.copyWith(name: event.name)));
 
     on<CategoryChanged>(
-        (event, emit) => emit(state.copyWith(categoryId: event.category)));
+        (event, emit) => emit(state.copyWith(category: event.category)));
 
     on<PurchasePriceChanged>((event, emit) =>
         emit(state.copyWith(purchasePrice: event.purchasePrice)));
@@ -36,7 +36,7 @@ class AutopartBloc extends Bloc<AutopartEvent, AutopartState> {
           purchasePrice: event.autopart.purchasePrice.toString(),
           salePrice: event.autopart.salePrice.toString(),
           count: event.autopart.count.toString(),
-          categoryId: event.autopart.category,
+          category: event.autopart.category,
           formStatus: const InitialFormStatus(),
         )));
 
