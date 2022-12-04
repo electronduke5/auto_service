@@ -51,7 +51,7 @@ class ClientInfoCard extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     child: Builder(
                       builder: (context) {
-                        return client.cars!.isEmpty
+                        return client.cars == null
                             ? Center(
                                 child: Column(
                                   children: [

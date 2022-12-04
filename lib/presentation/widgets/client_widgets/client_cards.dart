@@ -66,7 +66,7 @@ class ClientCards extends StatelessWidget {
           physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.vertical,
           itemBuilder: (BuildContext context, int index) {
-            return _employeeViewCard(
+            return _clientViewCard(
                 context: context,
                 client:
                 (state.modelsStatus.entities as List<ClientDto>)[index]);
@@ -82,7 +82,7 @@ class ClientCards extends StatelessWidget {
     );
   }
 
-  Padding _employeeViewCard(
+  Widget _clientViewCard(
       {required BuildContext context, required ClientDto client}) {
     return Padding(
       padding: const EdgeInsets.all(10.0),

@@ -1,9 +1,11 @@
+import 'package:auto_service/blocs/cars/car_bloc.dart';
 import 'package:auto_service/blocs/clients/client_bloc.dart';
 import 'package:auto_service/blocs/get_models_status.dart';
 import 'package:auto_service/blocs/navigations_bloc/receiver_nav_bloc/receiver_nav_bloc.dart';
 import 'package:auto_service/data/dto/employee_dto.dart';
 import 'package:auto_service/presentation/widgets/actions_card.dart';
 import 'package:auto_service/presentation/widgets/app_bar.dart';
+import 'package:auto_service/presentation/widgets/car_widgets/car_cards.dart';
 import 'package:auto_service/presentation/widgets/client_widgets/client_cards.dart';
 import 'package:auto_service/presentation/widgets/client_widgets/client_info_card.dart';
 import 'package:auto_service/presentation/widgets/snack_bar.dart';
@@ -61,7 +63,10 @@ class ReceiverPage extends StatelessWidget {
                 ),
                 ElevatedButton.icon(
                   icon: const Icon(Icons.group_outlined),
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<ReceiverNavBloc>().add(ToViewCarsEvent());
+                    context.read<CarBloc>().add(GetListCarEvent());
+                  },
                   style: ElevatedButton.styleFrom(elevation: 7),
                   label: const Text(
                     "Автомобили",
@@ -80,7 +85,7 @@ class ReceiverPage extends StatelessWidget {
                   case ReceiverInViewClientsState:
                     return ClientCards(width:cardWidth, height: cardHeight);
                   case ReceiverInViewCarsState:
-                    //return AddAutopartPage(width: cardWidth, autopart: state.autopartEdit!);
+                    return CarCards(width: cardWidth, height: cardHeight);
                   case ReceiverInViewClientInfoState:
                     return ClientInfoCard(client: state.client!, width: cardWidth, height: cardHeight,);
                   default:

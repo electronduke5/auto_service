@@ -1,4 +1,5 @@
 import 'package:auto_service/blocs/autoparts/add_edit_autopart_bloc/autopart_bloc.dart';
+import 'package:auto_service/blocs/cars/car_bloc.dart';
 import 'package:auto_service/blocs/categories/categories_bloc.dart';
 import 'package:auto_service/blocs/clients/client_bloc.dart';
 import 'package:auto_service/blocs/delete_employee_bloc/delete_employee_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:auto_service/presentation/pages/login_page.dart';
 import 'package:auto_service/presentation/pages/receiver_page.dart';
 import 'package:auto_service/presentation/pages/storekeeper_page.dart';
 import 'package:auto_service/services/autoparts_service.dart';
+import 'package:auto_service/services/car_service.dart';
 import 'package:auto_service/services/category_service.dart';
 import 'package:auto_service/services/client_service.dart';
 import 'package:auto_service/services/employee_service.dart';
@@ -63,6 +65,9 @@ class MyApp extends StatelessWidget {
               ),
               BlocProvider<ReceiverNavBloc>(
                 create: (context) => ReceiverNavBloc(),
+              ),
+              BlocProvider<CarBloc>(
+                create: (context) => CarBloc(carService: CarService()),
               ),
             ], child: const ReceiverPage()),
         '/StorekeeperPage': (context) => MultiBlocProvider(providers: [

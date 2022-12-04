@@ -18,9 +18,15 @@ class CarDto {
         model = json['model'],
         mileage = json['mileage'],
         clientId = json['client_id'];
-/*TODO: При получении машин из клиента, то там есть значение orders,
-  А если получать из запроса чисто машины, то там нет
-   */
 
-//client = ClientDto.fromJson(json['client']);
+  CarDto.fromJsonCar(Map<String, dynamic> json)
+      : id = json['id'],
+        vinNumber = json['VIN_number'],
+        carNumber = json['car_number'],
+        model = json['model'],
+        mileage = json['mileage'],
+        clientId = json['client_id'],
+        client = (json['client'] as List)
+            .map((jsonClient) => ClientDto.fromJsonCar(jsonClient))
+            .first;
 }
