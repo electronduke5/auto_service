@@ -38,6 +38,15 @@ class EmployeeDto {
         //TODO: Сделать преобразование в лсит fromJson
         orders = json['orders'] as List<dynamic>;
 
+  EmployeeDto.fromOrder(Map<String, dynamic> json)
+      : id = json['id'],
+        surname = json['surname'],
+        name = json['name'],
+        patronymic = json['patronymic'],
+        salary = json['salary'],
+        login = json['login'],
+        role = json['role'];
+
   Map<String, dynamic> toJson() {
     return password != null
         ? {
@@ -61,11 +70,11 @@ class EmployeeDto {
 }
 
 enum RoleEnum {
-  hr(name:'HR менеджер'),
-  purchasing(name:'Менеджер по закупкам'),
-  clientManager(name:'Менеджер по работе с клиентами'),
-  accountant(name:'Бухгалтер'),
-  storekeeper(name:'Грузчик');
+  hr(name: 'HR менеджер'),
+  purchasing(name: 'Менеджер по закупкам'),
+  clientManager(name: 'Менеджер по работе с клиентами'),
+  accountant(name: 'Бухгалтер'),
+  storekeeper(name: 'Грузчик');
 
   const RoleEnum({required this.name});
 

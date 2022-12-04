@@ -74,11 +74,6 @@ class ClientInfoCard extends StatelessWidget {
                                 ),
                                 itemCount: client.cars!.length,
                                 itemBuilder: (context, index) {
-                                  //TODO: Проверять на наличие машин
-                                  if (client.cars!.length == 0) {
-                                    return const Text(
-                                        'У клиента еще не добавлено ни одной машины');
-                                  }
                                   return Padding(
                                     padding: const EdgeInsets.all(10.0),
                                     child: Card(

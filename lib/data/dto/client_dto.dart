@@ -23,6 +23,13 @@ class ClientDto {
             .map((jsonCar) => CarDto.fromJson(jsonCar))
             .toList();
 
+  ClientDto.fromOrder(Map<String, dynamic> json)
+      : id = json['id'],
+        surname = json['surname'],
+        name = json['name'],
+        patronymic = json['patronymic'],
+        phoneNumber = json['phone_number'];
+
   ClientDto.fromJsonCar(Map<String, dynamic> json)
       : id = json['id'],
         surname = json['surname'],

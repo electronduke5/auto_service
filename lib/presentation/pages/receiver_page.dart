@@ -2,12 +2,14 @@ import 'package:auto_service/blocs/cars/car_bloc.dart';
 import 'package:auto_service/blocs/clients/client_bloc.dart';
 import 'package:auto_service/blocs/get_models_status.dart';
 import 'package:auto_service/blocs/navigations_bloc/receiver_nav_bloc/receiver_nav_bloc.dart';
+import 'package:auto_service/blocs/orders_bloc/order_bloc.dart';
 import 'package:auto_service/data/dto/employee_dto.dart';
 import 'package:auto_service/presentation/widgets/actions_card.dart';
 import 'package:auto_service/presentation/widgets/app_bar.dart';
 import 'package:auto_service/presentation/widgets/car_widgets/car_cards.dart';
 import 'package:auto_service/presentation/widgets/client_widgets/client_cards.dart';
 import 'package:auto_service/presentation/widgets/client_widgets/client_info_card.dart';
+import 'package:auto_service/presentation/widgets/order_cards.dart';
 import 'package:auto_service/presentation/widgets/snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +22,7 @@ class ReceiverPage extends StatelessWidget {
     double cardWidth = MediaQuery.of(context).size.width / 3.3;
     double cardHeight = MediaQuery.of(context).size.height / 2.5;
     final loggedEmployee =
-    ModalRoute.of(context)!.settings.arguments as EmployeeDto;
+        ModalRoute.of(context)!.settings.arguments as EmployeeDto;
 
     return Scaffold(
       appBar: AppBarWidget(context: context, loggedEmployee: loggedEmployee),
@@ -28,8 +30,8 @@ class ReceiverPage extends StatelessWidget {
     );
   }
 
-  Widget _buildReceiverBody(
-      BuildContext context, double cardWidth, double cardHeight, EmployeeDto loggedEmployee) {
+  Widget _buildReceiverBody(BuildContext context, double cardWidth,
+      double cardHeight, EmployeeDto loggedEmployee) {
     return BlocListener<ClientBloc, ClientState>(
       listener: (context, state) {
         if (state.modelsStatus is SubmissionFailed) {
@@ -48,9 +50,7 @@ class ReceiverPage extends StatelessWidget {
                 ElevatedButton.icon(
                   icon: const Icon(Icons.group_outlined),
                   onPressed: () {
-                    context
-                        .read<ReceiverNavBloc>()
-                        .add(ToViewClientsEvent());
+                    context.read<ReceiverNavBloc>().add(ToViewClientsEvent());
                     context.read<ClientBloc>().add(GetListClientEvent());
                   },
                   style: ElevatedButton.styleFrom(elevation: 7),
@@ -75,6 +75,20 @@ class ReceiverPage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.library_books_outlined),
+                  onPressed: () {
+                    context.read<ReceiverNavBloc>().add(ToViewOrdersEvent());
+                    context.read<OrderBloc>().add(GetListOrdersEvent());
+                  },
+                  style: ElevatedButton.styleFrom(elevation: 7),
+                  label: const Text(
+                    "Orders",
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
               ],
             ),
           ),
@@ -83,11 +97,17 @@ class ReceiverPage extends StatelessWidget {
               builder: (context, state) {
                 switch (state.runtimeType) {
                   case ReceiverInViewClientsState:
-                    return ClientCards(width:cardWidth, height: cardHeight);
+                    return ClientCards(width: cardWidth, height: cardHeight);
                   case ReceiverInViewCarsState:
                     return CarCards(width: cardWidth, height: cardHeight);
                   case ReceiverInViewClientInfoState:
-                    return ClientInfoCard(client: state.client!, width: cardWidth, height: cardHeight,);
+                    return ClientInfoCard(
+                      client: state.client!,
+                      width: cardWidth,
+                      height: cardHeight,
+                    );
+                  case ReceiverInViewOrdersState:
+                    return OrderCards(width: cardWidth, height: cardHeight);
                   default:
                     return const Center(
                       child: Text('Что-то не работает'),

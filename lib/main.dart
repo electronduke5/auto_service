@@ -8,6 +8,7 @@ import 'package:auto_service/blocs/navigations_bloc/hr_navigation_bloc/hr_naviga
 import 'package:auto_service/blocs/navigations_bloc/purchasing_nav_bloc/purchasing_nav_bloc.dart';
 import 'package:auto_service/blocs/navigations_bloc/receiver_nav_bloc/receiver_nav_bloc.dart';
 import 'package:auto_service/blocs/navigations_bloc/storekeeper_nav_bloc/storekeeper_nav_bloc.dart';
+import 'package:auto_service/blocs/orders_bloc/order_bloc.dart';
 import 'package:auto_service/presentation/pages/hr_page.dart';
 import 'package:auto_service/presentation/pages/login_page.dart';
 import 'package:auto_service/presentation/pages/receiver_page.dart';
@@ -18,6 +19,7 @@ import 'package:auto_service/services/category_service.dart';
 import 'package:auto_service/services/client_service.dart';
 import 'package:auto_service/services/employee_service.dart';
 import 'package:auto_service/services/login.dart';
+import 'package:auto_service/services/order_service.dart';
 import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -68,6 +70,9 @@ class MyApp extends StatelessWidget {
               ),
               BlocProvider<CarBloc>(
                 create: (context) => CarBloc(carService: CarService()),
+              ),
+              BlocProvider<OrderBloc>(
+                create: (context) => OrderBloc(orderService: OrderService()),
               ),
             ], child: const ReceiverPage()),
         '/StorekeeperPage': (context) => MultiBlocProvider(providers: [
