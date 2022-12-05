@@ -17,6 +17,9 @@ class CarDto {
         carNumber = json['car_number'],
         model = json['model'],
         mileage = json['mileage'],
+        orders = (json['orders'] as List)
+            .map((orderJson) => OrderDto.fromCar(orderJson))
+            .toList(),
         clientId = json['client_id'];
 
   CarDto.fromJsonCar(Map<String, dynamic> json)
@@ -26,6 +29,9 @@ class CarDto {
         model = json['model'],
         mileage = json['mileage'],
         clientId = json['client_id'],
+        orders = (json['orders'] as List)
+            .map((orderJson) => OrderDto.fromCar(orderJson))
+            .toList(),
         client = (json['client'] as List)
             .map((jsonClient) => ClientDto.fromJsonCar(jsonClient))
             .first;

@@ -6,12 +6,15 @@ import 'package:auto_service/data/dto/service_order_dto.dart';
 
 class OrderDto {
   int? id;
+  int? carId;
+  int? employeeId;
   String? status;
   CarDto? car;
   ClientDto? client;
   EmployeeDto? employee;
   List<AutopartOrderDto>? autoparts;
   List<ServiceOrderDto>? services;
+  DateTime? dateCreated;
 
   OrderDto.fromJson(Map<String, dynamic> json)
       : id = json['id'],
@@ -25,4 +28,25 @@ class OrderDto {
         services = (json['services'] as List)
             .map((serviceJson) => ServiceOrderDto.fromJson(serviceJson))
             .toList();
+
+  OrderDto.fromCar(Map<String, dynamic> json)
+      : id = json['id'],
+        status = json['status'],
+        carId = json['car_id'],
+        employeeId = json['employee_id'],
+        dateCreated = DateTime.parse(json['created_at']);
+
+  double calculatePriceAutoparts(AutopartOrderDto autopart) =>
+      autopart.count! * autopart.autopart!.salePrice!;
+
+  double calculateFullPrice(){
+    double fullPrice = 0.0;
+    for(var autopart in autoparts!){
+      fullPrice += autopart.count! * autopart.autopart!.salePrice!;
+    }
+    for(var service in services!){
+      fullPrice += service.service!.price!;
+    }
+    return fullPrice;
+  }
 }

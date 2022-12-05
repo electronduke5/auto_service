@@ -9,4 +9,11 @@ class OrderService extends ApiService<OrderDto> {
         query: query,
         function: function);
   }
+
+  Future<OrderDto> getOrder(int id){
+    return getEntity(
+        apiRoute: 'http://127.0.0.1:8000/api/orders/$id',
+        entityProducer: (json) => OrderDto.fromJson(json),
+        dataJson: {});
+  }
 }

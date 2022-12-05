@@ -1,5 +1,8 @@
+import 'package:auto_service/blocs/navigations_bloc/receiver_nav_bloc/receiver_nav_bloc.dart';
+import 'package:auto_service/blocs/orders_bloc/order_bloc.dart';
 import 'package:auto_service/data/dto/client_dto.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ClientInfoCard extends StatelessWidget {
   const ClientInfoCard(
@@ -106,38 +109,27 @@ class ClientInfoCard extends StatelessWidget {
                                                 value:
                                                     'Пробег: ${client.cars![index].mileage!}',
                                                 icon: Icons.av_timer),
-                                            carModelItem(
-                                                value:
-                                                    'Количество ремонтов: ${client.cars![index].orders ?? 0}',
-                                                icon: Icons
-                                                    .build_circle_outlined),
-                                            Builder(builder: (context) {
-                                              if (client.cars![index].orders !=
-                                                  null) {
-                                                return Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    const Divider(),
-                                                    OutlinedButton(
-                                                      style:
-                                                          OutlinedButton.styleFrom(
-                                                        side: BorderSide(
-                                                            color: Theme.of(context)
-                                                                .colorScheme
-                                                                .inversePrimary),
-                                                      ),
-                                                      onPressed: () {},
-                                                      child: Icon(
-                                                          Icons.info_outline,
-                                                          color: Theme.of(context)
-                                                              .colorScheme
-                                                              .inversePrimary),
-                                                    ),
-                                                  ],
-                                                );
-                                              }
-                                              return Container();
-                                            }),
+                                            TextButton.icon(
+                                              style: TextButton.styleFrom(
+                                                padding: const EdgeInsets.only(
+                                                    right: 10),
+                                              ),
+                                              onPressed: () {
+                                                if (client.cars![index].orders!
+                                                    .isNotEmpty) {
+                                                  context.read<OrderBloc>().add(
+                                                      GetOrdersByCarEvent(client
+                                                          .cars![index].id!));
+                                                  context
+                                                      .read<ReceiverNavBloc>()
+                                                      .add(ToViewOrdersEvent());
+                                                }
+                                              },
+                                              icon: const Icon(
+                                                  Icons.build_circle_outlined),
+                                              label: Text(
+                                                  'Количество ремонтов: ${client.cars![index].orders?.length ?? 0}'),
+                                            ),
                                           ],
                                         ),
                                       ),

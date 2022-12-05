@@ -19,6 +19,9 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
   OrderBloc({required this.orderService}) : super(OrderState()) {
     on<GetListOrdersEvent>((event, emit) => _onGetListOrderEvent(event, emit));
+
+    on<GetOrdersByCarEvent>((event, emit) =>
+        _onGetOrderEvent(event, emit, 'filter', event.id.toString()));
   }
 
   void _onGetListOrderEvent(
@@ -26,6 +29,20 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     emit(state.copyWith(modelsStatus: Submitting()));
     try {
       List<OrderDto> orders = await orderService.getOrders();
+      emit(state.copyWith(
+          modelsStatus: SubmissionSuccess<OrderDto>(listEntities: orders)));
+    } catch (error) {
+      print(error);
+      emit(state.copyWith(modelsStatus: SubmissionFailed(error)));
+    }
+  }
+
+  void _onGetOrderEvent(GetOrdersByCarEvent event, Emitter<OrderState> emit,
+      String func, String query) async {
+    emit(state.copyWith(modelsStatus: Submitting()));
+    try {
+      List<OrderDto> orders =
+          await orderService.getOrders(function: func, query: query);
       emit(state.copyWith(
           modelsStatus: SubmissionSuccess<OrderDto>(listEntities: orders)));
     } catch (error) {

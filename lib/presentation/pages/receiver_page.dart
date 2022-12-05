@@ -9,7 +9,7 @@ import 'package:auto_service/presentation/widgets/app_bar.dart';
 import 'package:auto_service/presentation/widgets/car_widgets/car_cards.dart';
 import 'package:auto_service/presentation/widgets/client_widgets/client_cards.dart';
 import 'package:auto_service/presentation/widgets/client_widgets/client_info_card.dart';
-import 'package:auto_service/presentation/widgets/order_cards.dart';
+import 'package:auto_service/presentation/widgets/order_widgets/order_cards.dart';
 import 'package:auto_service/presentation/widgets/snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

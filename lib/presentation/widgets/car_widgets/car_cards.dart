@@ -1,6 +1,7 @@
 import 'package:auto_service/blocs/cars/car_bloc.dart';
 import 'package:auto_service/blocs/get_models_status.dart';
 import 'package:auto_service/blocs/navigations_bloc/receiver_nav_bloc/receiver_nav_bloc.dart';
+import 'package:auto_service/blocs/orders_bloc/order_bloc.dart';
 import 'package:auto_service/data/dto/car_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -105,9 +106,14 @@ class CarCards extends StatelessWidget {
                 style: TextButton.styleFrom(
                   padding: const EdgeInsets.only(right: 10),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  if (car.orders!.isNotEmpty) {
+                    context.read<OrderBloc>().add(GetOrdersByCarEvent(car.id!));
+                    context.read<ReceiverNavBloc>().add(ToViewOrdersEvent());
+                  }
+                },
                 icon: const Icon(Icons.build_circle_outlined),
-                label: Text('Количество ремонтов: ${car.orders ?? 0}'),
+                label: Text('Количество ремонтов: ${car.orders!.length}'),
               ),
               TextButton.icon(
                 style: TextButton.styleFrom(
