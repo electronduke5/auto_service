@@ -3,6 +3,7 @@ import 'package:auto_service/blocs/get_models_status.dart';
 import 'package:auto_service/blocs/navigations_bloc/receiver_nav_bloc/receiver_nav_bloc.dart';
 import 'package:auto_service/blocs/orders_bloc/order_bloc.dart';
 import 'package:auto_service/data/dto/car_dto.dart';
+import 'package:auto_service/presentation/widgets/snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -126,6 +127,41 @@ class CarCards extends StatelessWidget {
                 },
                 icon: const Icon(Icons.account_circle_outlined),
                 label: Text('Владелец: ${car.client?.getFullName()}'),
+              ),
+              const Divider(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: Colors.amber),
+                    ),
+                    onPressed: () {
+                      context.read<CarBloc>().add(EditFormCarInitial(car));
+                      context
+                          .read<ReceiverNavBloc>()
+                          .add(ToEditCarEvent(car: car));
+                    },
+                    child: const Icon(Icons.edit, color: Colors.amber),
+                  ),
+                  SizedBox(width: width * 0.01),
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      side: BorderSide(color: Theme.of(context).errorColor),
+                    ),
+                    onPressed: () {
+                      context.read<CarBloc>().add(DeleteCarEvent(car.id!));
+                      SnackBarInfo.show(
+                          context: context,
+                          message:
+                              'Автомобиль ${car.carNumber} успешно удалён!',
+                          isSuccess: true);
+                      context.read<CarBloc>().add(GetListCarEvent());
+                    },
+                    child: Icon(Icons.delete_outlined,
+                        color: Theme.of(context).errorColor),
+                  ),
+                ],
               ),
             ],
           ),

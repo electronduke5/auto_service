@@ -6,6 +6,7 @@ import 'package:auto_service/blocs/orders_bloc/order_bloc.dart';
 import 'package:auto_service/data/dto/employee_dto.dart';
 import 'package:auto_service/presentation/widgets/actions_card.dart';
 import 'package:auto_service/presentation/widgets/app_bar.dart';
+import 'package:auto_service/presentation/widgets/car_widgets/add_car_widget.dart';
 import 'package:auto_service/presentation/widgets/car_widgets/car_cards.dart';
 import 'package:auto_service/presentation/widgets/client_widgets/client_cards.dart';
 import 'package:auto_service/presentation/widgets/client_widgets/client_info_card.dart';
@@ -89,6 +90,19 @@ class ReceiverPage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.library_books_outlined),
+                  onPressed: () {
+                    context.read<ReceiverNavBloc>().add(ToAddCarEvent());
+                  },
+                  style: ElevatedButton.styleFrom(elevation: 7),
+                  label: const Text(
+                    "+ Авто",
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
               ],
             ),
           ),
@@ -108,6 +122,18 @@ class ReceiverPage extends StatelessWidget {
                     );
                   case ReceiverInViewOrdersState:
                     return OrderCards(width: cardWidth, height: cardHeight);
+                  case ReceiverInAddCarState:
+                    return AddCarCard(
+                        width: cardWidth,
+                        height: cardHeight,
+                        navigationState: state);
+                  case ReceiverInEditCarState:
+                    return AddCarCard(
+                      width: cardWidth,
+                      height: cardHeight,
+                      navigationState: state,
+                      car: state.carEdit,
+                    );
                   default:
                     return const Center(
                       child: Text('Что-то не работает'),

@@ -14,3 +14,11 @@ class ToViewClientInfoEvent extends ReceiverNavEvent {
 class ToViewCarsEvent extends ReceiverNavEvent {}
 
 class ToViewOrdersEvent extends ReceiverNavEvent {}
+
+class ToAddCarEvent extends ReceiverNavEvent {}
+
+class ToEditCarEvent extends ReceiverNavEvent {
+  final CarDto car;
+
+  ToEditCarEvent({required this.car});
+}
