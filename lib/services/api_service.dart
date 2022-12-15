@@ -1,8 +1,10 @@
+import 'package:auto_service/services/const_api_route.dart';
 import 'package:dio/dio.dart';
 
-class ApiService<T> {
+abstract class ApiService<T> extends ApiConstUrl {
+  abstract String apiRoute;
+
   Future<List<T>> getEntities({
-    required String apiRoute,
     required T Function(Map<String, dynamic>) entityProducer,
     String? function,
     String? query,
@@ -12,14 +14,19 @@ class ApiService<T> {
 
     final response;
     if (function != null && query != null) {
-      response = await dio.get('$apiRoute?$function=$query');
+      print("url: ${ApiConstUrl.baseUrl}$apiRoute?$function=$query");
+      response =
+          await dio.get('${ApiConstUrl.baseUrl}$apiRoute?$function=$query');
     } else {
-      response = await dio.get(apiRoute);
+      print("url: ${ApiConstUrl.baseUrl}$apiRoute");
+
+      response = await dio.get('${ApiConstUrl.baseUrl}$apiRoute');
     }
-    //print("StatusCode: ${response.statusCode}");
+    print("StatusCode: ${response.statusCode}");
     //print("data: ${response.data}");
     if (response.statusCode == 200) {
       final data = response.data['data'] as List;
+      print(data.map((json) => entityProducer(json)).toList());
       return data.map((json) => entityProducer(json)).toList();
     } else {
       throw response.data['message'];
@@ -27,7 +34,7 @@ class ApiService<T> {
   }
 
   Future<T> getEntity(
-      {required String apiRoute,
+      {int? id,
       required T Function(Map<String, dynamic>) entityProducer,
       required Map<String, dynamic> dataJson}) async {
     final dio = Dio(
@@ -40,8 +47,11 @@ class ApiService<T> {
     print("isNotEmpty: ${dataJson.isNotEmpty}");
     print("length: ${dataJson.length}");
     print("values: ${dataJson.values}");
-    print(apiRoute);
-    final response = await dio.post(apiRoute, data: dataJson);
+    print('api route: ${ApiConstUrl.baseUrl}$apiRoute');
+    final response = id == null
+        ? await dio.post('${ApiConstUrl.baseUrl}$apiRoute', data: dataJson)
+        : await dio.post('${ApiConstUrl.baseUrl}$apiRoute/${id.toString()}',
+            data: dataJson);
 
     print("StatusCode: ${response.statusCode}");
     print("data: ${response.data}");
@@ -55,15 +65,16 @@ class ApiService<T> {
     }
   }
 
-  Future deleteEntity(
-      {required String apiRoute}) async {
+  Future deleteEntity({required int id}) async {
     final dio = Dio(
       BaseOptions(
           headers: {"Accept": "application/json"},
           followRedirects: false,
           validateStatus: (status) => status! < 500),
     );
-    final response = await dio.post(apiRoute, data: {"_method" : "DELETE"});
+    final response = await dio.post(
+        '${ApiConstUrl.baseUrl}$apiRoute/${id.toString()}',
+        data: {"_method": "DELETE"});
 
     print("StatusCode: ${response.statusCode}");
     print("data: ${response.data}");

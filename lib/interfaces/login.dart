@@ -5,7 +5,7 @@ import '../domain/models/login_model.dart';
 
 abstract class ILogin {
   Future<EmployeeDto?> login2(String login, String password) async {
-    const api = 'http://127.0.0.1:8000/api/login';
+    const api = 'login';
 
     final data = LoginModel(login, password).toJson();
     final dio = Dio();

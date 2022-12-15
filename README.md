@@ -1,16 +1,28 @@
-# auto_service
+## Данные для авторизации
 
-Desktop App for AutoService employee
+1. __HR менеджер__
+    
+    Логин: admin
 
-## Getting Started
+    Пароль: Admin123
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+2. __Сотрудник закупочного отдела__
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+   Логин: qwe
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+   Пароль: qweQWE123
+
+
+3. __Сотрудник склада__
+
+   Логин: asd
+
+   Пароль: asdASD123
+
+
+4. __Менеджер по работе с клиентами__
+
+   Логин: zxc
+
+   Пароль: zxcZXC123
