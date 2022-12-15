@@ -8,6 +8,7 @@ import 'package:auto_service/presentation/widgets/actions_card.dart';
 import 'package:auto_service/presentation/widgets/app_bar.dart';
 import 'package:auto_service/presentation/widgets/car_widgets/add_car_widget.dart';
 import 'package:auto_service/presentation/widgets/car_widgets/car_cards.dart';
+import 'package:auto_service/presentation/widgets/client_widgets/add_client_page.dart';
 import 'package:auto_service/presentation/widgets/client_widgets/client_cards.dart';
 import 'package:auto_service/presentation/widgets/client_widgets/client_info_card.dart';
 import 'package:auto_service/presentation/widgets/order_widgets/order_cards.dart';
@@ -103,6 +104,19 @@ class ReceiverPage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.person_add_alt_outlined),
+                  onPressed: () {
+                    context.read<ReceiverNavBloc>().add(ToAddClientEvent());
+                  },
+                  style: ElevatedButton.styleFrom(elevation: 7),
+                  label: const Text(
+                    "+ Клиент",
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
               ],
             ),
           ),
@@ -134,6 +148,17 @@ class ReceiverPage extends StatelessWidget {
                       navigationState: state,
                       car: state.carEdit,
                     );
+                  case ReceiverInAddClientState:
+                    return AddClientPage(
+                        width: cardWidth,
+                        height: cardHeight,
+                        navigationState: state);
+                  case ReceiverInEditClientState:
+                    return AddClientPage(
+                        client: state.client,
+                        width: cardWidth,
+                        height: cardHeight,
+                        navigationState: state);
                   default:
                     return const Center(
                       child: Text('Что-то не работает'),

@@ -22,3 +22,11 @@ class ToEditCarEvent extends ReceiverNavEvent {
 
   ToEditCarEvent({required this.car});
 }
+
+class ToAddClientEvent extends ReceiverNavEvent {}
+
+class ToEditClientEvent extends ReceiverNavEvent {
+  final ClientDto client;
+
+  ToEditClientEvent({required this.client});
+}

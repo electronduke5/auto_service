@@ -7,6 +7,9 @@ class ClientState {
   final String phoneNumber;
   final FormSubmissionStatus formStatus;
   final GetModelsStatus modelsStatus;
+  final String searchQuery;
+  final String message;
+  final DeleteStatus deleteStatus;
 
   ClientState({
     this.surname = '',
@@ -15,6 +18,9 @@ class ClientState {
     this.phoneNumber = '',
     this.formStatus = const InitialFormStatus(),
     this.modelsStatus = const InitialModelsStatus(),
+    this.searchQuery = '',
+    this.message = '',
+    this.deleteStatus = const InitialDeleteStatus(),
   });
 
   ClientState copyWith({
@@ -24,6 +30,9 @@ class ClientState {
     String? phoneNumber,
     FormSubmissionStatus? formStatus,
     GetModelsStatus? modelsStatus,
+    String? searchQuery,
+    String? message,
+    DeleteStatus? deleteStatus,
   }) {
     return ClientState(
       surname: surname ?? this.surname,
@@ -32,6 +41,9 @@ class ClientState {
       phoneNumber: phoneNumber ?? this.phoneNumber,
       formStatus: formStatus ?? this.formStatus,
       modelsStatus: modelsStatus ?? this.modelsStatus,
+      searchQuery: searchQuery ?? this.searchQuery,
+      message: message ?? this.message,
+      deleteStatus: deleteStatus ?? this.deleteStatus,
     );
   }
 }

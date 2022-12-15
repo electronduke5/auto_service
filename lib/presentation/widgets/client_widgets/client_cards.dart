@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ClientCards extends StatelessWidget {
-  const ClientCards({Key? key, required this.width, required this.height}) : super(key: key);
+  const ClientCards({Key? key, required this.width, required this.height})
+      : super(key: key);
   final double width;
   final double height;
 
@@ -42,7 +43,8 @@ class ClientCards extends StatelessWidget {
                 case SubmissionFailed:
                   {
                     return Center(
-                      child: Text(state.modelsStatus.error ?? 'Submission Failed'),
+                      child:
+                          Text(state.modelsStatus.error ?? 'Submission Failed'),
                     );
                   }
                 default:
@@ -57,8 +59,8 @@ class ClientCards extends StatelessWidget {
     );
   }
 
-  Widget _employeeGridView(ClientState state, double width, double height,
-      BuildContext context) {
+  Widget _employeeGridView(
+      ClientState state, double width, double height, BuildContext context) {
     return BlocBuilder<ClientBloc, ClientState>(
       builder: (context, stateDelete) {
         return GridView.builder(
@@ -69,7 +71,7 @@ class ClientCards extends StatelessWidget {
             return _clientViewCard(
                 context: context,
                 client:
-                (state.modelsStatus.entities as List<ClientDto>)[index]);
+                    (state.modelsStatus.entities as List<ClientDto>)[index]);
           },
           itemCount: (state.modelsStatus.entities as List<ClientDto>).length,
           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -117,16 +119,16 @@ class ClientCards extends StatelessWidget {
                     OutlinedButton(
                       style: OutlinedButton.styleFrom(
                         side: BorderSide(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .inversePrimary),
+                            color:
+                                Theme.of(context).colorScheme.inversePrimary),
                       ),
                       onPressed: () {
-                        context.read<ReceiverNavBloc>().add(ToViewClientInfoEvent(client));
+                        context
+                            .read<ReceiverNavBloc>()
+                            .add(ToViewClientInfoEvent(client));
                       },
                       child: Icon(Icons.info_outline,
-                          color:
-                          Theme.of(context).colorScheme.inversePrimary),
+                          color: Theme.of(context).colorScheme.inversePrimary),
                     ),
                     SizedBox(width: width * 0.01),
                     OutlinedButton(
@@ -134,25 +136,31 @@ class ClientCards extends StatelessWidget {
                         side: const BorderSide(color: Colors.amber),
                       ),
                       onPressed: () {
-                        //TODO: context.read<ClientBloc>().add(EditFormInitial(employee: client));
+                        context
+                            .read<ClientBloc>()
+                            .add(EditFormClientInitial(client));
+                        context
+                            .read<ReceiverNavBloc>()
+                            .add(ToEditClientEvent(client: client));
                       },
                       child: const Icon(Icons.edit, color: Colors.amber),
                     ),
                     SizedBox(width: width * 0.01),
                     OutlinedButton(
                       style: OutlinedButton.styleFrom(
-                        side:
-                        BorderSide(color: Theme.of(context).errorColor),
+                        side: BorderSide(color: Theme.of(context).errorColor),
                       ),
                       onPressed: () {
-                        //TODO: context.read<ClientBloc>().add(DeleteClientEvent(id: client.id!));
+                        context
+                            .read<ClientBloc>()
+                            .add(DeleteClientEvent(client.id!));
                         SnackBarInfo.show(
                             context: context,
                             message:
-                            'Пользователь ${client.surname} ${client.name} успешно удалён!',
+                                'Пользователь ${client.surname} ${client.name} успешно удалён!',
                             isSuccess: true);
-                        //TODO: Раскоментирвоать
-                        //context.read<ClientBloc>().add(GetListClientEvent());
+
+                        context.read<ClientBloc>().add(GetListClientEvent());
                       },
                       child: Icon(Icons.delete_outlined,
                           color: Theme.of(context).errorColor),

@@ -9,6 +9,14 @@ class ClientDto {
   String? phoneNumber;
   List<CarDto>? cars;
 
+  ClientDto({
+    this.id,
+    this.surname,
+    this.name,
+    this.patronymic,
+    this.phoneNumber
+});
+
   getFullName() {
     return [surname, name, patronymic].whereNotNull().join(" ");
   }
@@ -39,4 +47,11 @@ class ClientDto {
         cars = (json['cars'] as List)
             .map((jsonCar) => CarDto.fromJson(jsonCar))
             .toList();
+
+  Map<String, dynamic> toJson() => {
+        'surname': surname,
+        'name': name,
+        'patronymic': patronymic,
+        'phone_number': phoneNumber,
+      };
 }

@@ -23,12 +23,23 @@ class ClientService extends ApiService<ClientDto> {
         dataJson: client.toJson(),
       );
 
-  Future<ClientDto> editClient({required ClientDto client}) {
-    Map<String, dynamic> clientJson = client.toJson();
+  Future<ClientDto> editClient({
+  required int id,
+    required String surname,
+    required String name,
+    String? patronymic,
+    required String phoneNumber,
+  }) {
+    Map<String, dynamic> clientJson = ClientDto(
+      surname: surname,
+      name: name,
+      patronymic: patronymic,
+      phoneNumber: phoneNumber
+    ).toJson();
     clientJson.addAll({'_method': 'PUT'});
 
     return getEntity(
-      id: client.id,
+      id: id,
       //apiRoute: 'http://127.0.0.1:8000/api/clients/${client.id}',
       entityProducer: (Map<String, dynamic> json) => ClientDto.fromJson(json),
       dataJson: clientJson,

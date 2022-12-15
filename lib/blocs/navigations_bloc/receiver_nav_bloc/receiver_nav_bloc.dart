@@ -17,5 +17,9 @@ class ReceiverNavBloc extends Bloc<ReceiverNavEvent, ReceiverNavState> {
     on<ToAddCarEvent>((event, emit) => emit(ReceiverInAddCarState()));
     on<ToEditCarEvent>(
         (event, emit) => emit(ReceiverInEditCarState(car: event.car)));
+
+    on<ToAddClientEvent>((event, emit) => emit(ReceiverInAddClientState()));
+    on<ToEditClientEvent>(
+            (event, emit) => emit(ReceiverInEditClientState(client: event.client)));
   }
 }
