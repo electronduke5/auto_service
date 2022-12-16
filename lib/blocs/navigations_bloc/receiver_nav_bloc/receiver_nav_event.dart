@@ -30,3 +30,11 @@ class ToEditClientEvent extends ReceiverNavEvent {
 
   ToEditClientEvent({required this.client});
 }
+
+class ToAddOrderEvent extends ReceiverNavEvent {}
+
+class ToEditOrderEvent extends ReceiverNavEvent {
+  final OrderDto order;
+
+  ToEditOrderEvent({required this.order});
+}

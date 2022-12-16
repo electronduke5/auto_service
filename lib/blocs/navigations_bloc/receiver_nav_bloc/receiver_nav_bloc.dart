@@ -1,5 +1,6 @@
 import 'package:auto_service/data/dto/car_dto.dart';
 import 'package:auto_service/data/dto/client_dto.dart';
+import 'package:auto_service/data/dto/order_dto.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
@@ -20,6 +21,10 @@ class ReceiverNavBloc extends Bloc<ReceiverNavEvent, ReceiverNavState> {
 
     on<ToAddClientEvent>((event, emit) => emit(ReceiverInAddClientState()));
     on<ToEditClientEvent>(
-            (event, emit) => emit(ReceiverInEditClientState(client: event.client)));
+        (event, emit) => emit(ReceiverInEditClientState(client: event.client)));
+
+    on<ToAddOrderEvent>((event, emit) => emit(ReceiverInAddOrderState()));
+    on<ToEditOrderEvent>(
+        (event, emit) => emit(ReceiverInEditOrderState(order: event.order)));
   }
 }

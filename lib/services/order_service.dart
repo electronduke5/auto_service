@@ -8,7 +8,6 @@ class OrderService extends ApiService<OrderDto> {
 
   Future<List<OrderDto>> getOrders({String? function, String? query}) {
     return getEntities(
-        //apiRoute: 'http://127.0.0.1:8000/api/orders',
         entityProducer: (json) => OrderDto.fromJson(json),
         query: query,
         function: function);
@@ -16,8 +15,26 @@ class OrderService extends ApiService<OrderDto> {
 
   Future<OrderDto> getOrder(int id) {
     return getEntity(
-        //apiRoute: 'http://127.0.0.1:8000/api/orders/$id',
         entityProducer: (json) => OrderDto.fromJson(json),
         dataJson: {});
   }
+
+  Future<OrderDto> addOrder({
+    required OrderDto order,
+  }) =>
+      getEntity(
+        entityProducer: (Map<String, dynamic> json) => OrderDto.fromJson(json),
+        dataJson: order.toJson(),
+      );
+
+  Future<OrderDto> editOrder({required OrderDto order}) {
+    Map<String, dynamic> orderJson = order.toJson();
+    orderJson.addAll({'_method': 'PUT'});
+    return getEntity(
+        id: order.id,
+        entityProducer: (Map<String, dynamic> json) => OrderDto.fromJson(json),
+        dataJson: orderJson);
+  }
+
+  Future deleteOrder({required int id}) => deleteEntity(id: id);
 }

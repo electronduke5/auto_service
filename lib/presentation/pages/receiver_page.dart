@@ -1,8 +1,10 @@
+import 'package:auto_service/blocs/autoparts/add_edit_autopart_bloc/autopart_bloc.dart';
 import 'package:auto_service/blocs/cars/car_bloc.dart';
 import 'package:auto_service/blocs/clients/client_bloc.dart';
 import 'package:auto_service/blocs/get_models_status.dart';
 import 'package:auto_service/blocs/navigations_bloc/receiver_nav_bloc/receiver_nav_bloc.dart';
 import 'package:auto_service/blocs/orders_bloc/order_bloc.dart';
+import 'package:auto_service/blocs/service_bloc/service_bloc.dart';
 import 'package:auto_service/data/dto/employee_dto.dart';
 import 'package:auto_service/presentation/widgets/actions_card.dart';
 import 'package:auto_service/presentation/widgets/app_bar.dart';
@@ -11,6 +13,7 @@ import 'package:auto_service/presentation/widgets/car_widgets/car_cards.dart';
 import 'package:auto_service/presentation/widgets/client_widgets/add_client_page.dart';
 import 'package:auto_service/presentation/widgets/client_widgets/client_cards.dart';
 import 'package:auto_service/presentation/widgets/client_widgets/client_info_card.dart';
+import 'package:auto_service/presentation/widgets/order_widgets/add_order_page.dart';
 import 'package:auto_service/presentation/widgets/order_widgets/order_cards.dart';
 import 'package:auto_service/presentation/widgets/snack_bar.dart';
 import 'package:flutter/material.dart';
@@ -117,54 +120,92 @@ class ReceiverPage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.person_add_alt_outlined),
+                  onPressed: () {
+                    context.read<ReceiverNavBloc>().add(ToAddOrderEvent());
+                  },
+                  style: ElevatedButton.styleFrom(elevation: 7),
+                  label: const Text(
+                    "+ Order",
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
               ],
             ),
           ),
           Expanded(
-            child: BlocBuilder<ReceiverNavBloc, ReceiverNavState>(
-              builder: (context, state) {
-                switch (state.runtimeType) {
-                  case ReceiverInViewClientsState:
-                    return ClientCards(width: cardWidth, height: cardHeight);
-                  case ReceiverInViewCarsState:
-                    return CarCards(width: cardWidth, height: cardHeight);
-                  case ReceiverInViewClientInfoState:
-                    return ClientInfoCard(
-                      client: state.client!,
-                      width: cardWidth,
-                      height: cardHeight,
-                    );
-                  case ReceiverInViewOrdersState:
-                    return OrderCards(width: cardWidth, height: cardHeight);
-                  case ReceiverInAddCarState:
-                    return AddCarCard(
+            child: BlocListener<ReceiverNavBloc, ReceiverNavState>(
+              listener: (context, state) {
+                if (state is ReceiverInAddOrderState) {
+                  context.read<ServiceBloc>().add(GetListServicesEvent());
+                  context.read<CarBloc>().add(GetListCarEvent());
+                  context.read<AutopartBloc>().add(GetListAutopartsEvent());
+                }
+              },
+              child: BlocBuilder<ReceiverNavBloc, ReceiverNavState>(
+                builder: (context, state) {
+                  switch (state.runtimeType) {
+                    case ReceiverInViewClientsState:
+                      return ClientCards(width: cardWidth, height: cardHeight);
+                    case ReceiverInViewCarsState:
+                      return CarCards(width: cardWidth, height: cardHeight);
+                    case ReceiverInViewClientInfoState:
+                      return ClientInfoCard(
+                        client: state.client!,
                         width: cardWidth,
                         height: cardHeight,
-                        navigationState: state);
-                  case ReceiverInEditCarState:
-                    return AddCarCard(
-                      width: cardWidth,
-                      height: cardHeight,
-                      navigationState: state,
-                      car: state.carEdit,
-                    );
-                  case ReceiverInAddClientState:
-                    return AddClientPage(
+                      );
+                    case ReceiverInViewOrdersState:
+                      return OrderCards(width: cardWidth, height: cardHeight);
+                    case ReceiverInAddCarState:
+                      return AddCarCard(
                         width: cardWidth,
                         height: cardHeight,
-                        navigationState: state);
-                  case ReceiverInEditClientState:
-                    return AddClientPage(
+                        navigationState: state,
+                      );
+                    case ReceiverInEditCarState:
+                      return AddCarCard(
+                        width: cardWidth,
+                        height: cardHeight,
+                        navigationState: state,
+                        car: state.carEdit,
+                      );
+                    case ReceiverInAddClientState:
+                      return AddClientPage(
+                        width: cardWidth,
+                        height: cardHeight,
+                        navigationState: state,
+                      );
+                    case ReceiverInEditClientState:
+                      return AddClientPage(
                         client: state.client,
                         width: cardWidth,
                         height: cardHeight,
-                        navigationState: state);
-                  default:
-                    return const Center(
-                      child: Text('Что-то не работает'),
-                    );
-                }
-              },
+                        navigationState: state,
+                      );
+                    case ReceiverInAddOrderState:
+                      return AddOrderPage(
+                        width: cardWidth,
+                        height: cardHeight,
+                        navigationState: state,
+                      );
+                    case ReceiverInEditOrderState:
+                      return AddOrderPage(
+                        order: state.orderEdit,
+                        width: cardWidth,
+                        height: cardHeight,
+                        navigationState: state,
+                      );
+                    default:
+                      return const Center(
+                        child: Text('Что-то не работает'),
+                      );
+                  }
+                },
+              ),
             ),
           ),
         ],

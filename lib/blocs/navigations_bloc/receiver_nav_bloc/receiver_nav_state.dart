@@ -5,8 +5,10 @@ abstract class ReceiverNavState {
   final ClientDto? client;
   final CarDto? carEdit;
   final ClientDto? clientEdit;
+  final OrderDto? orderEdit;
 
-  const ReceiverNavState({this.client, this.carEdit, this.clientEdit});
+  const ReceiverNavState(
+      {this.client, this.carEdit, this.clientEdit, this.orderEdit});
 }
 
 class ReceiverInViewClientsState extends ReceiverNavState {}
@@ -32,5 +34,15 @@ class ReceiverInAddClientState extends ReceiverNavState {}
 class ReceiverInEditClientState extends ReceiverNavState {
   final ClientDto client;
 
-  const ReceiverInEditClientState({required this.client}) : super(clientEdit: client);
+  const ReceiverInEditClientState({required this.client})
+      : super(clientEdit: client);
+}
+
+class ReceiverInAddOrderState extends ReceiverNavState {}
+
+class ReceiverInEditOrderState extends ReceiverNavState {
+  final OrderDto order;
+
+  const ReceiverInEditOrderState({required this.order})
+      : super(orderEdit: order);
 }

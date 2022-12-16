@@ -16,6 +16,18 @@ class OrderDto {
   List<ServiceOrderDto>? services;
   DateTime? dateCreated;
 
+  OrderDto(
+      {this.id,
+      this.carId,
+      this.employeeId,
+      this.status,
+      this.car,
+      this.client,
+      this.employee,
+      this.autoparts,
+      this.services,
+      this.dateCreated});
+
   OrderDto.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         status = json['status'],
@@ -39,14 +51,23 @@ class OrderDto {
   double calculatePriceAutoparts(AutopartOrderDto autopart) =>
       autopart.count! * autopart.autopart!.salePrice!;
 
-  double calculateFullPrice(){
+  double calculateFullPrice() {
     double fullPrice = 0.0;
-    for(var autopart in autoparts!){
+    for (var autopart in autoparts!) {
       fullPrice += autopart.count! * autopart.autopart!.salePrice!;
     }
-    for(var service in services!){
+    for (var service in services!) {
       fullPrice += service.service!.price!;
     }
     return fullPrice;
   }
+
+  Map<String, dynamic> toJson() => {
+        'car_id': car!.id,
+        'employee_id': employee!.id,
+        'service_id': services?.first.service?.id,
+        'autopart_id': autoparts?.first.autopart?.id,
+        'count_autopart': autoparts?.first.count,
+        'status': status
+      };
 }

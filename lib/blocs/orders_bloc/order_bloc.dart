@@ -22,6 +22,59 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
     on<GetOrdersByCarEvent>((event, emit) =>
         _onGetOrderEvent(event, emit, 'filter', event.id.toString()));
+
+    on<CarChangedInOrderEvent>(
+        (event, emit) => emit(state.copyWith(car: event.car)));
+    on<AutopartsChangedInOrderEvent>(
+        (event, emit) => emit(state.copyWith(autoparts: event.autoparts)));
+    on<ServicesChangedInOrderEvent>(
+        (event, emit) => emit(state.copyWith(services: event.services)));
+    on<OrderFormSubmittedEvent>((event, emit) => _onFormSubmitted(event, emit));
+    on<OrderFormSubmittedUpdateEvent>(
+        (event, emit) => _onFormSubmittedUpdate(event, emit));
+  }
+
+  void _onFormSubmitted(
+      OrderFormSubmittedEvent event, Emitter<OrderState> emit) async {
+    emit(state.copyWith(formStatus: FormSubmitting()));
+    try {
+      OrderDto order = await orderService.addOrder(
+          order: OrderDto(
+              car: event.car,
+              carId: event.car.id,
+              employee: event.employee,
+              employeeId: event.employee.id,
+              services: event.services,
+              autoparts: event.autoparts,
+              status: event.status,
+              client: event.car.client));
+      emit(state.copyWith(formStatus: FormSubmissionSuccess<OrderDto>(order)));
+    } catch (error) {
+      emit(state.copyWith(formStatus: FormSubmissionFailed(error.toString())));
+    }
+    emit(OrderState());
+  }
+
+  void _onFormSubmittedUpdate(
+      OrderFormSubmittedUpdateEvent event, Emitter<OrderState> emit) async {
+    emit(state.copyWith(formStatus: FormSubmitting()));
+    try {
+      OrderDto order = await orderService.editOrder(
+          order: OrderDto(
+              id: event.id,
+              car: event.car,
+              carId: event.car.id,
+              employee: event.employee,
+              employeeId: event.employee.id,
+              services: event.services,
+              autoparts: event.autoparts,
+              status: event.status,
+              client: event.car.client));
+      emit(state.copyWith(formStatus: FormSubmissionSuccess<OrderDto>(order)));
+    } catch (error) {
+      emit(state.copyWith(formStatus: FormSubmissionFailed(error.toString())));
+    }
+    emit(OrderState());
   }
 
   void _onGetListOrderEvent(

@@ -9,4 +9,5 @@ class ApiConstUrl {
   static const String clientsUrl = 'clients';
   static const String ordersUrl = 'orders';
   static const String carsUrl = 'cars';
+  static const String serviceUrl = 'services';
 }
