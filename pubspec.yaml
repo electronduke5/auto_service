@@ -41,6 +41,7 @@ dependencies:
   desktop_window: ^0.4.0
   dartx: ^1.1.0
   mask_text_input_formatter: ^2.4.0
+  intl: ^0.18.0
 
 
 

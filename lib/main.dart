@@ -1,19 +1,23 @@
+import 'package:auto_service/blocs/accountants/accountant_bloc.dart';
 import 'package:auto_service/blocs/autoparts/add_edit_autopart_bloc/autopart_bloc.dart';
 import 'package:auto_service/blocs/cars/car_bloc.dart';
 import 'package:auto_service/blocs/categories/categories_bloc.dart';
 import 'package:auto_service/blocs/clients/client_bloc.dart';
 import 'package:auto_service/blocs/delete_employee_bloc/delete_employee_bloc.dart';
 import 'package:auto_service/blocs/employee_bloc/employee_bloc.dart';
+import 'package:auto_service/blocs/navigations_bloc/accountant_nav_bloc/accountant_nav_bloc.dart';
 import 'package:auto_service/blocs/navigations_bloc/hr_navigation_bloc/hr_navigation_bloc.dart';
 import 'package:auto_service/blocs/navigations_bloc/purchasing_nav_bloc/purchasing_nav_bloc.dart';
 import 'package:auto_service/blocs/navigations_bloc/receiver_nav_bloc/receiver_nav_bloc.dart';
 import 'package:auto_service/blocs/navigations_bloc/storekeeper_nav_bloc/storekeeper_nav_bloc.dart';
 import 'package:auto_service/blocs/orders_bloc/order_bloc.dart';
 import 'package:auto_service/blocs/service_bloc/service_bloc.dart';
+import 'package:auto_service/presentation/pages/accountant_page.dart';
 import 'package:auto_service/presentation/pages/hr_page.dart';
 import 'package:auto_service/presentation/pages/login_page.dart';
 import 'package:auto_service/presentation/pages/receiver_page.dart';
 import 'package:auto_service/presentation/pages/storekeeper_page.dart';
+import 'package:auto_service/services/accountant_service.dart';
 import 'package:auto_service/services/autoparts_service.dart';
 import 'package:auto_service/services/car_service.dart';
 import 'package:auto_service/services/category_service.dart';
@@ -62,6 +66,17 @@ class MyApp extends StatelessWidget {
         child: LoginPage(),
       ),
       routes: <String, WidgetBuilder>{
+        '/AccountantPage': (context) => MultiBlocProvider(
+              providers: [
+                BlocProvider<AccountantNavBloc>(
+                  create: (context) => AccountantNavBloc(),
+                ),
+                BlocProvider<AccountantBloc>(
+                    create: (context) => AccountantBloc(AccountantService())
+                      ..add(GetAllListEvent())),
+              ],
+              child: const AccountantPage(),
+            ),
         '/ReceiverPage': (context) => MultiBlocProvider(providers: [
               BlocProvider<ClientBloc>(
                 create: (context) => ClientBloc(clientService: ClientService())

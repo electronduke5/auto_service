@@ -26,6 +26,7 @@ abstract class ApiService<T> extends ApiConstUrl {
     //print("data: ${response.data}");
     if (response.statusCode == 200) {
       final data = response.data['data'] as List;
+      print(data);
       print(data.map((json) => entityProducer(json)).toList());
       return data.map((json) => entityProducer(json)).toList();
     } else {

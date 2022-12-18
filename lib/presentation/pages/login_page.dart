@@ -49,7 +49,8 @@ class LoginPage extends StatelessWidget {
                   arguments: formStatus.entity);
               break;
             case RoleEnum.accountant:
-              // TODO: Handle this case.
+              Navigator.of(context).pushReplacementNamed('/AccountantPage',
+                  arguments: formStatus.entity);
               break;
             case RoleEnum.storekeeper:
               Navigator.of(context).pushReplacementNamed('/StorekeeperPage',
