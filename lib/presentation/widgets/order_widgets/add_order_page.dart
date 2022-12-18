@@ -6,6 +6,7 @@ import 'package:auto_service/blocs/navigations_bloc/receiver_nav_bloc/receiver_n
 import 'package:auto_service/blocs/orders_bloc/order_bloc.dart';
 import 'package:auto_service/data/dto/autoparts_dto.dart';
 import 'package:auto_service/data/dto/car_dto.dart';
+import 'package:auto_service/data/dto/employee_dto.dart';
 import 'package:auto_service/data/dto/order_dto.dart';
 import 'package:auto_service/data/dto/service_dto.dart';
 import 'package:auto_service/presentation/widgets/order_widgets/add_order_card.dart';
@@ -21,13 +22,14 @@ class AddOrderPage extends StatelessWidget {
     required this.height,
     required this.width,
     this.order,
-    required this.navigationState,
+    required this.navigationState, required this.loggedEmployee,
   }) : super(key: key);
 
   final double height;
   final double width;
   final OrderDto? order;
   final ReceiverNavState navigationState;
+  final EmployeeDto loggedEmployee;
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +71,7 @@ class AddOrderPage extends StatelessWidget {
                               return serviceState.modelsStatus
                                       is SubmissionSuccess<ServiceDto>
                                   ? AddOrderCard(
+                                loggedEmployee: loggedEmployee,
                                       navigationState: navigationState,
                                       order: order,
                                       width: width,

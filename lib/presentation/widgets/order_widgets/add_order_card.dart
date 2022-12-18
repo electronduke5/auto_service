@@ -3,8 +3,10 @@ import 'package:auto_service/blocs/navigations_bloc/receiver_nav_bloc/receiver_n
 import 'package:auto_service/blocs/orders_bloc/order_bloc.dart';
 import 'package:auto_service/data/dto/autoparts_dto.dart';
 import 'package:auto_service/data/dto/car_dto.dart';
+import 'package:auto_service/data/dto/employee_dto.dart';
 import 'package:auto_service/data/dto/order_dto.dart';
 import 'package:auto_service/data/dto/service_dto.dart';
+import 'package:auto_service/domain/emuns/order_status_enum.dart';
 import 'package:auto_service/presentation/widgets/order_widgets/autoparts_listview.dart';
 import 'package:auto_service/presentation/widgets/order_widgets/car_dropdown.dart';
 import 'package:auto_service/presentation/widgets/order_widgets/services_listview.dart';
@@ -19,7 +21,7 @@ class AddOrderCard extends StatelessWidget {
     this.order,
     required this.cars,
     required this.autoparts,
-    required this.services,
+    required this.services, required this.loggedEmployee,
   }) : super(key: key);
 
   final double width;
@@ -29,6 +31,8 @@ class AddOrderCard extends StatelessWidget {
   final List<AutopartDto> autoparts;
   final List<ServiceDto> services;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final EmployeeDto loggedEmployee;
+
 
   @override
   Widget build(BuildContext context) {
@@ -133,9 +137,26 @@ class AddOrderCard extends StatelessWidget {
                                         vertical: 20)),
                                 onPressed: () {
                                   if (formKey.currentState!.validate()) {
-                                    // order == null
-                                    //     ? context.read<OrderBloc>().add()
-                                    //     : context.read<OrderBloc>().add();
+                                    order == null
+                                        ? context.read<OrderBloc>().add(
+                                              OrderFormSubmittedEvent(
+                                                status: StatusEnum.confirmed,
+                                                car: state.car!,
+                                                employee: loggedEmployee,
+                                                autoparts: state.autopartsAdd,
+                                                autopartsCount: state.autopartsCount,
+                                                services: state.servicesAdd,
+                                              ),
+                                            )
+                                        : context.read<OrderBloc>().add(OrderFormSubmittedUpdateEvent(
+                                      id: order!.id!,
+                                      status: StatusEnum.values.singleWhere((element) => element.status == order?.status),
+                                      car: state.car!,
+                                      employee: loggedEmployee,
+                                      autoparts: state.autopartsAdd,
+                                      autopartsCount: state.autopartsCount,
+                                      services: state.servicesAdd,
+                                    ),);
                                   }
                                 },
                                 child: Text(

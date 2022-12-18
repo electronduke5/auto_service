@@ -1,6 +1,8 @@
+import 'package:auto_service/blocs/orders_bloc/order_bloc.dart';
 import 'package:auto_service/data/dto/order_dto.dart';
 import 'package:auto_service/data/dto/service_dto.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ServicesListView extends StatefulWidget {
   ServicesListView(
@@ -9,19 +11,24 @@ class ServicesListView extends StatefulWidget {
   final List<ServiceDto> services;
   final GlobalKey<FormState> formKey;
   final OrderDto? order;
-  final List<ServiceDto> _selectedList = <ServiceDto>[];
 
   @override
   State<ServicesListView> createState() => _ServicesListViewState();
 }
 
 class _ServicesListViewState extends State<ServicesListView> {
+  final List<ServiceDto> _selectedList = <ServiceDto>[];
+
   void _onServiceSelected(bool isSelected, ServiceDto service) {
+    isSelected ? _selectedList.add(service) : _selectedList.remove(service);
+    print('selected services count: ${_selectedList.length}');
+
     setState(() {
-      isSelected
-          ? widget._selectedList.add(service)
-          : widget._selectedList.remove(service);
+      context.read<OrderBloc>().add(ServicesChangedInOrderEvent(_selectedList));
     });
+    print(
+        'context servicesAdd: ${context.read<OrderBloc>().state.servicesAdd}');
+    print('context services: ${context.read<OrderBloc>().state.services}');
   }
 
   late List<bool> _isChecked;

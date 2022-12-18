@@ -1,6 +1,9 @@
+import 'package:auto_service/blocs/orders_bloc/order_bloc.dart';
 import 'package:auto_service/data/dto/autoparts_dto.dart';
 import 'package:auto_service/data/dto/order_dto.dart';
+import 'package:auto_service/presentation/widgets/order_widgets/count_autopart_alert_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AutopartsListView extends StatefulWidget {
   AutopartsListView(
@@ -9,18 +12,39 @@ class AutopartsListView extends StatefulWidget {
   final List<AutopartDto> autoparts;
   final GlobalKey<FormState> formKey;
   final OrderDto? order;
-  final List<AutopartDto> _selectedList = <AutopartDto>[];
+
 
   @override
   State<AutopartsListView> createState() => _AutopartsListViewState();
 }
 
 class _AutopartsListViewState extends State<AutopartsListView> {
-  void _onAutopartSelected(bool isSelected, AutopartDto autopart) {
+  final Map<AutopartDto, int> _selectedList = <AutopartDto, int>{};
+  void _onAutopartSelected(
+      bool isSelected, AutopartDto autopart, BuildContext context) async {
+    if (isSelected) {
+      int count = await OrderDialogs.openCountAutopartDialog(
+          context, autopart, context.read<OrderBloc>());
+      _selectedList.addEntries([MapEntry(autopart, count)]);
+      print('count from alert: $count');
+      print('selected items count: ${_selectedList.length}');
+      for (var item in _selectedList.entries) {
+        print('autopart: ${item.key.name}');
+        print('count: ${item.value}');
+      }
+    } else {
+      print(autopart.name);
+      print('selected items count: ${_selectedList.length}');
+      _selectedList.remove(autopart);
+    }
+
     setState(() {
-      isSelected
-          ? widget._selectedList.add(autopart)
-          : widget._selectedList.remove(autopart);
+      context.read<OrderBloc>().add(
+          AutopartsChangedInOrderEvent(_selectedList.keys.toList()));
+      context.read<OrderBloc>().add(AutopartsCountChangedInOrderEvent(
+          _selectedList.values.toList()));
+      // print(context.read<OrderBloc>().state.autopartsAdd!.length);
+      // print(context.read<OrderBloc>().state.autopartsCount!.length);
     });
   }
 
@@ -45,7 +69,7 @@ class _AutopartsListViewState extends State<AutopartsListView> {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             value: _isChecked[index],
             onChanged: (value) {
-              _onAutopartSelected(value!, widget.autoparts[index]);
+              _onAutopartSelected(value!, widget.autoparts[index], context);
               _isChecked[index] = value;
             },
             title: IntrinsicHeight(

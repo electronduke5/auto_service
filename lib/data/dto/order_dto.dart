@@ -1,7 +1,9 @@
 import 'package:auto_service/data/dto/autopart_order_dto.dart';
+import 'package:auto_service/data/dto/autoparts_dto.dart';
 import 'package:auto_service/data/dto/car_dto.dart';
 import 'package:auto_service/data/dto/client_dto.dart';
 import 'package:auto_service/data/dto/employee_dto.dart';
+import 'package:auto_service/data/dto/service_dto.dart';
 import 'package:auto_service/data/dto/service_order_dto.dart';
 
 class OrderDto {
@@ -13,7 +15,10 @@ class OrderDto {
   ClientDto? client;
   EmployeeDto? employee;
   List<AutopartOrderDto>? autoparts;
+  List<AutopartDto>? autopartsAdd;
+  List<int>? countAutoparts;
   List<ServiceOrderDto>? services;
+  List<ServiceDto>? servicesAdd;
   DateTime? dateCreated;
 
   OrderDto(
@@ -24,8 +29,9 @@ class OrderDto {
       this.car,
       this.client,
       this.employee,
-      this.autoparts,
-      this.services,
+      this.autopartsAdd,
+      this.countAutoparts,
+      this.servicesAdd,
       this.dateCreated});
 
   OrderDto.fromJson(Map<String, dynamic> json)
@@ -65,9 +71,9 @@ class OrderDto {
   Map<String, dynamic> toJson() => {
         'car_id': car!.id,
         'employee_id': employee!.id,
-        'service_id': services?.first.service?.id,
-        'autopart_id': autoparts?.first.autopart?.id,
-        'count_autopart': autoparts?.first.count,
+        'service_id': servicesAdd!.map((service) => service.id).toList(),
+        'autopart_id': autopartsAdd!.map((autopart) => autopart.id).toList(),
+        'count_autopart': countAutoparts,
         'status': status
       };
 }

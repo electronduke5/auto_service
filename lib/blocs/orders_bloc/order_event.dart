@@ -1,7 +1,8 @@
 part of 'order_bloc.dart';
 
 @immutable
-abstract class OrderEvent {}
+class OrderEvent {
+}
 
 class GetListOrdersEvent extends OrderEvent {}
 
@@ -18,49 +19,57 @@ class CarChangedInOrderEvent extends OrderEvent {
 }
 
 class AutopartsChangedInOrderEvent extends OrderEvent {
-  final List<AutopartOrderDto> autoparts;
+  final List<AutopartDto> autoparts;
 
   AutopartsChangedInOrderEvent(this.autoparts);
 }
 
+class AutopartsCountChangedInOrderEvent extends OrderEvent {
+ List<int> count;
+
+  AutopartsCountChangedInOrderEvent(this.count);
+}
+
 class ServicesChangedInOrderEvent extends OrderEvent {
-  final List<ServiceOrderDto> services;
+  final List<ServiceDto> services;
 
   ServicesChangedInOrderEvent(this.services);
 }
 
 class OrderFormSubmittedEvent extends OrderEvent {
-  final String status;
+  final StatusEnum status;
   final CarDto car;
   final EmployeeDto employee;
-  final List<AutopartOrderDto> autoparts;
-  final List<ServiceOrderDto> services;
+  final List<AutopartDto>? autoparts;
+  final List<int>? autopartsCount;
+  final List<ServiceDto>? services;
 
   OrderFormSubmittedEvent({
     required this.status,
     required this.car,
     required this.employee,
-    required this.autoparts,
-    required this.services,
+    this.autoparts,
+    this.autopartsCount,
+    this.services,
   });
 }
 
 class OrderFormSubmittedUpdateEvent extends OrderEvent {
   final int id;
-
-  //TODO: Переделать статус в енум
-  final String status;
+  final StatusEnum status;
   final CarDto car;
   final EmployeeDto employee;
-  final List<AutopartOrderDto> autoparts;
-  final List<ServiceOrderDto> services;
+  final List<AutopartDto>? autoparts;
+  final List<int>? autopartsCount;
+  final List<ServiceDto>? services;
 
   OrderFormSubmittedUpdateEvent({
     required this.id,
     required this.status,
     required this.car,
     required this.employee,
-    required this.autoparts,
-    required this.services,
+    this.autoparts,
+    this.autopartsCount,
+    this.services,
   });
 }

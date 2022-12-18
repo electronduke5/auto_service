@@ -188,12 +188,14 @@ class ReceiverPage extends StatelessWidget {
                       );
                     case ReceiverInAddOrderState:
                       return AddOrderPage(
+                        loggedEmployee: loggedEmployee,
                         width: cardWidth,
                         height: cardHeight,
                         navigationState: state,
                       );
                     case ReceiverInEditOrderState:
                       return AddOrderPage(
+                        loggedEmployee: loggedEmployee,
                         order: state.orderEdit,
                         width: cardWidth,
                         height: cardHeight,

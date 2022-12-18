@@ -1,11 +1,14 @@
 import 'package:auto_service/blocs/form_submission_status.dart';
 import 'package:auto_service/blocs/get_models_status.dart';
 import 'package:auto_service/data/dto/autopart_order_dto.dart';
+import 'package:auto_service/data/dto/autoparts_dto.dart';
 import 'package:auto_service/data/dto/car_dto.dart';
 import 'package:auto_service/data/dto/client_dto.dart';
 import 'package:auto_service/data/dto/employee_dto.dart';
 import 'package:auto_service/data/dto/order_dto.dart';
+import 'package:auto_service/data/dto/service_dto.dart';
 import 'package:auto_service/data/dto/service_order_dto.dart';
+import 'package:auto_service/domain/emuns/order_status_enum.dart';
 import 'package:auto_service/services/order_service.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
@@ -26,9 +29,11 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     on<CarChangedInOrderEvent>(
         (event, emit) => emit(state.copyWith(car: event.car)));
     on<AutopartsChangedInOrderEvent>(
-        (event, emit) => emit(state.copyWith(autoparts: event.autoparts)));
+        (event, emit) => emit(state.copyWith(autopartsAdd: event.autoparts)));
+    on<AutopartsCountChangedInOrderEvent>(
+        (event, emit) => emit(state.copyWith(autopartsCount: event.count)));
     on<ServicesChangedInOrderEvent>(
-        (event, emit) => emit(state.copyWith(services: event.services)));
+        (event, emit) => emit(state.copyWith(servicesAdd: event.services)));
     on<OrderFormSubmittedEvent>((event, emit) => _onFormSubmitted(event, emit));
     on<OrderFormSubmittedUpdateEvent>(
         (event, emit) => _onFormSubmittedUpdate(event, emit));
@@ -44,9 +49,10 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
               carId: event.car.id,
               employee: event.employee,
               employeeId: event.employee.id,
-              services: event.services,
-              autoparts: event.autoparts,
-              status: event.status,
+              servicesAdd: event.services,
+              autopartsAdd: event.autoparts,
+              countAutoparts: event.autopartsCount,
+              status: event.status.status,
               client: event.car.client));
       emit(state.copyWith(formStatus: FormSubmissionSuccess<OrderDto>(order)));
     } catch (error) {
@@ -66,9 +72,10 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
               carId: event.car.id,
               employee: event.employee,
               employeeId: event.employee.id,
-              services: event.services,
-              autoparts: event.autoparts,
-              status: event.status,
+              servicesAdd: event.services,
+              autopartsAdd: event.autoparts,
+              countAutoparts: event.autopartsCount,
+              status: event.status.status,
               client: event.car.client));
       emit(state.copyWith(formStatus: FormSubmissionSuccess<OrderDto>(order)));
     } catch (error) {

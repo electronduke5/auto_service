@@ -155,7 +155,7 @@ class OrderCards extends StatelessWidget {
                   child: Builder(builder: (context) {
                     if (order.autoparts!.isNotEmpty) {
                       return ListView.builder(
-                          itemCount: order.autoparts!.length,
+                          itemCount: order.services!.length,
                           itemBuilder: (context, index) {
                             return Card(
                               child: Padding(
