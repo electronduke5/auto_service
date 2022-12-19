@@ -2,6 +2,7 @@ import 'package:auto_service/blocs/autoparts/add_edit_autopart_bloc/autopart_blo
 import 'package:auto_service/blocs/categories/categories_bloc.dart';
 import 'package:auto_service/blocs/get_models_status.dart';
 import 'package:auto_service/blocs/navigations_bloc/storekeeper_nav_bloc/storekeeper_nav_bloc.dart';
+import 'package:auto_service/blocs/service_type_bloc/type_bloc.dart';
 import 'package:auto_service/data/dto/employee_dto.dart';
 import 'package:auto_service/presentation/widgets/actions_card.dart';
 import 'package:auto_service/presentation/widgets/app_bar.dart';
@@ -9,6 +10,8 @@ import 'package:auto_service/presentation/widgets/autoparts_widgets/add_autopart
 import 'package:auto_service/presentation/widgets/autoparts_widgets/autoparts_cards.dart';
 import 'package:auto_service/presentation/widgets/category_widgets/category_alert_dialogs.dart';
 import 'package:auto_service/presentation/widgets/category_widgets/category_page.dart';
+import 'package:auto_service/presentation/widgets/service_type_widgets/service_type_alert_dialogs.dart';
+import 'package:auto_service/presentation/widgets/service_type_widgets/type_page.dart';
 import 'package:auto_service/presentation/widgets/snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,6 +64,36 @@ class StorekeeperPage extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
+        ElevatedButton.icon(
+          icon: const Icon(Icons.category),
+          onPressed: () {
+            context.read<StorekeeperNavBloc>().add(ToViewTypesEvent());
+            context.read<TypeBloc>().add(GetListTypesEvent());
+          },
+          style: ElevatedButton.styleFrom(elevation: 7),
+          label: const Text(
+            "Виды работ",
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        ElevatedButton.icon(
+          icon: const Icon(Icons.category),
+          onPressed: () {
+            TypeDialogs.openDialog(
+                context: context,
+                bloc: context.read<TypeBloc>(),
+                navBloc: context.read<StorekeeperNavBloc>());
+          },
+          style: ElevatedButton.styleFrom(elevation: 7),
+          label: const Text(
+            "+ Вид работ",
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
       ];
 
   @override
@@ -100,6 +133,8 @@ class StorekeeperPage extends StatelessWidget {
                 switch (state.runtimeType) {
                   case StorekeeperInViewCategoriesState:
                     return CategoryViewPage(width: cardWidth);
+                  case StorekeeperInViewTypesState:
+                    return TypesViewPage(width: cardWidth);
                   case StorekeeperInViewState:
                     return AutopartsCards(
                         context: context, loggedEmployee: loggedEmployee);

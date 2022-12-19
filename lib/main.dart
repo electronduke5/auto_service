@@ -12,6 +12,7 @@ import 'package:auto_service/blocs/navigations_bloc/receiver_nav_bloc/receiver_n
 import 'package:auto_service/blocs/navigations_bloc/storekeeper_nav_bloc/storekeeper_nav_bloc.dart';
 import 'package:auto_service/blocs/orders_bloc/order_bloc.dart';
 import 'package:auto_service/blocs/service_bloc/service_bloc.dart';
+import 'package:auto_service/blocs/service_type_bloc/type_bloc.dart';
 import 'package:auto_service/presentation/color_schemes/color_schemes.g.dart';
 import 'package:auto_service/presentation/pages/accountant_page.dart';
 import 'package:auto_service/presentation/pages/hr_page.dart';
@@ -27,6 +28,7 @@ import 'package:auto_service/services/employee_service.dart';
 import 'package:auto_service/services/login.dart';
 import 'package:auto_service/services/order_service.dart';
 import 'package:auto_service/services/repair_service.dart';
+import 'package:auto_service/services/repair_type_service.dart';
 import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -113,6 +115,10 @@ class MyApp extends StatelessWidget {
                 create: (context) =>
                     CategoryBloc(categoryService: CategoryService()),
               ),
+          BlocProvider<TypeBloc>(
+            create: (context) =>
+                TypeBloc(typeService: RepairTypeService()),
+          ),
             ], child: const StorekeeperPage()),
         '/PurchasingPage': (context) => MultiBlocProvider(
               providers: [

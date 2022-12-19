@@ -11,4 +11,5 @@ class ApiConstUrl {
   static const String carsUrl = 'cars';
   static const String serviceUrl = 'services';
   static const String accountantUrl = 'accounting';
+  static const String typesUrl = 'types';
 }
