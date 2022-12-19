@@ -115,10 +115,13 @@ class MyApp extends StatelessWidget {
                 create: (context) =>
                     CategoryBloc(categoryService: CategoryService()),
               ),
-          BlocProvider<TypeBloc>(
-            create: (context) =>
-                TypeBloc(typeService: RepairTypeService()),
-          ),
+              BlocProvider<TypeBloc>(
+                create: (context) => TypeBloc(typeService: RepairTypeService()),
+              ),
+              BlocProvider<ServiceBloc>(
+                create: (context) =>
+                    ServiceBloc(repairService: RepairService()),
+              ),
             ], child: const StorekeeperPage()),
         '/PurchasingPage': (context) => MultiBlocProvider(
               providers: [

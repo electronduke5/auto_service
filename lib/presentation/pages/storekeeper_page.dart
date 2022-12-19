@@ -2,8 +2,10 @@ import 'package:auto_service/blocs/autoparts/add_edit_autopart_bloc/autopart_blo
 import 'package:auto_service/blocs/categories/categories_bloc.dart';
 import 'package:auto_service/blocs/get_models_status.dart';
 import 'package:auto_service/blocs/navigations_bloc/storekeeper_nav_bloc/storekeeper_nav_bloc.dart';
+import 'package:auto_service/blocs/service_bloc/service_bloc.dart';
 import 'package:auto_service/blocs/service_type_bloc/type_bloc.dart';
 import 'package:auto_service/data/dto/employee_dto.dart';
+import 'package:auto_service/data/dto/service_type_dto.dart';
 import 'package:auto_service/presentation/widgets/actions_card.dart';
 import 'package:auto_service/presentation/widgets/app_bar.dart';
 import 'package:auto_service/presentation/widgets/autoparts_widgets/add_autopart_page.dart';
@@ -12,6 +14,8 @@ import 'package:auto_service/presentation/widgets/category_widgets/category_aler
 import 'package:auto_service/presentation/widgets/category_widgets/category_page.dart';
 import 'package:auto_service/presentation/widgets/service_type_widgets/service_type_alert_dialogs.dart';
 import 'package:auto_service/presentation/widgets/service_type_widgets/type_page.dart';
+import 'package:auto_service/presentation/widgets/service_widgets/service_alert_dialog.dart';
+import 'package:auto_service/presentation/widgets/service_widgets/service_page.dart';
 import 'package:auto_service/presentation/widgets/snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -65,7 +69,7 @@ class StorekeeperPage extends StatelessWidget {
           height: 10,
         ),
         ElevatedButton.icon(
-          icon: const Icon(Icons.category),
+          icon: const Icon(Icons.car_repair_rounded),
           onPressed: () {
             context.read<StorekeeperNavBloc>().add(ToViewTypesEvent());
             context.read<TypeBloc>().add(GetListTypesEvent());
@@ -79,7 +83,7 @@ class StorekeeperPage extends StatelessWidget {
           height: 10,
         ),
         ElevatedButton.icon(
-          icon: const Icon(Icons.category),
+          icon: const Icon(Icons.car_repair_rounded),
           onPressed: () {
             TypeDialogs.openDialog(
                 context: context,
@@ -90,6 +94,45 @@ class StorekeeperPage extends StatelessWidget {
           label: const Text(
             "+ Вид работ",
           ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        ElevatedButton.icon(
+          icon: const Icon(Icons.car_repair_rounded),
+          onPressed: () {
+            context.read<StorekeeperNavBloc>().add(ToViewServicesEvent());
+            context.read<ServiceBloc>().add(GetListServicesEvent());
+          },
+          style: ElevatedButton.styleFrom(elevation: 7),
+          label: const Text(
+            "Работы",
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        BlocBuilder<TypeBloc, TypeState>(
+          builder: (context, state) {
+            return ElevatedButton.icon(
+              icon: const Icon(Icons.car_repair_rounded),
+              onPressed: () {
+                context.read<TypeBloc>().add(GetListTypesEvent());
+                if (state.modelsStatus is SubmissionSuccess<ServiceTypeDto>) {
+                  ServiceDialogs.openDialog(
+                      menuItems:
+                          state.modelsStatus.entities as List<ServiceTypeDto>,
+                      context: context,
+                      bloc: context.read<ServiceBloc>(),
+                      navBloc: context.read<StorekeeperNavBloc>());
+                }
+              },
+              style: ElevatedButton.styleFrom(elevation: 7),
+              label: const Text(
+                "+ Работа",
+              ),
+            );
+          },
         ),
         const SizedBox(
           height: 10,
@@ -133,6 +176,8 @@ class StorekeeperPage extends StatelessWidget {
                 switch (state.runtimeType) {
                   case StorekeeperInViewCategoriesState:
                     return CategoryViewPage(width: cardWidth);
+                  case StorekeeperInViewServicesState:
+                    return ServicesViewPage(width: cardWidth);
                   case StorekeeperInViewTypesState:
                     return TypesViewPage(width: cardWidth);
                   case StorekeeperInViewState:

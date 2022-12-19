@@ -7,6 +7,14 @@ class ServiceDto {
   double? price;
   ServiceTypeDto? type;
 
+  ServiceDto({
+    this.description,
+    this.type,
+    this.price,
+    this.id,
+    this.serviceTypeId,
+  });
+
   ServiceDto.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         price = double.parse(json['price'].toString()),
@@ -18,4 +26,11 @@ class ServiceDto {
         price = double.parse(json['price'].toString()),
         description = json['description'],
         serviceTypeId = json['service_type_id'];
+
+  //TODO: Проверить работает ли присвоение айди
+  Map<String, dynamic> toJson() => {
+        'description': description,
+        'service_type_id': serviceTypeId ?? type!.id,
+        'price': price,
+      };
 }
