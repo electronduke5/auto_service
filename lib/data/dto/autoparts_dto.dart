@@ -22,8 +22,7 @@ class AutopartDto {
         purchasePrice = json['purchase_price'].toDouble(),
         salePrice = json['sale_price'].toDouble(),
         count = json['count'],
-        category = CategoryDto.fromJson(json['category']);
-
+        category = json['category'] != null ?CategoryDto.fromJson(json['category']) : null;
   Map<String, dynamic> toJson() => {
         'name': name,
         'purchase_price': purchasePrice,

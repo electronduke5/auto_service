@@ -130,7 +130,7 @@ class AutopartsCards extends StatelessWidget {
                             (element) => element.key.contains(autopart.count))
                         .value),
                 const VerticalDivider(),
-                _itemInRow(value: autopart.category!.name.toString()),
+                _itemInRow(value: autopart.category?.name.toString()),
                 const VerticalDivider(),
                 Expanded(
                   child: loggedEmployee.role == RoleEnum.purchasing.name
@@ -208,7 +208,7 @@ class AutopartsCards extends StatelessWidget {
     );
   }
 
-  Widget _itemInRow({required String value, Color? color}) {
+  Widget _itemInRow({required String? value, Color? color}) {
     return Expanded(
       child: Center(
         child: color != null
@@ -219,10 +219,10 @@ class AutopartsCards extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 15.0, vertical: 2.0),
-                  child: Text(value),
+                  child: Text(value?? ''),
                 ),
               )
-            : Text(value),
+            : Text(value?? ''),
       ),
     );
   }
