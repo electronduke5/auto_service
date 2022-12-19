@@ -67,7 +67,7 @@ class ReceiverPage extends StatelessWidget {
                   height: 10,
                 ),
                 ElevatedButton.icon(
-                  icon: const Icon(Icons.group_outlined),
+                  icon: const Icon(Icons.drive_eta_outlined),
                   onPressed: () {
                     context.read<ReceiverNavBloc>().add(ToViewCarsEvent());
                     context.read<CarBloc>().add(GetListCarEvent());
@@ -81,21 +81,21 @@ class ReceiverPage extends StatelessWidget {
                   height: 10,
                 ),
                 ElevatedButton.icon(
-                  icon: const Icon(Icons.library_books_outlined),
+                  icon: const Icon(Icons.note_outlined),
                   onPressed: () {
                     context.read<ReceiverNavBloc>().add(ToViewOrdersEvent());
                     context.read<OrderBloc>().add(GetListOrdersEvent());
                   },
                   style: ElevatedButton.styleFrom(elevation: 7),
                   label: const Text(
-                    "Orders",
+                    "Заказы",
                   ),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 ElevatedButton.icon(
-                  icon: const Icon(Icons.library_books_outlined),
+                  icon: const Icon(Icons.add_box_outlined),
                   onPressed: () {
                     context.read<ReceiverNavBloc>().add(ToAddCarEvent());
                   },
@@ -121,13 +121,13 @@ class ReceiverPage extends StatelessWidget {
                   height: 10,
                 ),
                 ElevatedButton.icon(
-                  icon: const Icon(Icons.person_add_alt_outlined),
+                  icon: const Icon(Icons.note_add_outlined),
                   onPressed: () {
                     context.read<ReceiverNavBloc>().add(ToAddOrderEvent());
                   },
                   style: ElevatedButton.styleFrom(elevation: 7),
                   label: const Text(
-                    "+ Order",
+                    "+ Заказ",
                   ),
                 ),
                 const SizedBox(

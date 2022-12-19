@@ -17,17 +17,6 @@ class ClientCards extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        SizedBox(
-          child: Row(
-            children: const [
-              Text('Sorting'),
-              SizedBox(width: 40),
-              Text('Search'),
-              SizedBox(width: 40),
-              Text('Filter'),
-            ],
-          ),
-        ),
         Expanded(
           child: BlocBuilder<ClientBloc, ClientState>(
             builder: (context, state) {

@@ -15,17 +15,6 @@ class OrderCards extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        SizedBox(
-          child: Row(
-            children: const [
-              Text('Sorting'),
-              SizedBox(width: 40),
-              Text('Search'),
-              SizedBox(width: 40),
-              Text('Filter'),
-            ],
-          ),
-        ),
         Expanded(
           child: BlocBuilder<OrderBloc, OrderState>(
             builder: (context, state) {
@@ -90,6 +79,11 @@ class OrderCards extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Center(
+                child:
+                  Text('Заказ-наряд №${order.id}')
+                ,
+              ),
               Center(
                 child: orderModelItem(
                     value: "Статус: ${order.status!}",

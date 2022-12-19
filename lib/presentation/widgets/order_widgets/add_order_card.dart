@@ -104,7 +104,7 @@ class AddOrderCard extends StatelessWidget {
                         ),
                         const Divider(),
                         AutopartsListView(
-                          autoparts: autoparts,
+                          autoparts: autoparts..removeWhere((element) => element.count == 0),
                           formKey: formKey,
                           order: order,
                         ),
