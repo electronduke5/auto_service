@@ -11,4 +11,26 @@ class RepairService extends ApiService<ServiceDto> {
       entityProducer: (json) => ServiceDto.fromJson(json),
     );
   }
+
+  Future<ServiceDto> addService({
+    required ServiceDto service,
+  }) =>
+      getEntity(
+        entityProducer: (Map<String, dynamic> json) =>
+            ServiceDto.fromJson(json),
+        dataJson: service.toJson(),
+      );
+
+  Future<ServiceDto> editService({required ServiceDto service}) {
+    Map<String, dynamic> serviceJson = service.toJson();
+    serviceJson.addAll({'_method': 'PUT'});
+
+    return getEntity(
+        id: service.id,
+        entityProducer: (Map<String, dynamic> json) =>
+            ServiceDto.fromJson(json),
+        dataJson: serviceJson);
+  }
+
+  Future deleteService({required int id}) => deleteEntity(id: id);
 }

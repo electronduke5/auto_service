@@ -12,3 +12,9 @@ class StorekeeperInEditState extends StorekeeperNavState {
 }
 
 class StorekeeperInViewState extends StorekeeperNavState {}
+
+class StorekeeperInViewCategoriesState extends StorekeeperNavState {}
+
+class StorekeeperInViewServicesState extends StorekeeperNavState {}
+
+class StorekeeperInViewTypesState extends StorekeeperNavState {}

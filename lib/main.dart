@@ -12,6 +12,7 @@ import 'package:auto_service/blocs/navigations_bloc/receiver_nav_bloc/receiver_n
 import 'package:auto_service/blocs/navigations_bloc/storekeeper_nav_bloc/storekeeper_nav_bloc.dart';
 import 'package:auto_service/blocs/orders_bloc/order_bloc.dart';
 import 'package:auto_service/blocs/service_bloc/service_bloc.dart';
+import 'package:auto_service/presentation/color_schemes/color_schemes.g.dart';
 import 'package:auto_service/presentation/pages/accountant_page.dart';
 import 'package:auto_service/presentation/pages/hr_page.dart';
 import 'package:auto_service/presentation/pages/login_page.dart';
@@ -31,7 +32,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'ColorSchemes/color_schemes.g.dart';
 import 'blocs/get_employees_bloc/get_employees_bloc.dart';
 import 'presentation/pages/purchasing_page.dart';
 
