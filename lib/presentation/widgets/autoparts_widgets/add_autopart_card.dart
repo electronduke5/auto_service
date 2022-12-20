@@ -1,9 +1,9 @@
 import 'package:auto_service/blocs/autoparts/add_edit_autopart_bloc/autopart_bloc.dart';
 import 'package:auto_service/blocs/form_submission_status.dart';
-import 'package:auto_service/blocs/navigations_bloc/storekeeper_nav_bloc/storekeeper_nav_bloc.dart';
 import 'package:auto_service/data/dto/autoparts_dto.dart';
 import 'package:auto_service/data/dto/category_dto.dart';
 import 'package:auto_service/validation/autopart_validation.dart';
+import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -230,9 +230,9 @@ class AddAutopartCard extends StatelessWidget {
             value: autopart != null
                 ? menuItemsDropDown
                         .where((category) =>
-                            category.value!.id == autopart!.category!.id)
-                        .first
-                        .value ??
+                            category.value!.id == autopart?.category?.id)
+                        .firstOrNull
+                        ?.value ??
                     _selectedItem
                 : _selectedItem,
             elevation: 4,

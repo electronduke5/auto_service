@@ -158,12 +158,12 @@ class OrderCards extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      '${order.services![index].service!.description} | ${order.services![index].service!.type!.name}',
+                                      '${order.services![index].service?.description ?? ''} | ${order.services![index].service?.type?.name ?? ''}',
                                       style: const TextStyle(fontSize: 12),
                                     ),
                                     const Divider(),
                                     Text(
-                                      '${order.services![index].service!.price} руб',
+                                      '${order.services![index].service?.price ?? ''} руб',
                                       style: const TextStyle(fontSize: 12),
                                     ),
                                   ],

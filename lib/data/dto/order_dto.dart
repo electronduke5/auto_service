@@ -62,8 +62,10 @@ class OrderDto {
     for (var autopart in autoparts!) {
       fullPrice += autopart.count! * autopart.autopart!.salePrice!;
     }
-    for (var service in services!) {
-      fullPrice += service.service!.price!;
+    if(services != null){
+      for (var service in services!) {
+        fullPrice += service.service?.price?? 0.0;
+      }
     }
     return fullPrice;
   }

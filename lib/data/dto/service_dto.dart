@@ -19,8 +19,7 @@ class ServiceDto {
       : id = json['id'],
         price = double.parse(json['price'].toString()),
         description = json['description'],
-        type = ServiceTypeDto.fromServiceJson(json['type']);
-
+        type = json['type'] != null ? ServiceTypeDto.fromServiceJson(json['type']) : null;
   ServiceDto.fromTypeJson(Map<String, dynamic> json)
       : id = json['id'],
         price = double.parse(json['price'].toString()),

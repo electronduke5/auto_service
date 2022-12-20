@@ -93,14 +93,14 @@ class ServicesViewPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  'Описание: "${service.description!}"',
+                  'Описание: "${service.description ?? ''}"',
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                   ),
                 ),
                 Text(
-                  "Категория: ${service.type!.name}",
+                  "Категория: ${service.type?.name ?? ''}",
                   style: TextStyle(color: Theme.of(context).hintColor),
                 ),
                 Text(
@@ -143,13 +143,13 @@ class ServicesViewPage extends StatelessWidget {
                         context
                             .read<ServiceBloc>()
                             .add(DeleteServiceEvent(service.id!));
+                        context.read<ServiceBloc>().add(GetListServicesEvent());
+                        print(context.read<ServiceBloc>().state.modelsStatus.runtimeType);
                         SnackBarInfo.show(
                             context: context,
                             message:
                                 'Работа ${service.description}  успешно удалена!',
                             isSuccess: true);
-
-                        context.read<ServiceBloc>().add(GetListServicesEvent());
                       },
                       child: Icon(Icons.delete_outlined,
                           color: Theme.of(context).errorColor),

@@ -86,7 +86,8 @@ class ServiceDialogs {
                                   : "Это обязательное поле";
                             },
                             onChanged: (value) {
-                              bloc.add(ServiceDescriptionChangedEvent(value));
+                              bloc.add(ServicePriceChangedEvent(
+                                  double.parse(value.toString())));
                             },
                             maxLines: 1,
                             decoration: const InputDecoration(
@@ -179,9 +180,8 @@ class ServiceDialogs {
         bloc: bloc,
         builder: (context, state) {
           return DropdownButtonFormField(
-            //TODO:СДелать валидатор
-            // validator: (value) =>
-            //     AutopartValidation.validated(state: state).categoryMessage,
+            validator: (value) =>
+                value == null ? 'Это обязательное поле' : null,
             icon: const Icon(Icons.category_outlined),
             dropdownColor: Theme.of(context).colorScheme.background,
             value: service != null
