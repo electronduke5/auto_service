@@ -49,7 +49,7 @@ class CategoryDialogs {
                       initialValue: category?.name ?? '',
                       validator: (value) {
                         if (value!.length > 30) {
-                          return "Число должно быть больше нуля";
+                          return "Слишком длинное название!";
                         }
                         return value.isNotEmpty
                             ? null
