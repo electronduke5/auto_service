@@ -1,0 +1,2302 @@
+@startuml
+set namespaceSeparator ::
+
+class "auto_service::blocs::accountants::accountant_bloc.dart::AccountantBloc" {
+  +AccountantService accountantService
+  -void _onGetAllListEvent()
+}
+
+"auto_service::blocs::accountants::accountant_bloc.dart::AccountantBloc" o-- "auto_service::services::accountant_service.dart::AccountantService"
+"bloc::src::bloc.dart::Bloc" <|-- "auto_service::blocs::accountants::accountant_bloc.dart::AccountantBloc"
+
+abstract class "auto_service::blocs::accountants::accountant_bloc.dart::AccountantEvent" {
+}
+
+class "auto_service::blocs::accountants::accountant_bloc.dart::GetAllListEvent" {
+}
+
+"auto_service::blocs::accountants::accountant_bloc.dart::AccountantEvent" <|-- "auto_service::blocs::accountants::accountant_bloc.dart::GetAllListEvent"
+
+class "auto_service::blocs::accountants::accountant_bloc.dart::AccountantState" {
+  +double profit
+  +double expense
+  +String description
+  +DateTime? dateCreated
+  +GetModelsStatus<dynamic> modelsStatus
+  +AccountantState copyWith()
+}
+
+"auto_service::blocs::accountants::accountant_bloc.dart::AccountantState" o-- "auto_service::blocs::get_models_status.dart::GetModelsStatus<dynamic>"
+
+class "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::AutopartBloc" {
+  +AutopartService autopartService
+  -void _onDeleteAutopart()
+  -void _functions()
+  -void _onGetListAutopartsEvent()
+  -void _onFormSubmitted()
+  -void _onFormSubmittedUpdateCount()
+  -void _onFormSubmittedUpdate()
+}
+
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::AutopartBloc" o-- "auto_service::services::autoparts_service.dart::AutopartService"
+"bloc::src::bloc.dart::Bloc" <|-- "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::AutopartBloc"
+
+abstract class "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::AutopartEvent" {
+}
+
+class "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::DeleteAutopartEvent" {
+  +int id
+}
+
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::AutopartEvent" <|-- "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::DeleteAutopartEvent"
+
+class "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::GetListAutopartsEvent" {
+}
+
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::AutopartEvent" <|-- "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::GetListAutopartsEvent"
+
+class "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::SortByAutopartEvent" {
+  +String functions
+  +String sortByQuery
+}
+
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::AutopartEvent" <|-- "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::SortByAutopartEvent"
+
+class "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::SortByDescAutopartEvent" {
+  +String functions
+  +String sortByDescQuery
+}
+
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::AutopartEvent" <|-- "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::SortByDescAutopartEvent"
+
+class "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::SearchChangedEvent" {
+  +String searchQuery
+}
+
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::AutopartEvent" <|-- "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::SearchChangedEvent"
+
+class "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::SearchAutopartEvent" {
+  +String functions
+  +String searchQuery
+}
+
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::AutopartEvent" <|-- "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::SearchAutopartEvent"
+
+class "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::InitialAutopartEvent" {
+  +AutopartState autopartState
+}
+
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::InitialAutopartEvent" o-- "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::AutopartState"
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::AutopartEvent" <|-- "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::InitialAutopartEvent"
+
+class "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::NameChanged" {
+  +String name
+}
+
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::AutopartEvent" <|-- "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::NameChanged"
+
+class "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::PurchasePriceChanged" {
+  +String purchasePrice
+}
+
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::AutopartEvent" <|-- "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::PurchasePriceChanged"
+
+class "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::SalePriceChanged" {
+  +String salePrice
+}
+
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::AutopartEvent" <|-- "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::SalePriceChanged"
+
+class "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::CountChanged" {
+  +String count
+}
+
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::AutopartEvent" <|-- "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::CountChanged"
+
+class "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::CategoryChanged" {
+  +CategoryDto category
+}
+
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::CategoryChanged" o-- "auto_service::data::dto::category_dto.dart::CategoryDto"
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::AutopartEvent" <|-- "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::CategoryChanged"
+
+class "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::EditFormInitial" {
+  +AutopartDto autopart
+}
+
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::EditFormInitial" o-- "auto_service::data::dto::autoparts_dto.dart::AutopartDto"
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::AutopartEvent" <|-- "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::EditFormInitial"
+
+class "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::FormSubmittedUpdateCount" {
+  +int id
+  +int count
+  +AutopartDto autopart
+}
+
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::FormSubmittedUpdateCount" o-- "auto_service::data::dto::autoparts_dto.dart::AutopartDto"
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::AutopartEvent" <|-- "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::FormSubmittedUpdateCount"
+
+class "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::FormSubmittedUpdate" {
+  +int id
+  +int count
+  +String name
+  +CategoryDto category
+  +AutopartDto autopart
+}
+
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::FormSubmittedUpdate" o-- "auto_service::data::dto::category_dto.dart::CategoryDto"
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::FormSubmittedUpdate" o-- "auto_service::data::dto::autoparts_dto.dart::AutopartDto"
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::AutopartEvent" <|-- "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::FormSubmittedUpdate"
+
+class "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::FormSubmitted" {
+  +String name
+  +double purchasePrice
+  +double salePrice
+  +int count
+  +CategoryDto category
+}
+
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::FormSubmitted" o-- "auto_service::data::dto::category_dto.dart::CategoryDto"
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::AutopartEvent" <|-- "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::FormSubmitted"
+
+class "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::AutopartState" {
+  +String name
+  +String purchasePrice
+  +String salePrice
+  +String count
+  +CategoryDto? category
+  +FormSubmissionStatus formStatus
+  +GetModelsStatus<dynamic> modelsStatus
+  +String searchQuery
+  +String message
+  +DeleteStatus deleteStatus
+  +bool isValidName
+  +bool isValidCount
+  +bool isValidPurchase
+  +bool isValidSale
+  +bool isNotEmptyCategory
+  +AutopartState copyWith()
+}
+
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::AutopartState" o-- "auto_service::data::dto::category_dto.dart::CategoryDto"
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::AutopartState" o-- "auto_service::blocs::form_submission_status.dart::FormSubmissionStatus"
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::AutopartState" o-- "auto_service::blocs::get_models_status.dart::GetModelsStatus<dynamic>"
+"auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::AutopartState" o-- "auto_service::blocs::delete_status.dart::DeleteStatus"
+
+class "auto_service::blocs::cars::car_bloc.dart::CarBloc" {
+  +CarService carService
+  -void _onFormSubmitted()
+  -void _onFormSubmittedUpdate()
+  -void _onGetListCarsEvent()
+  -void _searchCar()
+  -void _onDeleteCar()
+}
+
+"auto_service::blocs::cars::car_bloc.dart::CarBloc" o-- "auto_service::services::car_service.dart::CarService"
+"bloc::src::bloc.dart::Bloc" <|-- "auto_service::blocs::cars::car_bloc.dart::CarBloc"
+
+abstract class "auto_service::blocs::cars::car_bloc.dart::CarEvent" {
+}
+
+class "auto_service::blocs::cars::car_bloc.dart::GetListCarEvent" {
+}
+
+"auto_service::blocs::cars::car_bloc.dart::CarEvent" <|-- "auto_service::blocs::cars::car_bloc.dart::GetListCarEvent"
+
+class "auto_service::blocs::cars::car_bloc.dart::DeleteCarEvent" {
+  +int id
+}
+
+"auto_service::blocs::cars::car_bloc.dart::CarEvent" <|-- "auto_service::blocs::cars::car_bloc.dart::DeleteCarEvent"
+
+class "auto_service::blocs::cars::car_bloc.dart::SearchChangedEvent" {
+  +String searchQuery
+}
+
+"auto_service::blocs::cars::car_bloc.dart::CarEvent" <|-- "auto_service::blocs::cars::car_bloc.dart::SearchChangedEvent"
+
+class "auto_service::blocs::cars::car_bloc.dart::SearchCarEvent" {
+  +String functions
+  +String searchQuery
+}
+
+"auto_service::blocs::cars::car_bloc.dart::CarEvent" <|-- "auto_service::blocs::cars::car_bloc.dart::SearchCarEvent"
+
+class "auto_service::blocs::cars::car_bloc.dart::InitialCarEvent" {
+  +CarState carState
+}
+
+"auto_service::blocs::cars::car_bloc.dart::InitialCarEvent" o-- "auto_service::blocs::cars::car_bloc.dart::CarState"
+"auto_service::blocs::cars::car_bloc.dart::CarEvent" <|-- "auto_service::blocs::cars::car_bloc.dart::InitialCarEvent"
+
+class "auto_service::blocs::cars::car_bloc.dart::CarNumberChanged" {
+  +String carNumber
+}
+
+"auto_service::blocs::cars::car_bloc.dart::CarEvent" <|-- "auto_service::blocs::cars::car_bloc.dart::CarNumberChanged"
+
+class "auto_service::blocs::cars::car_bloc.dart::ClientChanged" {
+  +ClientDto client
+}
+
+"auto_service::blocs::cars::car_bloc.dart::ClientChanged" o-- "auto_service::data::dto::client_dto.dart::ClientDto"
+"auto_service::blocs::cars::car_bloc.dart::CarEvent" <|-- "auto_service::blocs::cars::car_bloc.dart::ClientChanged"
+
+class "auto_service::blocs::cars::car_bloc.dart::ModelChanged" {
+  +String model
+}
+
+"auto_service::blocs::cars::car_bloc.dart::CarEvent" <|-- "auto_service::blocs::cars::car_bloc.dart::ModelChanged"
+
+class "auto_service::blocs::cars::car_bloc.dart::VinNumberChanged" {
+  +String vinNumber
+}
+
+"auto_service::blocs::cars::car_bloc.dart::CarEvent" <|-- "auto_service::blocs::cars::car_bloc.dart::VinNumberChanged"
+
+class "auto_service::blocs::cars::car_bloc.dart::MileageChanged" {
+  +double mileage
+}
+
+"auto_service::blocs::cars::car_bloc.dart::CarEvent" <|-- "auto_service::blocs::cars::car_bloc.dart::MileageChanged"
+
+class "auto_service::blocs::cars::car_bloc.dart::EditFormCarInitial" {
+  +CarDto car
+}
+
+"auto_service::blocs::cars::car_bloc.dart::EditFormCarInitial" o-- "auto_service::data::dto::car_dto.dart::CarDto"
+"auto_service::blocs::cars::car_bloc.dart::CarEvent" <|-- "auto_service::blocs::cars::car_bloc.dart::EditFormCarInitial"
+
+class "auto_service::blocs::cars::car_bloc.dart::FormSubmittedUpdate" {
+  +int id
+  +String model
+  +String carNumber
+  +String vinNumber
+  +double mileage
+  +ClientDto client
+}
+
+"auto_service::blocs::cars::car_bloc.dart::FormSubmittedUpdate" o-- "auto_service::data::dto::client_dto.dart::ClientDto"
+"auto_service::blocs::cars::car_bloc.dart::CarEvent" <|-- "auto_service::blocs::cars::car_bloc.dart::FormSubmittedUpdate"
+
+class "auto_service::blocs::cars::car_bloc.dart::FormSubmitted" {
+  +String model
+  +String carNumber
+  +String vinNumber
+  +double mileage
+  +ClientDto client
+}
+
+"auto_service::blocs::cars::car_bloc.dart::FormSubmitted" o-- "auto_service::data::dto::client_dto.dart::ClientDto"
+"auto_service::blocs::cars::car_bloc.dart::CarEvent" <|-- "auto_service::blocs::cars::car_bloc.dart::FormSubmitted"
+
+class "auto_service::blocs::cars::car_bloc.dart::CarState" {
+  +String vinNumber
+  +String carNumber
+  +String model
+  +double mileage
+  +ClientDto? client
+  +FormSubmissionStatus formStatus
+  +GetModelsStatus<dynamic> modelsStatus
+  +String searchQuery
+  +String message
+  +DeleteStatus deleteStatus
+  +bool isClientNotEmpty
+  +CarState copyWith()
+}
+
+"auto_service::blocs::cars::car_bloc.dart::CarState" o-- "auto_service::data::dto::client_dto.dart::ClientDto"
+"auto_service::blocs::cars::car_bloc.dart::CarState" o-- "auto_service::blocs::form_submission_status.dart::FormSubmissionStatus"
+"auto_service::blocs::cars::car_bloc.dart::CarState" o-- "auto_service::blocs::get_models_status.dart::GetModelsStatus<dynamic>"
+"auto_service::blocs::cars::car_bloc.dart::CarState" o-- "auto_service::blocs::delete_status.dart::DeleteStatus"
+
+class "auto_service::blocs::categories::categories_bloc.dart::CategoryBloc" {
+  +CategoryService categoryService
+  -void _onFormSubmitted()
+  -void _onFormSubmittedUpdate()
+  -void _onDeleteCategory()
+  -void _onGetListCategoriesEvent()
+}
+
+"auto_service::blocs::categories::categories_bloc.dart::CategoryBloc" o-- "auto_service::services::category_service.dart::CategoryService"
+"bloc::src::bloc.dart::Bloc" <|-- "auto_service::blocs::categories::categories_bloc.dart::CategoryBloc"
+
+abstract class "auto_service::blocs::categories::categories_bloc.dart::CategoryEvent" {
+}
+
+class "auto_service::blocs::categories::categories_bloc.dart::GetListCategoriesEvent" {
+}
+
+"auto_service::blocs::categories::categories_bloc.dart::CategoryEvent" <|-- "auto_service::blocs::categories::categories_bloc.dart::GetListCategoriesEvent"
+
+class "auto_service::blocs::categories::categories_bloc.dart::DeleteCategoryEvent" {
+  +int id
+}
+
+"auto_service::blocs::categories::categories_bloc.dart::CategoryEvent" <|-- "auto_service::blocs::categories::categories_bloc.dart::DeleteCategoryEvent"
+
+class "auto_service::blocs::categories::categories_bloc.dart::CategoryNameChangedEvent" {
+  +String name
+}
+
+"auto_service::blocs::categories::categories_bloc.dart::CategoryEvent" <|-- "auto_service::blocs::categories::categories_bloc.dart::CategoryNameChangedEvent"
+
+class "auto_service::blocs::categories::categories_bloc.dart::FormSubmittedEvent" {
+  +String name
+}
+
+"auto_service::blocs::categories::categories_bloc.dart::CategoryEvent" <|-- "auto_service::blocs::categories::categories_bloc.dart::FormSubmittedEvent"
+
+class "auto_service::blocs::categories::categories_bloc.dart::FormSubmittedUpdateEvent" {
+  +int id
+  +String name
+}
+
+"auto_service::blocs::categories::categories_bloc.dart::CategoryEvent" <|-- "auto_service::blocs::categories::categories_bloc.dart::FormSubmittedUpdateEvent"
+
+class "auto_service::blocs::categories::categories_bloc.dart::EditFormCategoryInitialEvent" {
+  +CategoryDto category
+}
+
+"auto_service::blocs::categories::categories_bloc.dart::EditFormCategoryInitialEvent" o-- "auto_service::data::dto::category_dto.dart::CategoryDto"
+"auto_service::blocs::categories::categories_bloc.dart::CategoryEvent" <|-- "auto_service::blocs::categories::categories_bloc.dart::EditFormCategoryInitialEvent"
+
+class "auto_service::blocs::categories::categories_bloc.dart::InitialCategoryEvent" {
+  +CategoryState categoryState
+}
+
+"auto_service::blocs::categories::categories_bloc.dart::InitialCategoryEvent" o-- "auto_service::blocs::categories::categories_bloc.dart::CategoryState"
+"auto_service::blocs::categories::categories_bloc.dart::CategoryEvent" <|-- "auto_service::blocs::categories::categories_bloc.dart::InitialCategoryEvent"
+
+class "auto_service::blocs::categories::categories_bloc.dart::CategoryState" {
+  +String name
+  +GetModelsStatus<dynamic> modelsStatus
+  +FormSubmissionStatus formStatus
+  +DeleteStatus deleteStatus
+  +String message
+  +CategoryState copyWith()
+}
+
+"auto_service::blocs::categories::categories_bloc.dart::CategoryState" o-- "auto_service::blocs::get_models_status.dart::GetModelsStatus<dynamic>"
+"auto_service::blocs::categories::categories_bloc.dart::CategoryState" o-- "auto_service::blocs::form_submission_status.dart::FormSubmissionStatus"
+"auto_service::blocs::categories::categories_bloc.dart::CategoryState" o-- "auto_service::blocs::delete_status.dart::DeleteStatus"
+
+class "auto_service::blocs::clients::client_bloc.dart::ClientBloc" {
+  +ClientService clientService
+  -void _onGetListClientsEvent()
+  -void _onFormSubmitted()
+  -void _onFormSubmittedUpdate()
+  -void _searchClient()
+  -void _onDeleteCar()
+}
+
+"auto_service::blocs::clients::client_bloc.dart::ClientBloc" o-- "auto_service::services::client_service.dart::ClientService"
+"bloc::src::bloc.dart::Bloc" <|-- "auto_service::blocs::clients::client_bloc.dart::ClientBloc"
+
+abstract class "auto_service::blocs::clients::client_bloc.dart::ClientEvent" {
+}
+
+class "auto_service::blocs::clients::client_bloc.dart::GetListClientEvent" {
+}
+
+"auto_service::blocs::clients::client_bloc.dart::ClientEvent" <|-- "auto_service::blocs::clients::client_bloc.dart::GetListClientEvent"
+
+class "auto_service::blocs::clients::client_bloc.dart::DeleteClientEvent" {
+  +int id
+}
+
+"auto_service::blocs::clients::client_bloc.dart::ClientEvent" <|-- "auto_service::blocs::clients::client_bloc.dart::DeleteClientEvent"
+
+class "auto_service::blocs::clients::client_bloc.dart::ClientSurnameChanged" {
+  +String surname
+}
+
+"auto_service::blocs::clients::client_bloc.dart::ClientEvent" <|-- "auto_service::blocs::clients::client_bloc.dart::ClientSurnameChanged"
+
+class "auto_service::blocs::clients::client_bloc.dart::ClientNameChanged" {
+  +String name
+}
+
+"auto_service::blocs::clients::client_bloc.dart::ClientEvent" <|-- "auto_service::blocs::clients::client_bloc.dart::ClientNameChanged"
+
+class "auto_service::blocs::clients::client_bloc.dart::ClientPatronymicChanged" {
+  +String patronymic
+}
+
+"auto_service::blocs::clients::client_bloc.dart::ClientEvent" <|-- "auto_service::blocs::clients::client_bloc.dart::ClientPatronymicChanged"
+
+class "auto_service::blocs::clients::client_bloc.dart::ClientPhoneNumberChanged" {
+  +String phoneNumber
+}
+
+"auto_service::blocs::clients::client_bloc.dart::ClientEvent" <|-- "auto_service::blocs::clients::client_bloc.dart::ClientPhoneNumberChanged"
+
+class "auto_service::blocs::clients::client_bloc.dart::ClientSearchChanged" {
+  +String searchQuery
+}
+
+"auto_service::blocs::clients::client_bloc.dart::ClientEvent" <|-- "auto_service::blocs::clients::client_bloc.dart::ClientSearchChanged"
+
+class "auto_service::blocs::clients::client_bloc.dart::ClientSearchEvent" {
+  +String functions
+  +String searchQuery
+}
+
+"auto_service::blocs::clients::client_bloc.dart::ClientEvent" <|-- "auto_service::blocs::clients::client_bloc.dart::ClientSearchEvent"
+
+class "auto_service::blocs::clients::client_bloc.dart::InitialClientEvent" {
+  +ClientState clientState
+}
+
+"auto_service::blocs::clients::client_bloc.dart::InitialClientEvent" o-- "auto_service::blocs::clients::client_bloc.dart::ClientState"
+"auto_service::blocs::clients::client_bloc.dart::ClientEvent" <|-- "auto_service::blocs::clients::client_bloc.dart::InitialClientEvent"
+
+class "auto_service::blocs::clients::client_bloc.dart::EditFormClientInitial" {
+  +ClientDto client
+}
+
+"auto_service::blocs::clients::client_bloc.dart::EditFormClientInitial" o-- "auto_service::data::dto::client_dto.dart::ClientDto"
+"auto_service::blocs::clients::client_bloc.dart::ClientEvent" <|-- "auto_service::blocs::clients::client_bloc.dart::EditFormClientInitial"
+
+class "auto_service::blocs::clients::client_bloc.dart::ClientFormSubmittedUpdate" {
+  +int id
+  +String surname
+  +String name
+  +String patronymic
+  +String phoneNumber
+}
+
+"auto_service::blocs::clients::client_bloc.dart::ClientEvent" <|-- "auto_service::blocs::clients::client_bloc.dart::ClientFormSubmittedUpdate"
+
+class "auto_service::blocs::clients::client_bloc.dart::ClientFormSubmitted" {
+  +String surname
+  +String name
+  +String patronymic
+  +String phoneNumber
+}
+
+"auto_service::blocs::clients::client_bloc.dart::ClientEvent" <|-- "auto_service::blocs::clients::client_bloc.dart::ClientFormSubmitted"
+
+class "auto_service::blocs::clients::client_bloc.dart::ClientState" {
+  +String surname
+  +String name
+  +String patronymic
+  +String phoneNumber
+  +FormSubmissionStatus formStatus
+  +GetModelsStatus<dynamic> modelsStatus
+  +String searchQuery
+  +String message
+  +DeleteStatus deleteStatus
+  +ClientState copyWith()
+}
+
+"auto_service::blocs::clients::client_bloc.dart::ClientState" o-- "auto_service::blocs::form_submission_status.dart::FormSubmissionStatus"
+"auto_service::blocs::clients::client_bloc.dart::ClientState" o-- "auto_service::blocs::get_models_status.dart::GetModelsStatus<dynamic>"
+"auto_service::blocs::clients::client_bloc.dart::ClientState" o-- "auto_service::blocs::delete_status.dart::DeleteStatus"
+
+class "auto_service::blocs::delete_employee_bloc::delete_employee_bloc.dart::DeleteEmployeeBloc" {
+  +EmployeeService employeeService
+}
+
+"auto_service::blocs::delete_employee_bloc::delete_employee_bloc.dart::DeleteEmployeeBloc" o-- "auto_service::services::employee_service.dart::EmployeeService"
+"bloc::src::bloc.dart::Bloc" <|-- "auto_service::blocs::delete_employee_bloc::delete_employee_bloc.dart::DeleteEmployeeBloc"
+
+class "auto_service::blocs::delete_employee_bloc::delete_employee_bloc.dart::DeleteEmployeeEvent" {
+  +int id
+}
+
+class "auto_service::blocs::delete_employee_bloc::delete_employee_bloc.dart::DeleteEmployeeState" {
+  +String message
+  +DeleteStatus modelsStatus
+  +DeleteEmployeeState copyWith()
+}
+
+"auto_service::blocs::delete_employee_bloc::delete_employee_bloc.dart::DeleteEmployeeState" o-- "auto_service::blocs::delete_status.dart::DeleteStatus"
+
+abstract class "auto_service::blocs::delete_status.dart::DeleteStatus" {
+  +String? message
+}
+
+class "auto_service::blocs::delete_status.dart::InitialDeleteStatus" {
+}
+
+"auto_service::blocs::delete_status.dart::DeleteStatus" <|-- "auto_service::blocs::delete_status.dart::InitialDeleteStatus"
+
+class "auto_service::blocs::delete_status.dart::SubmittingDelete" {
+}
+
+"auto_service::blocs::delete_status.dart::DeleteStatus" <|-- "auto_service::blocs::delete_status.dart::SubmittingDelete"
+
+class "auto_service::blocs::delete_status.dart::SubmissionDeleteSuccess" {
+  +String successMessage
+}
+
+"auto_service::blocs::delete_status.dart::DeleteStatus" <|-- "auto_service::blocs::delete_status.dart::SubmissionDeleteSuccess"
+
+class "auto_service::blocs::delete_status.dart::SubmissionDeleteFailed" {
+  +String errorMessage
+}
+
+"auto_service::blocs::delete_status.dart::DeleteStatus" <|-- "auto_service::blocs::delete_status.dart::SubmissionDeleteFailed"
+
+class "auto_service::blocs::employee_bloc::employee_bloc.dart::EmployeeBloc" {
+  +EmployeeService addEmployeeService
+  -void _onFormSubmitted()
+  -void _onFormSubmittedUpdate()
+}
+
+"auto_service::blocs::employee_bloc::employee_bloc.dart::EmployeeBloc" o-- "auto_service::services::employee_service.dart::EmployeeService"
+"bloc::src::bloc.dart::Bloc" <|-- "auto_service::blocs::employee_bloc::employee_bloc.dart::EmployeeBloc"
+
+abstract class "auto_service::blocs::employee_bloc::employee_bloc.dart::EmployeeEvent" {
+}
+
+class "auto_service::blocs::employee_bloc::employee_bloc.dart::SurnameChanged" {
+  +String surname
+}
+
+"auto_service::blocs::employee_bloc::employee_bloc.dart::EmployeeEvent" <|-- "auto_service::blocs::employee_bloc::employee_bloc.dart::SurnameChanged"
+
+class "auto_service::blocs::employee_bloc::employee_bloc.dart::NameChanged" {
+  +String name
+}
+
+"auto_service::blocs::employee_bloc::employee_bloc.dart::EmployeeEvent" <|-- "auto_service::blocs::employee_bloc::employee_bloc.dart::NameChanged"
+
+class "auto_service::blocs::employee_bloc::employee_bloc.dart::PatronymicChanged" {
+  +String patronymic
+}
+
+"auto_service::blocs::employee_bloc::employee_bloc.dart::EmployeeEvent" <|-- "auto_service::blocs::employee_bloc::employee_bloc.dart::PatronymicChanged"
+
+class "auto_service::blocs::employee_bloc::employee_bloc.dart::LoginChanged" {
+  +String login
+}
+
+"auto_service::blocs::employee_bloc::employee_bloc.dart::EmployeeEvent" <|-- "auto_service::blocs::employee_bloc::employee_bloc.dart::LoginChanged"
+
+class "auto_service::blocs::employee_bloc::employee_bloc.dart::PasswordChanged" {
+  +String password
+}
+
+"auto_service::blocs::employee_bloc::employee_bloc.dart::EmployeeEvent" <|-- "auto_service::blocs::employee_bloc::employee_bloc.dart::PasswordChanged"
+
+class "auto_service::blocs::employee_bloc::employee_bloc.dart::RoleChanged" {
+  +String role
+}
+
+"auto_service::blocs::employee_bloc::employee_bloc.dart::EmployeeEvent" <|-- "auto_service::blocs::employee_bloc::employee_bloc.dart::RoleChanged"
+
+class "auto_service::blocs::employee_bloc::employee_bloc.dart::SalaryChanged" {
+  +int salary
+}
+
+"auto_service::blocs::employee_bloc::employee_bloc.dart::EmployeeEvent" <|-- "auto_service::blocs::employee_bloc::employee_bloc.dart::SalaryChanged"
+
+class "auto_service::blocs::employee_bloc::employee_bloc.dart::EditFormInitial" {
+  +EmployeeDto employee
+}
+
+"auto_service::blocs::employee_bloc::employee_bloc.dart::EditFormInitial" o-- "auto_service::data::dto::employee_dto.dart::EmployeeDto"
+"auto_service::blocs::employee_bloc::employee_bloc.dart::EmployeeEvent" <|-- "auto_service::blocs::employee_bloc::employee_bloc.dart::EditFormInitial"
+
+class "auto_service::blocs::employee_bloc::employee_bloc.dart::FormSubmitted" {
+  +String surname
+  +String name
+  +String patronymic
+  +int salary
+  +String role
+  +String login
+  +String password
+}
+
+"auto_service::blocs::employee_bloc::employee_bloc.dart::EmployeeEvent" <|-- "auto_service::blocs::employee_bloc::employee_bloc.dart::FormSubmitted"
+
+class "auto_service::blocs::employee_bloc::employee_bloc.dart::FormSubmittedUpdate" {
+  +int id
+  +String surname
+  +String name
+  +String patronymic
+  +int salary
+  +String role
+  +String login
+  +String? password
+}
+
+"auto_service::blocs::employee_bloc::employee_bloc.dart::EmployeeEvent" <|-- "auto_service::blocs::employee_bloc::employee_bloc.dart::FormSubmittedUpdate"
+
+class "auto_service::blocs::employee_bloc::employee_bloc.dart::EmployeeState" {
+  +String surname
+  +String name
+  +String patronymic
+  +int salary
+  +String role
+  +String login
+  +String password
+  +FormSubmissionStatus formStatus
+  -RegExp _regexPassword
+  +bool isValidSurname
+  +bool isValidName
+  +bool isValidRole
+  +bool isValidAddLogin
+  +bool isValidLoginLength
+  +bool isValidPassword
+  +bool isValidPasswordLength
+  +bool isValidPasswordRegex
+  +bool isValidLogin()
+  +EmployeeState copyWith()
+}
+
+"auto_service::blocs::employee_bloc::employee_bloc.dart::EmployeeState" o-- "auto_service::blocs::form_submission_status.dart::FormSubmissionStatus"
+
+abstract class "auto_service::blocs::form_submission_status.dart::FormSubmissionStatus" {
+}
+
+class "auto_service::blocs::form_submission_status.dart::InitialFormStatus" {
+}
+
+"auto_service::blocs::form_submission_status.dart::FormSubmissionStatus" <|-- "auto_service::blocs::form_submission_status.dart::InitialFormStatus"
+
+class "auto_service::blocs::form_submission_status.dart::FormSubmitting" {
+}
+
+"auto_service::blocs::form_submission_status.dart::FormSubmissionStatus" <|-- "auto_service::blocs::form_submission_status.dart::FormSubmitting"
+
+class "auto_service::blocs::form_submission_status.dart::FormSubmissionSuccess" {
+  +T entity
+}
+
+"auto_service::blocs::form_submission_status.dart::FormSubmissionStatus" <|-- "auto_service::blocs::form_submission_status.dart::FormSubmissionSuccess"
+
+class "auto_service::blocs::form_submission_status.dart::FormSubmissionFailed" {
+  +Object exception
+}
+
+"auto_service::blocs::form_submission_status.dart::FormSubmissionStatus" <|-- "auto_service::blocs::form_submission_status.dart::FormSubmissionFailed"
+
+class "auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::GetEmployeesBloc" {
+  +EmployeeService employeesService
+  -void _onSortBy()
+  -void _onGetListEmployeesEvent()
+}
+
+"auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::GetEmployeesBloc" o-- "auto_service::services::employee_service.dart::EmployeeService"
+"bloc::src::bloc.dart::Bloc" <|-- "auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::GetEmployeesBloc"
+
+abstract class "auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::GetEmployeesEvent" {
+}
+
+class "auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::GetListEmployeesEvent" {
+}
+
+"auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::GetEmployeesEvent" <|-- "auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::GetListEmployeesEvent"
+
+class "auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::SortBySurname" {
+}
+
+"auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::GetEmployeesEvent" <|-- "auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::SortBySurname"
+
+class "auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::SortByRole" {
+}
+
+"auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::GetEmployeesEvent" <|-- "auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::SortByRole"
+
+class "auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::SortBySalary" {
+}
+
+"auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::GetEmployeesEvent" <|-- "auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::SortBySalary"
+
+class "auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::SortBySalaryDesc" {
+}
+
+"auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::GetEmployeesEvent" <|-- "auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::SortBySalaryDesc"
+
+class "auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::SearchChangedEvent" {
+  +String query
+}
+
+"auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::GetEmployeesEvent" <|-- "auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::SearchChangedEvent"
+
+class "auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::SearchEmployeeEvent" {
+  +String query
+}
+
+"auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::GetEmployeesEvent" <|-- "auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::SearchEmployeeEvent"
+
+class "auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::RoleFilterEvent" {
+  +String role
+}
+
+"auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::GetEmployeesEvent" <|-- "auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::RoleFilterEvent"
+
+class "auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::NoneEvent" {
+}
+
+"auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::GetEmployeesEvent" <|-- "auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::NoneEvent"
+
+class "auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::GetEmployeesState" {
+  +GetModelsStatus<dynamic> modelsStatus
+  +String searchQuery
+  +GetEmployeesState copyWith()
+}
+
+"auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::GetEmployeesState" o-- "auto_service::blocs::get_models_status.dart::GetModelsStatus<dynamic>"
+
+abstract class "auto_service::blocs::get_models_status.dart::GetModelsStatus" {
+  +List<T>? entities
+  +String? error
+}
+
+class "auto_service::blocs::get_models_status.dart::InitialModelsStatus" {
+}
+
+"auto_service::blocs::get_models_status.dart::GetModelsStatus" <|-- "auto_service::blocs::get_models_status.dart::InitialModelsStatus"
+
+class "auto_service::blocs::get_models_status.dart::Submitting" {
+}
+
+"auto_service::blocs::get_models_status.dart::GetModelsStatus" <|-- "auto_service::blocs::get_models_status.dart::Submitting"
+
+class "auto_service::blocs::get_models_status.dart::SubmissionSuccess" {
+  +List<T> listEntities
+}
+
+"auto_service::blocs::get_models_status.dart::GetModelsStatus" <|-- "auto_service::blocs::get_models_status.dart::SubmissionSuccess"
+
+class "auto_service::blocs::get_models_status.dart::SubmissionFailed" {
+  +Object exception
+}
+
+"auto_service::blocs::get_models_status.dart::GetModelsStatus" <|-- "auto_service::blocs::get_models_status.dart::SubmissionFailed"
+
+class "auto_service::blocs::login_bloc::login_bloc.dart::LoginBloc" {
+  +LoginService loginService
+  -void _onLoginSubmitted()
+}
+
+"auto_service::blocs::login_bloc::login_bloc.dart::LoginBloc" o-- "auto_service::services::login.dart::LoginService"
+"bloc::src::bloc.dart::Bloc" <|-- "auto_service::blocs::login_bloc::login_bloc.dart::LoginBloc"
+
+abstract class "auto_service::blocs::login_bloc::login_bloc.dart::LoginEvent" {
+}
+
+class "auto_service::blocs::login_bloc::login_bloc.dart::LoginChanged" {
+  +String login
+}
+
+"auto_service::blocs::login_bloc::login_bloc.dart::LoginEvent" <|-- "auto_service::blocs::login_bloc::login_bloc.dart::LoginChanged"
+
+class "auto_service::blocs::login_bloc::login_bloc.dart::PasswordChanged" {
+  +String password
+}
+
+"auto_service::blocs::login_bloc::login_bloc.dart::LoginEvent" <|-- "auto_service::blocs::login_bloc::login_bloc.dart::PasswordChanged"
+
+class "auto_service::blocs::login_bloc::login_bloc.dart::LoginSubmitted" {
+  +String login
+  +String password
+}
+
+"auto_service::blocs::login_bloc::login_bloc.dart::LoginEvent" <|-- "auto_service::blocs::login_bloc::login_bloc.dart::LoginSubmitted"
+
+class "auto_service::blocs::login_bloc::login_bloc.dart::LoginState" {
+  +String login
+  +String password
+  +FormSubmissionStatus formStatus
+  +bool isValidLogin
+  +bool isValidPassword
+  +LoginState copyWith()
+}
+
+"auto_service::blocs::login_bloc::login_bloc.dart::LoginState" o-- "auto_service::blocs::form_submission_status.dart::FormSubmissionStatus"
+
+class "auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::AccountantNavBloc" {
+}
+
+"bloc::src::bloc.dart::Bloc" <|-- "auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::AccountantNavBloc"
+
+abstract class "auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::AccountantNavEvent" {
+}
+
+class "auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::ToViewAllEvent" {
+}
+
+"auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::AccountantNavEvent" <|-- "auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::ToViewAllEvent"
+
+class "auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::ToViewProfitEvent" {
+}
+
+"auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::AccountantNavEvent" <|-- "auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::ToViewProfitEvent"
+
+class "auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::ToViewExpenseEvent" {
+}
+
+"auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::AccountantNavEvent" <|-- "auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::ToViewExpenseEvent"
+
+class "auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::ToViewChartEvent" {
+}
+
+"auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::AccountantNavEvent" <|-- "auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::ToViewChartEvent"
+
+class "auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::ToExportEvent" {
+}
+
+"auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::AccountantNavEvent" <|-- "auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::ToExportEvent"
+
+abstract class "auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::AccountantNavState" {
+}
+
+class "auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::AccountantInViewAllState" {
+}
+
+"auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::AccountantNavState" <|-- "auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::AccountantInViewAllState"
+
+class "auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::AccountantInViewProfitState" {
+}
+
+"auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::AccountantNavState" <|-- "auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::AccountantInViewProfitState"
+
+class "auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::AccountantInViewExpenseState" {
+}
+
+"auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::AccountantNavState" <|-- "auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::AccountantInViewExpenseState"
+
+class "auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::AccountantInViewChartState" {
+}
+
+"auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::AccountantNavState" <|-- "auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::AccountantInViewChartState"
+
+class "auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::AccountantInExportState" {
+}
+
+"auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::AccountantNavState" <|-- "auto_service::blocs::navigations_bloc::accountant_nav_bloc::accountant_nav_bloc.dart::AccountantInExportState"
+
+class "auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::HrNavigationBloc" {
+}
+
+"bloc::src::bloc.dart::Bloc" <|-- "auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::HrNavigationBloc"
+
+abstract class "auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::HrNavigationEvent" {
+}
+
+class "auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::ToEmployeesPage" {
+}
+
+"auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::HrNavigationEvent" <|-- "auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::ToEmployeesPage"
+
+class "auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::ToAddEmployeePage" {
+}
+
+"auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::HrNavigationEvent" <|-- "auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::ToAddEmployeePage"
+
+class "auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::ToEditEmployeePage" {
+  +EmployeeDto employee
+}
+
+"auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::ToEditEmployeePage" o-- "auto_service::data::dto::employee_dto.dart::EmployeeDto"
+"auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::HrNavigationEvent" <|-- "auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::ToEditEmployeePage"
+
+class "auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::ToProfilePage" {
+  +EmployeeDto loggedEmployee
+}
+
+"auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::ToProfilePage" o-- "auto_service::data::dto::employee_dto.dart::EmployeeDto"
+"auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::HrNavigationEvent" <|-- "auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::ToProfilePage"
+
+abstract class "auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::HrNavigationState" {
+  +EmployeeDto? employeeEdit
+}
+
+"auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::HrNavigationState" o-- "auto_service::data::dto::employee_dto.dart::EmployeeDto"
+
+class "auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::HrInViewState" {
+}
+
+"auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::HrNavigationState" <|-- "auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::HrInViewState"
+
+class "auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::HrInAddState" {
+}
+
+"auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::HrNavigationState" <|-- "auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::HrInAddState"
+
+class "auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::HrInEditState" {
+  +EmployeeDto employee
+}
+
+"auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::HrInEditState" o-- "auto_service::data::dto::employee_dto.dart::EmployeeDto"
+"auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::HrNavigationState" <|-- "auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::HrInEditState"
+
+class "auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::HrInProfileState" {
+  +EmployeeDto loggedEmployee
+}
+
+"auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::HrInProfileState" o-- "auto_service::data::dto::employee_dto.dart::EmployeeDto"
+"auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::HrNavigationState" <|-- "auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::HrInProfileState"
+
+class "auto_service::blocs::navigations_bloc::purchasing_nav_bloc::purchasing_nav_bloc.dart::PurchasingNavBloc" {
+}
+
+"bloc::src::bloc.dart::Bloc" <|-- "auto_service::blocs::navigations_bloc::purchasing_nav_bloc::purchasing_nav_bloc.dart::PurchasingNavBloc"
+
+abstract class "auto_service::blocs::navigations_bloc::purchasing_nav_bloc::purchasing_nav_bloc.dart::PurchasingNavEvent" {
+}
+
+class "auto_service::blocs::navigations_bloc::purchasing_nav_bloc::purchasing_nav_bloc.dart::ToAddAutopartPageEvent" {
+}
+
+"auto_service::blocs::navigations_bloc::purchasing_nav_bloc::purchasing_nav_bloc.dart::PurchasingNavEvent" <|-- "auto_service::blocs::navigations_bloc::purchasing_nav_bloc::purchasing_nav_bloc.dart::ToAddAutopartPageEvent"
+
+class "auto_service::blocs::navigations_bloc::purchasing_nav_bloc::purchasing_nav_bloc.dart::ToViewAutopartsPageEvent" {
+}
+
+"auto_service::blocs::navigations_bloc::purchasing_nav_bloc::purchasing_nav_bloc.dart::PurchasingNavEvent" <|-- "auto_service::blocs::navigations_bloc::purchasing_nav_bloc::purchasing_nav_bloc.dart::ToViewAutopartsPageEvent"
+
+class "auto_service::blocs::navigations_bloc::purchasing_nav_bloc::purchasing_nav_bloc.dart::ToEditAutopartsPageEvent" {
+  +AutopartDto autopart
+}
+
+"auto_service::blocs::navigations_bloc::purchasing_nav_bloc::purchasing_nav_bloc.dart::ToEditAutopartsPageEvent" o-- "auto_service::data::dto::autoparts_dto.dart::AutopartDto"
+"auto_service::blocs::navigations_bloc::purchasing_nav_bloc::purchasing_nav_bloc.dart::PurchasingNavEvent" <|-- "auto_service::blocs::navigations_bloc::purchasing_nav_bloc::purchasing_nav_bloc.dart::ToEditAutopartsPageEvent"
+
+abstract class "auto_service::blocs::navigations_bloc::purchasing_nav_bloc::purchasing_nav_bloc.dart::PurchasingNavState" {
+  +AutopartDto? autopartEdit
+}
+
+"auto_service::blocs::navigations_bloc::purchasing_nav_bloc::purchasing_nav_bloc.dart::PurchasingNavState" o-- "auto_service::data::dto::autoparts_dto.dart::AutopartDto"
+
+class "auto_service::blocs::navigations_bloc::purchasing_nav_bloc::purchasing_nav_bloc.dart::PurchasingInAddState" {
+}
+
+"auto_service::blocs::navigations_bloc::purchasing_nav_bloc::purchasing_nav_bloc.dart::PurchasingNavState" <|-- "auto_service::blocs::navigations_bloc::purchasing_nav_bloc::purchasing_nav_bloc.dart::PurchasingInAddState"
+
+class "auto_service::blocs::navigations_bloc::purchasing_nav_bloc::purchasing_nav_bloc.dart::PurchasingInEditState" {
+  +AutopartDto autopart
+}
+
+"auto_service::blocs::navigations_bloc::purchasing_nav_bloc::purchasing_nav_bloc.dart::PurchasingInEditState" o-- "auto_service::data::dto::autoparts_dto.dart::AutopartDto"
+"auto_service::blocs::navigations_bloc::purchasing_nav_bloc::purchasing_nav_bloc.dart::PurchasingNavState" <|-- "auto_service::blocs::navigations_bloc::purchasing_nav_bloc::purchasing_nav_bloc.dart::PurchasingInEditState"
+
+class "auto_service::blocs::navigations_bloc::purchasing_nav_bloc::purchasing_nav_bloc.dart::PurchasingInViewState" {
+}
+
+"auto_service::blocs::navigations_bloc::purchasing_nav_bloc::purchasing_nav_bloc.dart::PurchasingNavState" <|-- "auto_service::blocs::navigations_bloc::purchasing_nav_bloc::purchasing_nav_bloc.dart::PurchasingInViewState"
+
+class "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavBloc" {
+}
+
+"bloc::src::bloc.dart::Bloc" <|-- "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavBloc"
+
+abstract class "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavEvent" {
+}
+
+class "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ToViewClientsEvent" {
+}
+
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavEvent" <|-- "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ToViewClientsEvent"
+
+class "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ToViewClientInfoEvent" {
+  +ClientDto client
+}
+
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ToViewClientInfoEvent" o-- "auto_service::data::dto::client_dto.dart::ClientDto"
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavEvent" <|-- "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ToViewClientInfoEvent"
+
+class "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ToViewCarsEvent" {
+}
+
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavEvent" <|-- "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ToViewCarsEvent"
+
+class "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ToViewOrdersEvent" {
+}
+
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavEvent" <|-- "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ToViewOrdersEvent"
+
+class "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ToAddCarEvent" {
+}
+
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavEvent" <|-- "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ToAddCarEvent"
+
+class "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ToEditCarEvent" {
+  +CarDto car
+}
+
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ToEditCarEvent" o-- "auto_service::data::dto::car_dto.dart::CarDto"
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavEvent" <|-- "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ToEditCarEvent"
+
+class "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ToAddClientEvent" {
+}
+
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavEvent" <|-- "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ToAddClientEvent"
+
+class "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ToEditClientEvent" {
+  +ClientDto client
+}
+
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ToEditClientEvent" o-- "auto_service::data::dto::client_dto.dart::ClientDto"
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavEvent" <|-- "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ToEditClientEvent"
+
+class "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ToAddOrderEvent" {
+}
+
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavEvent" <|-- "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ToAddOrderEvent"
+
+class "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ToEditOrderEvent" {
+  +OrderDto order
+}
+
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ToEditOrderEvent" o-- "auto_service::data::dto::order_dto.dart::OrderDto"
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavEvent" <|-- "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ToEditOrderEvent"
+
+abstract class "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavState" {
+  +ClientDto? client
+  +CarDto? carEdit
+  +ClientDto? clientEdit
+  +OrderDto? orderEdit
+}
+
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavState" o-- "auto_service::data::dto::client_dto.dart::ClientDto"
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavState" o-- "auto_service::data::dto::car_dto.dart::CarDto"
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavState" o-- "auto_service::data::dto::order_dto.dart::OrderDto"
+
+class "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverInViewClientsState" {
+}
+
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavState" <|-- "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverInViewClientsState"
+
+class "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverInViewClientInfoState" {
+}
+
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavState" <|-- "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverInViewClientInfoState"
+
+class "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverInViewCarsState" {
+}
+
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavState" <|-- "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverInViewCarsState"
+
+class "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverInViewOrdersState" {
+}
+
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavState" <|-- "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverInViewOrdersState"
+
+class "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverInAddCarState" {
+}
+
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavState" <|-- "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverInAddCarState"
+
+class "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverInEditCarState" {
+  +CarDto car
+}
+
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverInEditCarState" o-- "auto_service::data::dto::car_dto.dart::CarDto"
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavState" <|-- "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverInEditCarState"
+
+class "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverInAddClientState" {
+}
+
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavState" <|-- "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverInAddClientState"
+
+class "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverInEditClientState" {
+  +ClientDto client
+}
+
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverInEditClientState" o-- "auto_service::data::dto::client_dto.dart::ClientDto"
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavState" <|-- "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverInEditClientState"
+
+class "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverInAddOrderState" {
+}
+
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavState" <|-- "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverInAddOrderState"
+
+class "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverInEditOrderState" {
+  +OrderDto order
+}
+
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverInEditOrderState" o-- "auto_service::data::dto::order_dto.dart::OrderDto"
+"auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavState" <|-- "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverInEditOrderState"
+
+class "auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::StorekeeperNavBloc" {
+}
+
+"bloc::src::bloc.dart::Bloc" <|-- "auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::StorekeeperNavBloc"
+
+abstract class "auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::StorekeeperNavEvent" {
+}
+
+class "auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::ToViewAutopartsEvent" {
+}
+
+"auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::StorekeeperNavEvent" <|-- "auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::ToViewAutopartsEvent"
+
+class "auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::ToViewCategoriesEvent" {
+}
+
+"auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::StorekeeperNavEvent" <|-- "auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::ToViewCategoriesEvent"
+
+class "auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::ToViewServicesEvent" {
+}
+
+"auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::StorekeeperNavEvent" <|-- "auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::ToViewServicesEvent"
+
+class "auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::ToViewTypesEvent" {
+}
+
+"auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::StorekeeperNavEvent" <|-- "auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::ToViewTypesEvent"
+
+class "auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::ToEditAutopartEvent" {
+  +AutopartDto autopart
+}
+
+"auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::ToEditAutopartEvent" o-- "auto_service::data::dto::autoparts_dto.dart::AutopartDto"
+"auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::StorekeeperNavEvent" <|-- "auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::ToEditAutopartEvent"
+
+abstract class "auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::StorekeeperNavState" {
+  +AutopartDto? autopartEdit
+}
+
+"auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::StorekeeperNavState" o-- "auto_service::data::dto::autoparts_dto.dart::AutopartDto"
+
+class "auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::StorekeeperInEditState" {
+}
+
+"auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::StorekeeperNavState" <|-- "auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::StorekeeperInEditState"
+
+class "auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::StorekeeperInViewState" {
+}
+
+"auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::StorekeeperNavState" <|-- "auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::StorekeeperInViewState"
+
+class "auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::StorekeeperInViewCategoriesState" {
+}
+
+"auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::StorekeeperNavState" <|-- "auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::StorekeeperInViewCategoriesState"
+
+class "auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::StorekeeperInViewServicesState" {
+}
+
+"auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::StorekeeperNavState" <|-- "auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::StorekeeperInViewServicesState"
+
+class "auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::StorekeeperInViewTypesState" {
+}
+
+"auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::StorekeeperNavState" <|-- "auto_service::blocs::navigations_bloc::storekeeper_nav_bloc::storekeeper_nav_bloc.dart::StorekeeperInViewTypesState"
+
+class "auto_service::blocs::orders_bloc::order_bloc.dart::OrderBloc" {
+  +OrderService orderService
+  -void _onFormSubmitted()
+  -void _onFormSubmittedUpdate()
+  -void _onGetListOrderEvent()
+  -void _onGetOrderEvent()
+}
+
+"auto_service::blocs::orders_bloc::order_bloc.dart::OrderBloc" o-- "auto_service::services::order_service.dart::OrderService"
+"bloc::src::bloc.dart::Bloc" <|-- "auto_service::blocs::orders_bloc::order_bloc.dart::OrderBloc"
+
+class "auto_service::blocs::orders_bloc::order_bloc.dart::OrderEvent" {
+}
+
+class "auto_service::blocs::orders_bloc::order_bloc.dart::GetListOrdersEvent" {
+}
+
+"auto_service::blocs::orders_bloc::order_bloc.dart::OrderEvent" <|-- "auto_service::blocs::orders_bloc::order_bloc.dart::GetListOrdersEvent"
+
+class "auto_service::blocs::orders_bloc::order_bloc.dart::GetOrdersByCarEvent" {
+  +int id
+}
+
+"auto_service::blocs::orders_bloc::order_bloc.dart::OrderEvent" <|-- "auto_service::blocs::orders_bloc::order_bloc.dart::GetOrdersByCarEvent"
+
+class "auto_service::blocs::orders_bloc::order_bloc.dart::CarChangedInOrderEvent" {
+  +CarDto car
+}
+
+"auto_service::blocs::orders_bloc::order_bloc.dart::CarChangedInOrderEvent" o-- "auto_service::data::dto::car_dto.dart::CarDto"
+"auto_service::blocs::orders_bloc::order_bloc.dart::OrderEvent" <|-- "auto_service::blocs::orders_bloc::order_bloc.dart::CarChangedInOrderEvent"
+
+class "auto_service::blocs::orders_bloc::order_bloc.dart::AutopartsChangedInOrderEvent" {
+  +List<AutopartDto> autoparts
+}
+
+"auto_service::blocs::orders_bloc::order_bloc.dart::OrderEvent" <|-- "auto_service::blocs::orders_bloc::order_bloc.dart::AutopartsChangedInOrderEvent"
+
+class "auto_service::blocs::orders_bloc::order_bloc.dart::AutopartsCountChangedInOrderEvent" {
+  +List<int> count
+}
+
+"auto_service::blocs::orders_bloc::order_bloc.dart::OrderEvent" <|-- "auto_service::blocs::orders_bloc::order_bloc.dart::AutopartsCountChangedInOrderEvent"
+
+class "auto_service::blocs::orders_bloc::order_bloc.dart::ServicesChangedInOrderEvent" {
+  +List<ServiceDto> services
+}
+
+"auto_service::blocs::orders_bloc::order_bloc.dart::OrderEvent" <|-- "auto_service::blocs::orders_bloc::order_bloc.dart::ServicesChangedInOrderEvent"
+
+class "auto_service::blocs::orders_bloc::order_bloc.dart::OrderFormSubmittedEvent" {
+  +StatusEnum status
+  +CarDto car
+  +EmployeeDto employee
+  +List<AutopartDto>? autoparts
+  +List<int>? autopartsCount
+  +List<ServiceDto>? services
+}
+
+"auto_service::blocs::orders_bloc::order_bloc.dart::OrderFormSubmittedEvent" o-- "auto_service::domain::emuns::order_status_enum.dart::StatusEnum"
+"auto_service::blocs::orders_bloc::order_bloc.dart::OrderFormSubmittedEvent" o-- "auto_service::data::dto::car_dto.dart::CarDto"
+"auto_service::blocs::orders_bloc::order_bloc.dart::OrderFormSubmittedEvent" o-- "auto_service::data::dto::employee_dto.dart::EmployeeDto"
+"auto_service::blocs::orders_bloc::order_bloc.dart::OrderEvent" <|-- "auto_service::blocs::orders_bloc::order_bloc.dart::OrderFormSubmittedEvent"
+
+class "auto_service::blocs::orders_bloc::order_bloc.dart::OrderFormSubmittedUpdateEvent" {
+  +int id
+  +StatusEnum status
+  +CarDto car
+  +EmployeeDto employee
+  +List<AutopartDto>? autoparts
+  +List<int>? autopartsCount
+  +List<ServiceDto>? services
+}
+
+"auto_service::blocs::orders_bloc::order_bloc.dart::OrderFormSubmittedUpdateEvent" o-- "auto_service::domain::emuns::order_status_enum.dart::StatusEnum"
+"auto_service::blocs::orders_bloc::order_bloc.dart::OrderFormSubmittedUpdateEvent" o-- "auto_service::data::dto::car_dto.dart::CarDto"
+"auto_service::blocs::orders_bloc::order_bloc.dart::OrderFormSubmittedUpdateEvent" o-- "auto_service::data::dto::employee_dto.dart::EmployeeDto"
+"auto_service::blocs::orders_bloc::order_bloc.dart::OrderEvent" <|-- "auto_service::blocs::orders_bloc::order_bloc.dart::OrderFormSubmittedUpdateEvent"
+
+class "auto_service::blocs::orders_bloc::order_bloc.dart::OrderState" {
+  +StatusEnum status
+  +CarDto? car
+  +ClientDto? client
+  +EmployeeDto? employee
+  +List<ServiceOrderDto>? services
+  +List<ServiceDto>? servicesAdd
+  +List<AutopartOrderDto>? autoparts
+  +List<AutopartDto>? autopartsAdd
+  +List<int>? autopartsCount
+  +GetModelsStatus<dynamic> modelsStatus
+  +FormSubmissionStatus formStatus
+  +OrderState copyWith()
+}
+
+"auto_service::blocs::orders_bloc::order_bloc.dart::OrderState" o-- "auto_service::domain::emuns::order_status_enum.dart::StatusEnum"
+"auto_service::blocs::orders_bloc::order_bloc.dart::OrderState" o-- "auto_service::data::dto::car_dto.dart::CarDto"
+"auto_service::blocs::orders_bloc::order_bloc.dart::OrderState" o-- "auto_service::data::dto::client_dto.dart::ClientDto"
+"auto_service::blocs::orders_bloc::order_bloc.dart::OrderState" o-- "auto_service::data::dto::employee_dto.dart::EmployeeDto"
+"auto_service::blocs::orders_bloc::order_bloc.dart::OrderState" o-- "auto_service::blocs::get_models_status.dart::GetModelsStatus<dynamic>"
+"auto_service::blocs::orders_bloc::order_bloc.dart::OrderState" o-- "auto_service::blocs::form_submission_status.dart::FormSubmissionStatus"
+
+class "auto_service::blocs::service_bloc::service_bloc.dart::ServiceBloc" {
+  +RepairService repairService
+  -void _onFormSubmitted()
+  -void _onFormSubmittedUpdate()
+  -void _onDeleteService()
+}
+
+"auto_service::blocs::service_bloc::service_bloc.dart::ServiceBloc" o-- "auto_service::services::repair_service.dart::RepairService"
+"bloc::src::bloc.dart::Bloc" <|-- "auto_service::blocs::service_bloc::service_bloc.dart::ServiceBloc"
+
+abstract class "auto_service::blocs::service_bloc::service_bloc.dart::ServiceEvent" {
+}
+
+class "auto_service::blocs::service_bloc::service_bloc.dart::GetListServicesEvent" {
+}
+
+"auto_service::blocs::service_bloc::service_bloc.dart::ServiceEvent" <|-- "auto_service::blocs::service_bloc::service_bloc.dart::GetListServicesEvent"
+
+class "auto_service::blocs::service_bloc::service_bloc.dart::InitialServiceEvent" {
+}
+
+"auto_service::blocs::service_bloc::service_bloc.dart::ServiceEvent" <|-- "auto_service::blocs::service_bloc::service_bloc.dart::InitialServiceEvent"
+
+class "auto_service::blocs::service_bloc::service_bloc.dart::DeleteServiceEvent" {
+  +int id
+}
+
+"auto_service::blocs::service_bloc::service_bloc.dart::ServiceEvent" <|-- "auto_service::blocs::service_bloc::service_bloc.dart::DeleteServiceEvent"
+
+class "auto_service::blocs::service_bloc::service_bloc.dart::ServiceDescriptionChangedEvent" {
+  +String description
+}
+
+"auto_service::blocs::service_bloc::service_bloc.dart::ServiceEvent" <|-- "auto_service::blocs::service_bloc::service_bloc.dart::ServiceDescriptionChangedEvent"
+
+class "auto_service::blocs::service_bloc::service_bloc.dart::ServicePriceChangedEvent" {
+  +double price
+}
+
+"auto_service::blocs::service_bloc::service_bloc.dart::ServiceEvent" <|-- "auto_service::blocs::service_bloc::service_bloc.dart::ServicePriceChangedEvent"
+
+class "auto_service::blocs::service_bloc::service_bloc.dart::ServiceTypeChangedEvent" {
+  +ServiceTypeDto type
+}
+
+"auto_service::blocs::service_bloc::service_bloc.dart::ServiceTypeChangedEvent" o-- "auto_service::data::dto::service_type_dto.dart::ServiceTypeDto"
+"auto_service::blocs::service_bloc::service_bloc.dart::ServiceEvent" <|-- "auto_service::blocs::service_bloc::service_bloc.dart::ServiceTypeChangedEvent"
+
+class "auto_service::blocs::service_bloc::service_bloc.dart::FormSubmittedEvent" {
+  +String description
+  +ServiceTypeDto type
+  +double price
+}
+
+"auto_service::blocs::service_bloc::service_bloc.dart::FormSubmittedEvent" o-- "auto_service::data::dto::service_type_dto.dart::ServiceTypeDto"
+"auto_service::blocs::service_bloc::service_bloc.dart::ServiceEvent" <|-- "auto_service::blocs::service_bloc::service_bloc.dart::FormSubmittedEvent"
+
+class "auto_service::blocs::service_bloc::service_bloc.dart::FormSubmittedUpdateEvent" {
+  +int id
+  +String description
+  +ServiceTypeDto type
+  +double price
+}
+
+"auto_service::blocs::service_bloc::service_bloc.dart::FormSubmittedUpdateEvent" o-- "auto_service::data::dto::service_type_dto.dart::ServiceTypeDto"
+"auto_service::blocs::service_bloc::service_bloc.dart::ServiceEvent" <|-- "auto_service::blocs::service_bloc::service_bloc.dart::FormSubmittedUpdateEvent"
+
+class "auto_service::blocs::service_bloc::service_bloc.dart::EditFormServiceInitialEvent" {
+  +ServiceDto service
+}
+
+"auto_service::blocs::service_bloc::service_bloc.dart::EditFormServiceInitialEvent" o-- "auto_service::data::dto::service_dto.dart::ServiceDto"
+"auto_service::blocs::service_bloc::service_bloc.dart::ServiceEvent" <|-- "auto_service::blocs::service_bloc::service_bloc.dart::EditFormServiceInitialEvent"
+
+class "auto_service::blocs::service_bloc::service_bloc.dart::ServiceState" {
+  +String description
+  +ServiceTypeDto? type
+  +double price
+  +GetModelsStatus<dynamic> modelsStatus
+  +FormSubmissionStatus formStatus
+  +DeleteStatus deleteStatus
+  +String message
+  +ServiceState copyWith()
+}
+
+"auto_service::blocs::service_bloc::service_bloc.dart::ServiceState" o-- "auto_service::data::dto::service_type_dto.dart::ServiceTypeDto"
+"auto_service::blocs::service_bloc::service_bloc.dart::ServiceState" o-- "auto_service::blocs::get_models_status.dart::GetModelsStatus<dynamic>"
+"auto_service::blocs::service_bloc::service_bloc.dart::ServiceState" o-- "auto_service::blocs::form_submission_status.dart::FormSubmissionStatus"
+"auto_service::blocs::service_bloc::service_bloc.dart::ServiceState" o-- "auto_service::blocs::delete_status.dart::DeleteStatus"
+
+class "auto_service::blocs::service_type_bloc::type_bloc.dart::TypeBloc" {
+  +RepairTypeService typeService
+  -void _onFormSubmitted()
+  -void _onFormSubmittedUpdate()
+  -void _onDeleteType()
+  -void _onGetListTypesEvent()
+}
+
+"auto_service::blocs::service_type_bloc::type_bloc.dart::TypeBloc" o-- "auto_service::services::repair_type_service.dart::RepairTypeService"
+"bloc::src::bloc.dart::Bloc" <|-- "auto_service::blocs::service_type_bloc::type_bloc.dart::TypeBloc"
+
+abstract class "auto_service::blocs::service_type_bloc::type_bloc.dart::TypeEvent" {
+}
+
+class "auto_service::blocs::service_type_bloc::type_bloc.dart::GetListTypesEvent" {
+}
+
+"auto_service::blocs::service_type_bloc::type_bloc.dart::TypeEvent" <|-- "auto_service::blocs::service_type_bloc::type_bloc.dart::GetListTypesEvent"
+
+class "auto_service::blocs::service_type_bloc::type_bloc.dart::DeleteTypeEvent" {
+  +int id
+}
+
+"auto_service::blocs::service_type_bloc::type_bloc.dart::TypeEvent" <|-- "auto_service::blocs::service_type_bloc::type_bloc.dart::DeleteTypeEvent"
+
+class "auto_service::blocs::service_type_bloc::type_bloc.dart::TypeNameChangedEvent" {
+  +String name
+}
+
+"auto_service::blocs::service_type_bloc::type_bloc.dart::TypeEvent" <|-- "auto_service::blocs::service_type_bloc::type_bloc.dart::TypeNameChangedEvent"
+
+class "auto_service::blocs::service_type_bloc::type_bloc.dart::FormSubmittedEvent" {
+  +String name
+}
+
+"auto_service::blocs::service_type_bloc::type_bloc.dart::TypeEvent" <|-- "auto_service::blocs::service_type_bloc::type_bloc.dart::FormSubmittedEvent"
+
+class "auto_service::blocs::service_type_bloc::type_bloc.dart::FormSubmittedUpdateEvent" {
+  +int id
+  +String name
+}
+
+"auto_service::blocs::service_type_bloc::type_bloc.dart::TypeEvent" <|-- "auto_service::blocs::service_type_bloc::type_bloc.dart::FormSubmittedUpdateEvent"
+
+class "auto_service::blocs::service_type_bloc::type_bloc.dart::EditFormTypeInitialEvent" {
+  +ServiceTypeDto type
+}
+
+"auto_service::blocs::service_type_bloc::type_bloc.dart::EditFormTypeInitialEvent" o-- "auto_service::data::dto::service_type_dto.dart::ServiceTypeDto"
+"auto_service::blocs::service_type_bloc::type_bloc.dart::TypeEvent" <|-- "auto_service::blocs::service_type_bloc::type_bloc.dart::EditFormTypeInitialEvent"
+
+class "auto_service::blocs::service_type_bloc::type_bloc.dart::TypeState" {
+  +String name
+  +GetModelsStatus<dynamic> modelsStatus
+  +FormSubmissionStatus formStatus
+  +DeleteStatus deleteStatus
+  +String message
+  +TypeState copyWith()
+}
+
+"auto_service::blocs::service_type_bloc::type_bloc.dart::TypeState" o-- "auto_service::blocs::get_models_status.dart::GetModelsStatus<dynamic>"
+"auto_service::blocs::service_type_bloc::type_bloc.dart::TypeState" o-- "auto_service::blocs::form_submission_status.dart::FormSubmissionStatus"
+"auto_service::blocs::service_type_bloc::type_bloc.dart::TypeState" o-- "auto_service::blocs::delete_status.dart::DeleteStatus"
+
+class "auto_service::data::dto::accountant_dto.dart::AccountantDto" {
+  +int? id
+  +String? description
+  +double? profit
+  +double? expense
+  +DateTime? dateCreated
+}
+
+class "auto_service::data::dto::autoparts_dto.dart::AutopartDto" {
+  +int? id
+  +String? name
+  +double? purchasePrice
+  +double? salePrice
+  +int? count
+  +CategoryDto? category
+  +Map<String, dynamic> toJson()
+}
+
+"auto_service::data::dto::autoparts_dto.dart::AutopartDto" o-- "auto_service::data::dto::category_dto.dart::CategoryDto"
+
+class "auto_service::data::dto::autopart_order_dto.dart::AutopartOrderDto" {
+  +int? count
+  +AutopartDto? autopart
+}
+
+"auto_service::data::dto::autopart_order_dto.dart::AutopartOrderDto" o-- "auto_service::data::dto::autoparts_dto.dart::AutopartDto"
+
+class "auto_service::data::dto::car_dto.dart::CarDto" {
+  +int? id
+  +String? vinNumber
+  +String? carNumber
+  +String? model
+  +double? mileage
+  +ClientDto? client
+  +int? clientId
+  +List<OrderDto>? orders
+  +Map<String, dynamic> toJson()
+}
+
+"auto_service::data::dto::car_dto.dart::CarDto" o-- "auto_service::data::dto::client_dto.dart::ClientDto"
+
+class "auto_service::data::dto::category_dto.dart::CategoryDto" {
+  +int? id
+  +String? name
+  +Map<String, dynamic> toJson()
+}
+
+class "auto_service::data::dto::client_dto.dart::ClientDto" {
+  +int? id
+  +String? surname
+  +String? name
+  +String? patronymic
+  +String? phoneNumber
+  +List<CarDto>? cars
+  +dynamic getFullName()
+  +Map<String, dynamic> toJson()
+}
+
+class "auto_service::data::dto::employee_dto.dart::EmployeeDto" {
+  +int? id
+  +String? surname
+  +String? name
+  +String? patronymic
+  +int? salary
+  +String? login
+  +String? password
+  +String? role
+  +List<dynamic>? orders
+  +dynamic getFullName()
+  +Map<String, dynamic> toJson()
+}
+
+class "auto_service::data::dto::employee_dto.dart::RoleEnum" {
+  +int index
+  {static} +List<RoleEnum> values
+  {static} +RoleEnum hr
+}
+
+"auto_service::data::dto::employee_dto.dart::RoleEnum" o-- "auto_service::data::dto::employee_dto.dart::RoleEnum"
+"dart::core::Enum" <|-- "auto_service::data::dto::employee_dto.dart::RoleEnum"
+
+class "auto_service::data::dto::order_dto.dart::OrderDto" {
+  +int? id
+  +int? carId
+  +int? employeeId
+  +String? status
+  +CarDto? car
+  +ClientDto? client
+  +EmployeeDto? employee
+  +List<AutopartOrderDto>? autoparts
+  +List<AutopartDto>? autopartsAdd
+  +List<int>? countAutoparts
+  +List<ServiceOrderDto>? services
+  +List<ServiceDto>? servicesAdd
+  +DateTime? dateCreated
+  +double calculatePriceAutoparts()
+  +double calculateFullPrice()
+  +Map<String, dynamic> toJson()
+}
+
+"auto_service::data::dto::order_dto.dart::OrderDto" o-- "auto_service::data::dto::car_dto.dart::CarDto"
+"auto_service::data::dto::order_dto.dart::OrderDto" o-- "auto_service::data::dto::client_dto.dart::ClientDto"
+"auto_service::data::dto::order_dto.dart::OrderDto" o-- "auto_service::data::dto::employee_dto.dart::EmployeeDto"
+
+class "auto_service::data::dto::service_dto.dart::ServiceDto" {
+  +int? id
+  +String? description
+  +int? serviceTypeId
+  +double? price
+  +ServiceTypeDto? type
+  +Map<String, dynamic> toJson()
+}
+
+"auto_service::data::dto::service_dto.dart::ServiceDto" o-- "auto_service::data::dto::service_type_dto.dart::ServiceTypeDto"
+
+class "auto_service::data::dto::service_order_dto.dart::ServiceOrderDto" {
+  +ServiceDto? service
+}
+
+"auto_service::data::dto::service_order_dto.dart::ServiceOrderDto" o-- "auto_service::data::dto::service_dto.dart::ServiceDto"
+
+class "auto_service::data::dto::service_type_dto.dart::ServiceTypeDto" {
+  +int? id
+  +String? name
+  +List<ServiceDto>? services
+  +Map<String, dynamic> toJson()
+}
+
+class "auto_service::domain::emuns::order_status_enum.dart::StatusEnum" {
+  +int index
+  {static} +List<StatusEnum> values
+  {static} +StatusEnum confirmed
+}
+
+"auto_service::domain::emuns::order_status_enum.dart::StatusEnum" o-- "auto_service::domain::emuns::order_status_enum.dart::StatusEnum"
+"dart::core::Enum" <|-- "auto_service::domain::emuns::order_status_enum.dart::StatusEnum"
+
+class "auto_service::domain::models::employee.dart::Employee" {
+  +int? id
+  +String? surname
+  +String? name
+  +String? patronymic
+  +int? salary
+  +String? login
+  +String? password
+  +String? role
+  +List<dynamic>? orders
+  +dynamic getFullName()
+}
+
+class "auto_service::domain::models::login_model.dart::LoginModel" {
+  +String? login
+  +String? password
+  +String? error
+  +Map<String, dynamic> toJson()
+}
+
+class "auto_service::domain::models::order.dart::Order" {
+  +int id
+  +int carId
+  +int employeeId
+  +String status
+  +DateTime createdAt
+  +Map<String, dynamic> toJson()
+}
+
+abstract class "auto_service::domain::repositories::login_repository.dart::LoginRepository" {
+  +Future<EmployeeDto> login()
+}
+
+abstract class "auto_service::interfaces::login.dart::ILogin" {
+  +Future<EmployeeDto?> login2()
+}
+
+class "auto_service::main.dart::MyApp" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::main.dart::MyApp"
+
+class "auto_service::presentation::pages::accountant_page.dart::AccountantPage" {
+  +Widget build()
+  +List<Widget> widgets()
+  +void createFile()
+  -Widget _buildAccountantBody()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::pages::accountant_page.dart::AccountantPage"
+
+class "auto_service::presentation::pages::hr_page.dart::MainPage" {
+  +List<Widget> widgets()
+  +Widget build()
+  -Widget _buildMainPage()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::pages::hr_page.dart::MainPage"
+
+class "auto_service::presentation::pages::login_page.dart::LoginPage" {
+  -GlobalKey<FormState> _formKey
+  +Widget build()
+  +Widget buildLoginForm()
+  -Widget _loginButton()
+  -Widget _passwordField()
+  -Widget _loginField()
+}
+
+"auto_service::presentation::pages::login_page.dart::LoginPage" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::pages::login_page.dart::LoginPage"
+
+class "auto_service::presentation::pages::purchasing_page.dart::PurchasingPage" {
+  +Widget build()
+  -Widget _buildPurchaseBody()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::pages::purchasing_page.dart::PurchasingPage"
+
+class "auto_service::presentation::pages::receiver_page.dart::ReceiverPage" {
+  +Widget build()
+  -Widget _buildReceiverBody()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::pages::receiver_page.dart::ReceiverPage"
+
+class "auto_service::presentation::pages::storekeeper_page.dart::StorekeeperPage" {
+  +List<Widget> widgets()
+  +Widget build()
+  -Widget _buildStorekeeperBody()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::pages::storekeeper_page.dart::StorekeeperPage"
+
+class "auto_service::presentation::widgets::accountant_widgets::accountant_cards.dart::AccountantCards" {
+  +double height
+  +double width
+  +Widget build()
+  -Widget _accountantListView()
+  -Widget _accountingCard()
+  -Widget _itemInRow()
+  -Widget _tableHeaderElement()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::widgets::accountant_widgets::accountant_cards.dart::AccountantCards"
+
+class "auto_service::presentation::widgets::accountant_widgets::chart_page.dart::ChartPage" {
+  -SideTitles _bottomTitles
+  +Widget build()
+  +Widget chart()
+}
+
+"auto_service::presentation::widgets::accountant_widgets::chart_page.dart::ChartPage" o-- "fl_chart::src::chart::base::axis_chart::axis_chart_data.dart::SideTitles"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::widgets::accountant_widgets::chart_page.dart::ChartPage"
+
+class "auto_service::presentation::widgets::accountant_widgets::chart_page.dart::ListProfit" {
+  +DateTime? date
+  +double? profit
+}
+
+class "auto_service::presentation::widgets::accountant_widgets::chart_page.dart::ListAccountant" {
+  +int month
+  +double money
+}
+
+class "auto_service::presentation::widgets::accountant_widgets::indicator_widget.dart::Indicator" {
+  +Color color
+  +String text
+  +bool isSquare
+  +double size
+  +Widget build()
+}
+
+"auto_service::presentation::widgets::accountant_widgets::indicator_widget.dart::Indicator" o-- "dart::ui::Color"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::widgets::accountant_widgets::indicator_widget.dart::Indicator"
+
+class "auto_service::presentation::widgets::actions_card.dart::MainActionsCard" {
+  +List<Widget> children
+  +Color? color
+  +Widget build()
+}
+
+"auto_service::presentation::widgets::actions_card.dart::MainActionsCard" o-- "dart::ui::Color"
+"flutter::src::material::card.dart::Card" <|-- "auto_service::presentation::widgets::actions_card.dart::MainActionsCard"
+
+class "auto_service::presentation::widgets::app_bar.dart::AppBarWidget" {
+  +BuildContext context
+  +EmployeeDto loggedEmployee
+}
+
+"auto_service::presentation::widgets::app_bar.dart::AppBarWidget" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"auto_service::presentation::widgets::app_bar.dart::AppBarWidget" o-- "auto_service::data::dto::employee_dto.dart::EmployeeDto"
+"flutter::src::material::app_bar.dart::AppBar" <|-- "auto_service::presentation::widgets::app_bar.dart::AppBarWidget"
+
+class "auto_service::presentation::widgets::autoparts_widgets::add_autopart_card.dart::AddAutopartCard" {
+  +double width
+  +GlobalKey<FormState> formKey
+  +AutopartDto? autopart
+  +List<CategoryDto> menuItems
+  +List<DropdownMenuItem<CategoryDto>> menuItemsDropDown
+  -CategoryDto? _selectedItem
+  +Widget build()
+  +Widget dropDownCategories()
+}
+
+"auto_service::presentation::widgets::autoparts_widgets::add_autopart_card.dart::AddAutopartCard" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"auto_service::presentation::widgets::autoparts_widgets::add_autopart_card.dart::AddAutopartCard" o-- "auto_service::data::dto::autoparts_dto.dart::AutopartDto"
+"auto_service::presentation::widgets::autoparts_widgets::add_autopart_card.dart::AddAutopartCard" o-- "auto_service::data::dto::category_dto.dart::CategoryDto"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::widgets::autoparts_widgets::add_autopart_card.dart::AddAutopartCard"
+
+class "auto_service::presentation::widgets::autoparts_widgets::add_autopart_page.dart::AddAutopartPage" {
+  +AutopartDto? autopart
+  +double width
+  +Widget build()
+}
+
+"auto_service::presentation::widgets::autoparts_widgets::add_autopart_page.dart::AddAutopartPage" o-- "auto_service::data::dto::autoparts_dto.dart::AutopartDto"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::widgets::autoparts_widgets::add_autopart_page.dart::AddAutopartPage"
+
+class "auto_service::presentation::widgets::autoparts_widgets::alert_dialogs_autoparts.dart::AutopartsDialog" {
+  {static} +GlobalKey<FormState> editCountKey
+  {static} +Future<dynamic> openDeleteDialog()
+  {static} +Future<dynamic> openEditDialog()
+}
+
+"auto_service::presentation::widgets::autoparts_widgets::alert_dialogs_autoparts.dart::AutopartsDialog" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+
+class "auto_service::presentation::widgets::autoparts_widgets::autoparts_cards.dart::AutopartsCards" {
+  +BuildContext context
+  +EmployeeDto loggedEmployee
+  +Map<dynamic, Color> countColor
+  +Widget build()
+  -Widget _autopartsListView()
+  -Widget _autopartCard()
+  -Widget _itemInRow()
+  -Widget _tableHeaderElement()
+}
+
+"auto_service::presentation::widgets::autoparts_widgets::autoparts_cards.dart::AutopartsCards" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"auto_service::presentation::widgets::autoparts_widgets::autoparts_cards.dart::AutopartsCards" o-- "auto_service::data::dto::employee_dto.dart::EmployeeDto"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::widgets::autoparts_widgets::autoparts_cards.dart::AutopartsCards"
+
+class "auto_service::presentation::widgets::autoparts_widgets::autopart_search_field.dart::AutopartSearchField" {
+  -GlobalKey<FormState> _searchFormKey
+  +Widget build()
+}
+
+"auto_service::presentation::widgets::autoparts_widgets::autopart_search_field.dart::AutopartSearchField" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::widgets::autoparts_widgets::autopart_search_field.dart::AutopartSearchField"
+
+class "auto_service::presentation::widgets::autoparts_widgets::autopart_sort_dropdown.dart::AutopartSortDropDown" {
+  +State<AutopartSortDropDown> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "auto_service::presentation::widgets::autoparts_widgets::autopart_sort_dropdown.dart::AutopartSortDropDown"
+
+class "auto_service::presentation::widgets::autoparts_widgets::autopart_sort_dropdown.dart::_AutopartSortDropDownState" {
+  {static} +Map<String, AutopartEvent> menuItemsMap
+  -List<DropdownMenuItem<AutopartEvent>> _menuItemsMap
+  -AutopartEvent? _selectedItem
+  +Widget build()
+}
+
+"auto_service::presentation::widgets::autoparts_widgets::autopart_sort_dropdown.dart::_AutopartSortDropDownState" o-- "auto_service::blocs::autoparts::add_edit_autopart_bloc::autopart_bloc.dart::AutopartEvent"
+"flutter::src::widgets::framework.dart::State" <|-- "auto_service::presentation::widgets::autoparts_widgets::autopart_sort_dropdown.dart::_AutopartSortDropDownState"
+
+class "auto_service::presentation::widgets::car_widgets::add_car_widget.dart::AddCarCard" {
+  +double height
+  +double width
+  +GlobalKey<FormState> addCarFormKey
+  +GlobalKey<FormState> editCarFormKey
+  +ReceiverNavState navigationState
+  +CarDto? car
+  +Widget build()
+}
+
+"auto_service::presentation::widgets::car_widgets::add_car_widget.dart::AddCarCard" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"auto_service::presentation::widgets::car_widgets::add_car_widget.dart::AddCarCard" o-- "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavState"
+"auto_service::presentation::widgets::car_widgets::add_car_widget.dart::AddCarCard" o-- "auto_service::data::dto::car_dto.dart::CarDto"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::widgets::car_widgets::add_car_widget.dart::AddCarCard"
+
+class "auto_service::presentation::widgets::car_widgets::car_cards.dart::CarCards" {
+  +double width
+  +double height
+  +Widget build()
+  -Widget _carGridView()
+  -Widget _carViewCard()
+  +Widget carModelItem()
+  +Widget carModelItemButton()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::widgets::car_widgets::car_cards.dart::CarCards"
+
+class "auto_service::presentation::widgets::car_widgets::car_edit_card.dart::CarEditCard" {
+  +double width
+  +GlobalKey<FormState> formKey
+  +ReceiverNavState navigationState
+  +CarDto? car
+  -MaskTextInputFormatter _maskFormatter
+  +List<ClientDto> menuItems
+  +List<DropdownMenuItem<ClientDto>> menuItemsDropDown
+  -ClientDto? _selectedItem
+  +Widget build()
+  +Widget dropDownClients()
+}
+
+"auto_service::presentation::widgets::car_widgets::car_edit_card.dart::CarEditCard" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"auto_service::presentation::widgets::car_widgets::car_edit_card.dart::CarEditCard" o-- "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavState"
+"auto_service::presentation::widgets::car_widgets::car_edit_card.dart::CarEditCard" o-- "auto_service::data::dto::car_dto.dart::CarDto"
+"auto_service::presentation::widgets::car_widgets::car_edit_card.dart::CarEditCard" o-- "mask_text_input_formatter::mask_text_input_formatter.dart::MaskTextInputFormatter"
+"auto_service::presentation::widgets::car_widgets::car_edit_card.dart::CarEditCard" o-- "auto_service::data::dto::client_dto.dart::ClientDto"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::widgets::car_widgets::car_edit_card.dart::CarEditCard"
+
+class "auto_service::presentation::widgets::category_widgets::category_alert_dialogs.dart::CategoryDialogs" {
+  {static} +GlobalKey<FormState> key
+  {static} +Future<dynamic> openDialog()
+}
+
+"auto_service::presentation::widgets::category_widgets::category_alert_dialogs.dart::CategoryDialogs" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+
+class "auto_service::presentation::widgets::category_widgets::category_page.dart::CategoryViewPage" {
+  +double width
+  +Widget build()
+  -Widget _categoryGridView()
+  -Widget _categoryViewCard()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::widgets::category_widgets::category_page.dart::CategoryViewPage"
+
+class "auto_service::presentation::widgets::client_widgets::add_client_card.dart::ClientAddCard" {
+  +double width
+  +GlobalKey<FormState> formKey
+  +ReceiverNavState navigationState
+  +ClientDto? client
+  -MaskTextInputFormatter _maskFormatter
+  +Widget build()
+}
+
+"auto_service::presentation::widgets::client_widgets::add_client_card.dart::ClientAddCard" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"auto_service::presentation::widgets::client_widgets::add_client_card.dart::ClientAddCard" o-- "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavState"
+"auto_service::presentation::widgets::client_widgets::add_client_card.dart::ClientAddCard" o-- "auto_service::data::dto::client_dto.dart::ClientDto"
+"auto_service::presentation::widgets::client_widgets::add_client_card.dart::ClientAddCard" o-- "mask_text_input_formatter::mask_text_input_formatter.dart::MaskTextInputFormatter"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::widgets::client_widgets::add_client_card.dart::ClientAddCard"
+
+class "auto_service::presentation::widgets::client_widgets::add_client_page.dart::AddClientPage" {
+  +double height
+  +double width
+  +GlobalKey<FormState> addCarFormKey
+  +GlobalKey<FormState> editCarFormKey
+  +ReceiverNavState navigationState
+  +ClientDto? client
+  +Widget build()
+}
+
+"auto_service::presentation::widgets::client_widgets::add_client_page.dart::AddClientPage" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"auto_service::presentation::widgets::client_widgets::add_client_page.dart::AddClientPage" o-- "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavState"
+"auto_service::presentation::widgets::client_widgets::add_client_page.dart::AddClientPage" o-- "auto_service::data::dto::client_dto.dart::ClientDto"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::widgets::client_widgets::add_client_page.dart::AddClientPage"
+
+class "auto_service::presentation::widgets::client_widgets::client_cards.dart::ClientCards" {
+  +double width
+  +double height
+  +Widget build()
+  -Widget _employeeGridView()
+  -Widget _clientViewCard()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::widgets::client_widgets::client_cards.dart::ClientCards"
+
+class "auto_service::presentation::widgets::client_widgets::client_info_card.dart::ClientInfoCard" {
+  +ClientDto client
+  +double width
+  +double height
+  +Widget build()
+  +Widget carModelItem()
+}
+
+"auto_service::presentation::widgets::client_widgets::client_info_card.dart::ClientInfoCard" o-- "auto_service::data::dto::client_dto.dart::ClientDto"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::widgets::client_widgets::client_info_card.dart::ClientInfoCard"
+
+class "auto_service::presentation::widgets::employee_widgets::add_employee_card.dart::AddEmployeeCard" {
+  +dynamic width
+  +GlobalKey<FormState> addEmployeeFormKey
+  +GlobalKey<FormState> editEmployeeFormKey
+  +HrNavigationState navigationState
+  +EmployeeDto? employee
+  +Widget build()
+}
+
+"auto_service::presentation::widgets::employee_widgets::add_employee_card.dart::AddEmployeeCard" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"auto_service::presentation::widgets::employee_widgets::add_employee_card.dart::AddEmployeeCard" o-- "auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::HrNavigationState"
+"auto_service::presentation::widgets::employee_widgets::add_employee_card.dart::AddEmployeeCard" o-- "auto_service::data::dto::employee_dto.dart::EmployeeDto"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::widgets::employee_widgets::add_employee_card.dart::AddEmployeeCard"
+
+class "auto_service::presentation::widgets::employee_widgets::employee_card.dart::EmployeeCard" {
+  +double width
+  +double height
+  +Widget build()
+  -Widget _employeeGridView()
+  -Padding _employeeViewCard()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::widgets::employee_widgets::employee_card.dart::EmployeeCard"
+
+class "auto_service::presentation::widgets::employee_widgets::employee_dropdowns::role_filter_dropdown.dart::RoleDropDownFilter" {
+  +State<RoleDropDownFilter> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "auto_service::presentation::widgets::employee_widgets::employee_dropdowns::role_filter_dropdown.dart::RoleDropDownFilter"
+
+class "auto_service::presentation::widgets::employee_widgets::employee_dropdowns::role_filter_dropdown.dart::_RoleDropDownFilterState" {
+  {static} +List<String> menuItems
+  -List<DropdownMenuItem<String>> _menuItems
+  -String? _selectedItem1
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "auto_service::presentation::widgets::employee_widgets::employee_dropdowns::role_filter_dropdown.dart::_RoleDropDownFilterState"
+
+class "auto_service::presentation::widgets::employee_widgets::employee_dropdowns::role_sort_dropdown.dart::RoleDropDownSorting" {
+  +State<RoleDropDownSorting> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "auto_service::presentation::widgets::employee_widgets::employee_dropdowns::role_sort_dropdown.dart::RoleDropDownSorting"
+
+class "auto_service::presentation::widgets::employee_widgets::employee_dropdowns::role_sort_dropdown.dart::_RoleDropDownSortingState" {
+  {static} +Map<String, GetEmployeesEvent> menuItemsMap
+  -List<DropdownMenuItem<GetEmployeesEvent>> _menuItemsMap
+  -GetEmployeesEvent? _selectedItem1
+  +Widget build()
+}
+
+"auto_service::presentation::widgets::employee_widgets::employee_dropdowns::role_sort_dropdown.dart::_RoleDropDownSortingState" o-- "auto_service::blocs::get_employees_bloc::get_employees_bloc.dart::GetEmployeesEvent"
+"flutter::src::widgets::framework.dart::State" <|-- "auto_service::presentation::widgets::employee_widgets::employee_dropdowns::role_sort_dropdown.dart::_RoleDropDownSortingState"
+
+class "auto_service::presentation::widgets::employee_widgets::employee_edit_card.dart::EmployeeEditCard" {
+  +double width
+  +GlobalKey<FormState> formKey
+  +HrNavigationState navigationState
+  +EmployeeDto? employee
+  {static} +List<String> menuItems
+  -List<DropdownMenuItem<String>> _menuItems
+  -String? _selectedItem1
+  +Widget build()
+  +Widget dropDown()
+}
+
+"auto_service::presentation::widgets::employee_widgets::employee_edit_card.dart::EmployeeEditCard" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"auto_service::presentation::widgets::employee_widgets::employee_edit_card.dart::EmployeeEditCard" o-- "auto_service::blocs::navigations_bloc::hr_navigation_bloc::hr_navigation_bloc.dart::HrNavigationState"
+"auto_service::presentation::widgets::employee_widgets::employee_edit_card.dart::EmployeeEditCard" o-- "auto_service::data::dto::employee_dto.dart::EmployeeDto"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::widgets::employee_widgets::employee_edit_card.dart::EmployeeEditCard"
+
+class "auto_service::presentation::widgets::employee_widgets::employee_search_field.dart::EmployeeSearchField" {
+  -GlobalKey<FormState> _searchEmployeeFormKey
+  +Widget build()
+}
+
+"auto_service::presentation::widgets::employee_widgets::employee_search_field.dart::EmployeeSearchField" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::widgets::employee_widgets::employee_search_field.dart::EmployeeSearchField"
+
+class "auto_service::presentation::widgets::order_widgets::add_order_card.dart::AddOrderCard" {
+  +double width
+  +ReceiverNavState navigationState
+  +OrderDto? order
+  +List<CarDto> cars
+  +List<AutopartDto> autoparts
+  +List<ServiceDto> services
+  +GlobalKey<FormState> formKey
+  +EmployeeDto loggedEmployee
+  +List<DropdownMenuItem<CarDto>> carsItems
+  -CarDto? _selectedCar
+  +Widget build()
+  +Widget dropDownCar()
+}
+
+"auto_service::presentation::widgets::order_widgets::add_order_card.dart::AddOrderCard" o-- "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavState"
+"auto_service::presentation::widgets::order_widgets::add_order_card.dart::AddOrderCard" o-- "auto_service::data::dto::order_dto.dart::OrderDto"
+"auto_service::presentation::widgets::order_widgets::add_order_card.dart::AddOrderCard" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"auto_service::presentation::widgets::order_widgets::add_order_card.dart::AddOrderCard" o-- "auto_service::data::dto::employee_dto.dart::EmployeeDto"
+"auto_service::presentation::widgets::order_widgets::add_order_card.dart::AddOrderCard" o-- "auto_service::data::dto::car_dto.dart::CarDto"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::widgets::order_widgets::add_order_card.dart::AddOrderCard"
+
+class "auto_service::presentation::widgets::order_widgets::add_order_page.dart::AddOrderPage" {
+  +double height
+  +double width
+  +OrderDto? order
+  +ReceiverNavState navigationState
+  +EmployeeDto loggedEmployee
+  +Widget build()
+}
+
+"auto_service::presentation::widgets::order_widgets::add_order_page.dart::AddOrderPage" o-- "auto_service::data::dto::order_dto.dart::OrderDto"
+"auto_service::presentation::widgets::order_widgets::add_order_page.dart::AddOrderPage" o-- "auto_service::blocs::navigations_bloc::receiver_nav_bloc::receiver_nav_bloc.dart::ReceiverNavState"
+"auto_service::presentation::widgets::order_widgets::add_order_page.dart::AddOrderPage" o-- "auto_service::data::dto::employee_dto.dart::EmployeeDto"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::widgets::order_widgets::add_order_page.dart::AddOrderPage"
+
+class "auto_service::presentation::widgets::order_widgets::autoparts_listview.dart::AutopartsListView" {
+  +List<AutopartDto> autoparts
+  +GlobalKey<FormState> formKey
+  +OrderDto? order
+  +State<AutopartsListView> createState()
+}
+
+"auto_service::presentation::widgets::order_widgets::autoparts_listview.dart::AutopartsListView" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"auto_service::presentation::widgets::order_widgets::autoparts_listview.dart::AutopartsListView" o-- "auto_service::data::dto::order_dto.dart::OrderDto"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "auto_service::presentation::widgets::order_widgets::autoparts_listview.dart::AutopartsListView"
+
+class "auto_service::presentation::widgets::order_widgets::autoparts_listview.dart::_AutopartsListViewState" {
+  -Map<AutopartDto, int> _selectedList
+  -List<bool> _isChecked
+  -void _onAutopartSelected()
+  +void initState()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "auto_service::presentation::widgets::order_widgets::autoparts_listview.dart::_AutopartsListViewState"
+
+class "auto_service::presentation::widgets::order_widgets::car_dropdown.dart::CarDropDown" {
+  +List<CarDto> cars
+  +GlobalKey<FormState> formKey
+  +OrderDto? order
+  +List<DropdownMenuItem<CarDto>> carsItems
+  -CarDto? _selectedCar
+  +Widget build()
+}
+
+"auto_service::presentation::widgets::order_widgets::car_dropdown.dart::CarDropDown" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"auto_service::presentation::widgets::order_widgets::car_dropdown.dart::CarDropDown" o-- "auto_service::data::dto::order_dto.dart::OrderDto"
+"auto_service::presentation::widgets::order_widgets::car_dropdown.dart::CarDropDown" o-- "auto_service::data::dto::car_dto.dart::CarDto"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::widgets::order_widgets::car_dropdown.dart::CarDropDown"
+
+class "auto_service::presentation::widgets::order_widgets::count_autopart_alert_dialog.dart::OrderDialogs" {
+  {static} +GlobalKey<FormState> editCountKey
+  {static} +TextEditingController countController
+  {static} +Future<dynamic> openCountAutopartDialog()
+}
+
+"auto_service::presentation::widgets::order_widgets::count_autopart_alert_dialog.dart::OrderDialogs" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"auto_service::presentation::widgets::order_widgets::count_autopart_alert_dialog.dart::OrderDialogs" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+
+class "auto_service::presentation::widgets::order_widgets::order_cards.dart::OrderCards" {
+  +double width
+  +double height
+  +Widget build()
+  -Widget _orderGridView()
+  -Widget _orderViewCard()
+  +Widget orderModelItem()
+  +Widget orderModelItemButton()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::widgets::order_widgets::order_cards.dart::OrderCards"
+
+class "auto_service::presentation::widgets::order_widgets::services_listview.dart::ServicesListView" {
+  +List<ServiceDto> services
+  +GlobalKey<FormState> formKey
+  +OrderDto? order
+  +State<ServicesListView> createState()
+}
+
+"auto_service::presentation::widgets::order_widgets::services_listview.dart::ServicesListView" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"auto_service::presentation::widgets::order_widgets::services_listview.dart::ServicesListView" o-- "auto_service::data::dto::order_dto.dart::OrderDto"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "auto_service::presentation::widgets::order_widgets::services_listview.dart::ServicesListView"
+
+class "auto_service::presentation::widgets::order_widgets::services_listview.dart::_ServicesListViewState" {
+  -List<ServiceDto> _selectedList
+  -List<bool> _isChecked
+  -void _onServiceSelected()
+  +void initState()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "auto_service::presentation::widgets::order_widgets::services_listview.dart::_ServicesListViewState"
+
+class "auto_service::presentation::widgets::service_type_widgets::service_type_alert_dialogs.dart::TypeDialogs" {
+  {static} +GlobalKey<FormState> key
+  {static} +Future<dynamic> openDialog()
+}
+
+"auto_service::presentation::widgets::service_type_widgets::service_type_alert_dialogs.dart::TypeDialogs" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+
+class "auto_service::presentation::widgets::service_type_widgets::type_page.dart::TypesViewPage" {
+  +double width
+  +Widget build()
+  -Widget _typesGridView()
+  -Widget _typeViewCard()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::widgets::service_type_widgets::type_page.dart::TypesViewPage"
+
+class "auto_service::presentation::widgets::service_widgets::service_alert_dialog.dart::ServiceDialogs" {
+  {static} +GlobalKey<FormState> key
+  {static} +Future<dynamic> openDialog()
+  {static} +Widget dropDownCategories()
+}
+
+"auto_service::presentation::widgets::service_widgets::service_alert_dialog.dart::ServiceDialogs" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+
+class "auto_service::presentation::widgets::service_widgets::service_page.dart::ServicesViewPage" {
+  +double width
+  +Widget build()
+  -Widget _servicesGridView()
+  -Widget _serviceViewCard()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "auto_service::presentation::widgets::service_widgets::service_page.dart::ServicesViewPage"
+
+class "auto_service::presentation::widgets::snack_bar.dart::SnackBarInfo" {
+}
+
+class "auto_service::services::accountant_service.dart::AccountantService" {
+  +String apiRoute
+  +Future<List<AccountantDto>> getAccountants()
+}
+
+"auto_service::services::api_service.dart::ApiService" <|-- "auto_service::services::accountant_service.dart::AccountantService"
+
+abstract class "auto_service::services::api_service.dart::ApiService" {
+  +String apiRoute
+  +Future<List<T>> getEntities()
+  +Future<T> getEntity()
+  +Future<dynamic> deleteEntity()
+}
+
+"auto_service::services::const_api_route.dart::ApiConstUrl" <|-- "auto_service::services::api_service.dart::ApiService"
+
+class "auto_service::services::autoparts_service.dart::AutopartService" {
+  +String apiRoute
+  +Future<List<AutopartDto>> getAutoparts()
+  +Future<AutopartDto> addAutopart()
+  +Future<AutopartDto> editAutopart()
+  +Future<dynamic> deleteAutopart()
+}
+
+"auto_service::services::api_service.dart::ApiService" <|-- "auto_service::services::autoparts_service.dart::AutopartService"
+
+class "auto_service::services::car_service.dart::CarService" {
+  +String apiRoute
+  +Future<List<CarDto>> getCars()
+  +Future<CarDto> addAutopart()
+  +Future<CarDto> editCar()
+  +Future<dynamic> deleteCar()
+}
+
+"auto_service::services::api_service.dart::ApiService" <|-- "auto_service::services::car_service.dart::CarService"
+
+class "auto_service::services::category_service.dart::CategoryService" {
+  +String apiRoute
+  +Future<List<CategoryDto>> getCategories()
+  +Future<CategoryDto> addCategory()
+  +Future<CategoryDto> editCategory()
+  +Future<dynamic> deleteCategory()
+}
+
+"auto_service::services::api_service.dart::ApiService" <|-- "auto_service::services::category_service.dart::CategoryService"
+
+class "auto_service::services::client_service.dart::ClientService" {
+  +String apiRoute
+  +Future<List<ClientDto>> getClients()
+  +Future<ClientDto> addClient()
+  +Future<ClientDto> editClient()
+  +Future<dynamic> deleteClient()
+}
+
+"auto_service::services::api_service.dart::ApiService" <|-- "auto_service::services::client_service.dart::ClientService"
+
+class "auto_service::services::const_api_route.dart::ApiConstUrl" {
+  {static} +int? id
+  {static} +String baseUrl
+  {static} +String authorizationUrl
+  {static} +String employeesUrl
+  {static} +String autopartsUrl
+  {static} +String categoriesUrl
+  {static} +String clientsUrl
+  {static} +String ordersUrl
+  {static} +String carsUrl
+  {static} +String serviceUrl
+  {static} +String accountantUrl
+  {static} +String typesUrl
+}
+
+class "auto_service::services::employee_service.dart::EmployeeService" {
+  +String apiRoute
+  +Future<List<EmployeeDto>> getEmployees()
+  +Future<EmployeeDto> addEmployee()
+  +Future<dynamic> deleteEmployee()
+  +Future<EmployeeDto> editEmployee()
+}
+
+"auto_service::services::api_service.dart::ApiService" <|-- "auto_service::services::employee_service.dart::EmployeeService"
+
+class "auto_service::services::login.dart::LoginService" {
+  +String apiRoute
+  +Future<EmployeeDto> login()
+}
+
+"auto_service::services::api_service.dart::ApiService" <|-- "auto_service::services::login.dart::LoginService"
+
+class "auto_service::services::order_service.dart::OrderService" {
+  +String apiRoute
+  +Future<List<OrderDto>> getOrders()
+  +Future<OrderDto> getOrder()
+  +Future<OrderDto> addOrder()
+  +Future<OrderDto> editOrder()
+  +Future<dynamic> deleteOrder()
+}
+
+"auto_service::services::api_service.dart::ApiService" <|-- "auto_service::services::order_service.dart::OrderService"
+
+class "auto_service::services::repair_service.dart::RepairService" {
+  +String apiRoute
+  +Future<List<ServiceDto>> getServices()
+  +Future<ServiceDto> addService()
+  +Future<ServiceDto> editService()
+  +Future<dynamic> deleteService()
+}
+
+"auto_service::services::api_service.dart::ApiService" <|-- "auto_service::services::repair_service.dart::RepairService"
+
+class "auto_service::services::repair_type_service.dart::RepairTypeService" {
+  +String apiRoute
+  +Future<List<ServiceTypeDto>> getTypes()
+  +Future<ServiceTypeDto> addType()
+  +Future<ServiceTypeDto> editType()
+  +Future<dynamic> deleteType()
+}
+
+"auto_service::services::api_service.dart::ApiService" <|-- "auto_service::services::repair_type_service.dart::RepairTypeService"
+
+class "auto_service::validation::autopart_validation.dart::AutopartValidation" {
+  +String? nameMessage
+  +String? purchaseMessage
+  +String? saleMessage
+  +String? countMessage
+  +String? categoryMessage
+  +String? isValidName()
+}
+
+class "auto_service::validation::car_validation.dart::CarValidator" {
+  +String? message
+  +CarState? state
+  +String? clientMessage
+}
+
+"auto_service::validation::car_validation.dart::CarValidator" o-- "auto_service::blocs::cars::car_bloc.dart::CarState"
+
+class "auto_service::validation::client_validation.dart::ClientValidation" {
+  +String? message
+  {static} -String _maxLengthMessage
+  {static} -String _minLengthMessage
+  {static} -String _alphabeticMessage
+  -String _requiredMessage
+  +bool isMaxLength()
+  +bool isMinLength()
+}
+
+class "auto_service::validation::employee_validation.dart::EmployeeValidation" {
+  +String? isValidLogin()
+  +String? isValidPassword()
+}
+
+abstract class "auto_service::validation::validation_mixin.dart::ValidationMixin" {
+  +bool isFieldEmpty()
+  +bool isFieldMaxLength()
+  +bool isFieldMinLength()
+}
+
+
+@enduml
